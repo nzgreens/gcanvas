@@ -1,0 +1,35 @@
+<polymer-element name="gcanvas-app">
+  <template>
+    <style>
+    :host {
+      /*display: none;*/
+    }
+
+    @host {
+      * {
+        /*display: none;*/
+      }
+    }
+
+    h3 {
+      display: inline-block;
+    }
+
+    #refresh {
+      width: 32px;
+      height: 32px;
+      background-image: url(packages/gcanvas/elements/images/rotate2.png);
+      background-repeat: no-repeat;
+    }
+
+    #back {
+      width: 32px;
+      height: 32px;
+      background-image: url(packages/gcanvas/elements/images/controls1.png);
+      background-repeat: no-repeat;
+    }
+    </style>
+    <button id="back">&nbsp;</button><h3>gCanvas</h3><button id="refresh">&nbsp;</button>
+  </template>
+  <script type="application/dart" src="gcanvas_app.dart"></script>
+</polymer-element>

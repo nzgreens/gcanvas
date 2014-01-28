@@ -1,0 +1,390 @@
+---
+build.dart --machine --changed=web/index.html
+Unable to open file: /home/terrasea/Projects/greens/gcanvas/packages/polymer/builder.dart'file:///home/terrasea/Projects/greens/gcanvas/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [135 ms]
+
+---
+build.dart --machine --changed=web/index.html
+Unable to open file: /home/terrasea/Projects/greens/gcanvas/packages/polymer/builder.dart'file:///home/terrasea/Projects/greens/gcanvas/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [101 ms]
+
+---
+build.dart --machine --changed=web/main.dart
+Unable to open file: /home/terrasea/Projects/greens/gcanvas/packages/polymer/builder.dart'file:///home/terrasea/Projects/greens/gcanvas/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [162 ms]
+
+---
+build.dart --machine --changed=pubspec.yaml
+Unable to open file: /home/terrasea/Projects/greens/gcanvas/packages/polymer/builder.dart'file:///home/terrasea/Projects/greens/gcanvas/build.dart': error: line 1 pos 1: library handler failed
+import 'package:polymer/builder.dart';
+^
+build.dart finished [94 ms]
+
+---
+build.dart --machine --changed=pubspec.yaml
+
+build.dart finished [1616 ms]
+
+---
+build.dart --machine --changed=pubspec.yaml
+
+build.dart finished [1271 ms]
+
+---
+build.dart --machine --changed=test/index.html --changed=test/run.sh --changed=test/test.dart
+
+build.dart finished [1460 ms]
+
+---
+build.dart --machine --changed=pubspec.yaml
+
+build.dart finished [1647 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1378 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1460 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1181 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1287 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1549 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1534 ms]
+
+---
+build.dart --machine --changed=test/index.html
+
+build.dart finished [1421 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1324 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1356 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1276 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1172 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1334 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1190 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1269 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1208 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1205 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1179 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1258 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas_app.dart
+
+build.dart finished [1414 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1912 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas_app.dart
+
+build.dart finished [1385 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas_app.dart
+
+build.dart finished [1376 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas_app.dart
+
+build.dart finished [1456 ms]
+
+---
+build.dart --machine --changed=web/index.html
+[{"method":"error","params":{"file":"web/index.html","message":"couldn't find imported asset \"lib/gcanvas-app.html\" in package \"gcanvas\".","line":9,"charStart":200,"charEnd":260}}]
+[{"method":"warning","params":{"file":"web/index.html","message":"Only one \"application/dart\" script tag per document is allowed.","line":16,"charStart":445,"charEnd":493}}]
+build failed with errors: {Transform polymer (Linter) on gcanvas|web/index.html threw error: couldn't find imported asset "lib/gcanvas-app.html" in package "gcanvas".}
+build.dart finished [1300 ms]
+
+---
+build.dart --machine --changed=web/index.html
+
+build.dart finished [1190 ms]
+
+---
+build.dart --machine --changed=web/index.html
+
+build.dart finished [1184 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1352 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1505 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas_app.dart
+
+build.dart finished [1421 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1333 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1246 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1313 ms]
+
+---
+build.dart --machine --changed=asset/Flaticon_AllFiles.zip
+
+build.dart finished [1306 ms]
+
+---
+build.dart --machine --changed=asset/flaticon.css
+
+build.dart finished [1319 ms]
+
+---
+build.dart --machine --changed=asset/Flaticon_AllFiles/controls1.png --changed=asset/Flaticon_AllFiles/controls...
+
+build.dart finished [1302 ms]
+
+---
+build.dart --machine --changed=asset/images/rotate2.svg
+
+build.dart finished [1330 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1492 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1414 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1290 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1309 ms]
+
+---
+build.dart --machine --changed=asset/images/rotate2.png --removed=asset/Flaticon_AllFiles/rotate2.png
+
+build.dart finished [1347 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1372 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1381 ms]
+
+---
+build.dart --machine --changed=lib/elements/images/rotate2.png --changed=lib/elements/images/rotate2.svg --remo...
+
+build.dart finished [1535 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1289 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1303 ms]
+
+---
+build.dart --machine --changed=lib/elements/images/rotate2.png
+
+build.dart finished [1525 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1474 ms]
+
+---
+build.dart --machine --changed=lib/elements/images/rotate2.png
+
+build.dart finished [1310 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1355 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1310 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1346 ms]
+
+---
+build.dart --machine --changed=lib/elements/images/controls1.png --removed=asset/Flaticon_AllFiles/controls1.pn...
+
+build.dart finished [1303 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1332 ms]
+
+---
+build.dart --machine --changed=lib/elements/images/controls1.png
+
+build.dart finished [1614 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1335 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1495 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1359 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1356 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1312 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1513 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1336 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1342 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1280 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas_app.dart
+
+build.dart finished [1279 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1234 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas_app.dart
+
+build.dart finished [1309 ms]
+
+---
+build.dart --machine --changed=LICENSE --changed=README.md
+
+build.dart finished [1382 ms]
+

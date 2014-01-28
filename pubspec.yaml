@@ -1,0 +1,9 @@
+name: gcanvas
+description: Canvasing App
+dependencies:
+  browser: any
+  polymer: any
+  unittest: any
+transformers:
+  - polymer:
+      entry_points: web/index.html
