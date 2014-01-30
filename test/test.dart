@@ -6,13 +6,13 @@ import 'dart:html';
 import 'dart:async';
 import 'package:polymer/polymer.dart';
 
+import 'package:gcanvas/elements/address_list.dart';
 
 main() {
   useHtmlConfiguration(true);
-
+  initPolymer();
 
   group("[gcanvas-app]", () {
-    initPolymer();
     Element _el;
 
     setUp((){
@@ -56,14 +56,86 @@ main() {
         isTrue
       );
     });
+  });
 
-    
+
+  group("[address-list]", () {
+    Element _el;
+
+    setUp((){
+      _el = createElement('<gcanvas-app></gcanvas-app>');
+      document.body.append(_el);
+    });
+
+
+    tearDown((){
+      _el.remove();
+    });
+
+
     test("hass address list", () {
-      Element addressList = querySelector("gcanvas-app").shadowRoot.querySelector("address-list");
+      AddressList addressList = querySelector("gcanvas-app").shadowRoot.querySelector("address-list");
       expect(
           addressList,
           isNotNull
       );
+    });
+
+
+    test("address list contains an address", () {
+      new Timer(
+          new Duration(milliseconds: 2500),
+          expectAsync0(() {
+            expect(
+              querySelector("gcanvas-app").shadowRoot.querySelector("address-list").shadowRoot.querySelector('address-view'),
+              isNotNull
+            );
+          })
+      );
+    });
+  });
+
+
+
+  solo_group("[gCanvas Service]", () {
+    Element _el;
+
+    //uses events
+    setUp((){
+      _el = createElement('<gcanvas-service></gcanvas-service>');
+      document.body.append(_el);
+    });
+
+
+    tearDown((){
+      _el.remove();
+    });
+
+
+    test("element exists", () {
+      var element = querySelector("gcanvas-service");
+      expect(
+          element,
+          isNotNull
+      );
+      expect(
+          element.shadowRoot,
+          isNotNull
+      );
+    });
+
+
+    test("element is hidden", () {
+      var element = querySelector("gcanvas-service");
+      expect(
+          element.hidden,
+          isTrue
+      );
+    });
+
+
+    test("element gets a record", () {
+      //var
     });
   });
 

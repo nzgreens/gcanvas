@@ -3,6 +3,10 @@ description: Canvasing App
 dependencies:
   browser: any
   polymer: any
+  lawndart: any
+  angular: any
+  angular_node_bind: any
+dev_dependencies:
   unittest: any
 transformers:
   - polymer:

@@ -388,3 +388,483 @@ build.dart --machine --changed=LICENSE --changed=README.md
 
 build.dart finished [1382 ms]
 
+---
+build.dart --machine --changed=lib/elements/address-list.html
+
+build.dart finished [1256 ms]
+
+---
+build.dart --machine --changed=lib/elements/address-list.html
+
+build.dart finished [1230 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-app.html
+
+build.dart finished [1304 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas_app.dart
+
+build.dart finished [1264 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1429 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1316 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1256 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1383 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1273 ms]
+
+---
+build.dart --machine --changed=lib/elements/address-list.html
+
+build.dart finished [1260 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1516 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1285 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1579 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1272 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1390 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1338 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1264 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1399 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1281 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1345 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1260 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1386 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1375 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1278 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1287 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1306 ms]
+
+---
+build.dart --machine --changed=lib/elements/address_list.dart
+
+build.dart finished [1530 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1578 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1481 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1430 ms]
+
+---
+build.dart --machine --changed=lib/elements/address-view.html
+
+build.dart finished [1520 ms]
+
+---
+build.dart --machine --changed=lib/elements/address-view.html
+
+build.dart finished [1434 ms]
+
+---
+build.dart --machine --changed=lib/elements/address-view.html
+
+build.dart finished [1542 ms]
+
+---
+build.dart --machine --changed=lib/elements/address_view.dart
+
+build.dart finished [1575 ms]
+
+---
+build.dart --machine --changed=lib/elements/address_view.dart
+
+build.dart finished [1571 ms]
+
+---
+build.dart --machine --changed=lib/elements/address_view.dart
+
+build.dart finished [1310 ms]
+
+---
+build.dart --machine --changed=lib/elements/address-list.html
+
+build.dart finished [1538 ms]
+
+---
+build.dart --machine --changed=lib/elements/address-list.html
+
+build.dart finished [1549 ms]
+
+---
+build.dart --machine --changed=lib/elements/address_view.dart
+
+build.dart finished [1492 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1574 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1450 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1740 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1552 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1592 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1457 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1437 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1501 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1482 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1497 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1367 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1604 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1331 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1763 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1595 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1598 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1327 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1456 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1598 ms]
+
+---
+build.dart --machine --changed=test/index.html
+
+build.dart finished [1511 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-store.html
+
+build.dart finished [1634 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas_store.dart
+
+build.dart finished [1542 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-store.html
+
+build.dart finished [1577 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas_store.dart
+
+build.dart finished [1538 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas_store.dart
+
+build.dart finished [1589 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas_store.dart
+
+build.dart finished [1401 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-store.html
+
+build.dart finished [1576 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1543 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-store.html
+
+build.dart finished [1676 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas_store.dart
+
+build.dart finished [1557 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas_store.dart
+
+build.dart finished [1793 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1505 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas_store.dart
+
+build.dart finished [1709 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1584 ms]
+
+---
+build.dart --machine --changed=lib/elements/images/controls1.png
+
+build.dart finished [1515 ms]
+
+---
+build.dart --machine --changed=lib/elements/images/rotate2.png
+
+build.dart finished [1467 ms]
+
+---
+build.dart --machine --changed=asset/download.png
+
+build.dart finished [1682 ms]
+
+---
+build.dart --machine --changed=asset/concept.json
+
+build.dart finished [1712 ms]
+
+---
+build.dart --machine --changed=asset/concept.json
+
+build.dart finished [1609 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1704 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1609 ms]
+
+---
+build.dart --machine --changed=pubspec.yaml
+
+build.dart finished [1687 ms]
+
+---
+build.dart --machine --changed=pubspec.lock
+
+build.dart finished [1448 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-service.html --removed=lib/elements/gcanvas-store.html
+
+build.dart finished [1818 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas_service.dart --removed=lib/elements/gcanvas_store.dart
+
+build.dart finished [1572 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-service.html
+
+build.dart finished [2183 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1731 ms]
+
+---
+build.dart --machine --changed=test/index.html
+
+build.dart finished [1557 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas-service.html
+
+build.dart finished [1731 ms]
+
+---
+build.dart --machine --changed=lib/elements/gcanvas_service.dart
+
+build.dart finished [1724 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1887 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+
+build.dart finished [1358 ms]
+
+---
+build.dart --machine --changed=pubspec.yaml
+[{"method":"warning","params":{"file":"lib/polymer_ui_menu_button/polymer_ui_menu_button.html","message":"definition for Polymer element with tag name \"polymer-overlay\" not found.","line":33,"charStart":2303,"charEnd":2366}}]
+build.dart finished [3442 ms]
+
+---
+build.dart --machine --changed=pubspec.yaml
+[{"method":"warning","params":{"file":"lib/polymer_ui_menu_button/polymer_ui_menu_button.html","message":"definition for Polymer element with tag name \"polymer-overlay\" not found.","line":33,"charStart":2303,"charEnd":2366}}]
+build.dart finished [2620 ms]
+
+---
+build.dart --machine --changed=pubspec.lock
+[{"method":"warning","params":{"file":"lib/polymer_ui_menu_button/polymer_ui_menu_button.html","message":"definition for Polymer element with tag name \"polymer-overlay\" not found.","line":33,"charStart":2303,"charEnd":2366}}]
+build.dart finished [2238 ms]
+
+---
+build.dart --machine --changed=web/main.dart
+[{"method":"warning","params":{"file":"lib/polymer_ui_menu_button/polymer_ui_menu_button.html","message":"definition for Polymer element with tag name \"polymer-overlay\" not found.","line":33,"charStart":2303,"charEnd":2366}}]
+build.dart finished [2301 ms]
+
+---
+build.dart --machine --changed=web/main.dart
+[{"method":"warning","params":{"file":"lib/polymer_ui_menu_button/polymer_ui_menu_button.html","message":"definition for Polymer element with tag name \"polymer-overlay\" not found.","line":33,"charStart":2303,"charEnd":2366}}]
+build.dart finished [2303 ms]
+
