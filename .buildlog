@@ -2647,3 +2647,136 @@ build.dart --machine --changed=test/test.dart
 [{"method":"warning","params":{"file":"lib/polymer_ui_menu_button/polymer_ui_menu_button.html","message":"definition for Polymer element with tag name \"polymer-overlay\" not found.","line":33,"charStart":2303,"charEnd":2366}}]
 build.dart finished [2514 ms]
 
+---
+build.dart --machine --changed=test/test.dart
+[{"method":"warning","params":{"file":"web/views/addresslist.html","message":"definition for Polymer element with tag name \"address-list\" not found.","line":1,"charStart":0,"charEnd":40}}]
+[{"method":"warning","params":{"file":"web/index.html","message":"definition for Polymer element with tag name \"ng-view\" not found.","line":17,"charStart":521,"charEnd":530}}]
+[{"method":"warning","params":{"file":"lib/polymer_ui_menu_button/polymer_ui_menu_button.html","message":"definition for Polymer element with tag name \"polymer-overlay\" not found.","line":33,"charStart":2303,"charEnd":2366}}]
+build.dart finished [2584 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+[{"method":"warning","params":{"file":"web/views/addresslist.html","message":"definition for Polymer element with tag name \"address-list\" not found.","line":1,"charStart":0,"charEnd":40}}]
+[{"method":"warning","params":{"file":"web/index.html","message":"definition for Polymer element with tag name \"ng-view\" not found.","line":17,"charStart":521,"charEnd":530}}]
+[{"method":"warning","params":{"file":"lib/polymer_ui_menu_button/polymer_ui_menu_button.html","message":"definition for Polymer element with tag name \"polymer-overlay\" not found.","line":33,"charStart":2303,"charEnd":2366}}]
+build.dart finished [2502 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+[{"method":"warning","params":{"file":"web/views/addresslist.html","message":"definition for Polymer element with tag name \"address-list\" not found.","line":1,"charStart":0,"charEnd":40}}]
+[{"method":"warning","params":{"file":"web/index.html","message":"definition for Polymer element with tag name \"ng-view\" not found.","line":17,"charStart":521,"charEnd":530}}]
+[{"method":"warning","params":{"file":"lib/polymer_ui_menu_button/polymer_ui_menu_button.html","message":"definition for Polymer element with tag name \"polymer-overlay\" not found.","line":33,"charStart":2303,"charEnd":2366}}]
+build.dart finished [2455 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+[{"method":"warning","params":{"file":"web/views/addresslist.html","message":"definition for Polymer element with tag name \"address-list\" not found.","line":1,"charStart":0,"charEnd":40}}]
+[{"method":"warning","params":{"file":"web/index.html","message":"definition for Polymer element with tag name \"ng-view\" not found.","line":17,"charStart":521,"charEnd":530}}]
+[{"method":"warning","params":{"file":"lib/polymer_ui_menu_button/polymer_ui_menu_button.html","message":"definition for Polymer element with tag name \"polymer-overlay\" not found.","line":33,"charStart":2303,"charEnd":2366}}]
+build.dart finished [2515 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+[{"method":"warning","params":{"file":"web/views/addresslist.html","message":"definition for Polymer element with tag name \"address-list\" not found.","line":1,"charStart":0,"charEnd":40}}]
+[{"method":"warning","params":{"file":"web/index.html","message":"definition for Polymer element with tag name \"ng-view\" not found.","line":17,"charStart":521,"charEnd":530}}]
+[{"method":"warning","params":{"file":"lib/polymer_ui_menu_button/polymer_ui_menu_button.html","message":"definition for Polymer element with tag name \"polymer-overlay\" not found.","line":33,"charStart":2303,"charEnd":2366}}]
+build.dart finished [2572 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+[{"method":"warning","params":{"file":"web/views/addresslist.html","message":"definition for Polymer element with tag name \"address-list\" not found.","line":1,"charStart":0,"charEnd":40}}]
+[{"method":"warning","params":{"file":"web/index.html","message":"definition for Polymer element with tag name \"ng-view\" not found.","line":17,"charStart":521,"charEnd":530}}]
+[{"method":"warning","params":{"file":"lib/polymer_ui_menu_button/polymer_ui_menu_button.html","message":"definition for Polymer element with tag name \"polymer-overlay\" not found.","line":33,"charStart":2303,"charEnd":2366}}]
+build.dart finished [2478 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+[{"method":"warning","params":{"file":"web/views/addresslist.html","message":"definition for Polymer element with tag name \"address-list\" not found.","line":1,"charStart":0,"charEnd":40}}]
+[{"method":"warning","params":{"file":"web/index.html","message":"definition for Polymer element with tag name \"ng-view\" not found.","line":17,"charStart":521,"charEnd":530}}]
+[{"method":"warning","params":{"file":"lib/polymer_ui_menu_button/polymer_ui_menu_button.html","message":"definition for Polymer element with tag name \"polymer-overlay\" not found.","line":33,"charStart":2303,"charEnd":2366}}]
+build.dart finished [2422 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+[{"method":"warning","params":{"file":"web/views/addresslist.html","message":"definition for Polymer element with tag name \"address-list\" not found.","line":1,"charStart":0,"charEnd":40}}]
+[{"method":"warning","params":{"file":"web/index.html","message":"definition for Polymer element with tag name \"ng-view\" not found.","line":17,"charStart":521,"charEnd":530}}]
+[{"method":"warning","params":{"file":"lib/polymer_ui_menu_button/polymer_ui_menu_button.html","message":"definition for Polymer element with tag name \"polymer-overlay\" not found.","line":33,"charStart":2303,"charEnd":2366}}]
+build.dart finished [2506 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+[{"method":"warning","params":{"file":"web/views/addresslist.html","message":"definition for Polymer element with tag name \"address-list\" not found.","line":1,"charStart":0,"charEnd":40}}]
+[{"method":"warning","params":{"file":"web/index.html","message":"definition for Polymer element with tag name \"ng-view\" not found.","line":17,"charStart":521,"charEnd":530}}]
+[{"method":"warning","params":{"file":"lib/polymer_ui_menu_button/polymer_ui_menu_button.html","message":"definition for Polymer element with tag name \"polymer-overlay\" not found.","line":33,"charStart":2303,"charEnd":2366}}]
+build.dart finished [2503 ms]
+
+---
+build.dart --machine --changed=lib/address.dart
+[{"method":"warning","params":{"file":"web/views/addresslist.html","message":"definition for Polymer element with tag name \"address-list\" not found.","line":1,"charStart":0,"charEnd":40}}]
+[{"method":"warning","params":{"file":"web/index.html","message":"definition for Polymer element with tag name \"ng-view\" not found.","line":17,"charStart":521,"charEnd":530}}]
+[{"method":"warning","params":{"file":"lib/polymer_ui_menu_button/polymer_ui_menu_button.html","message":"definition for Polymer element with tag name \"polymer-overlay\" not found.","line":33,"charStart":2303,"charEnd":2366}}]
+build.dart finished [2621 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+[{"method":"warning","params":{"file":"web/views/addresslist.html","message":"definition for Polymer element with tag name \"address-list\" not found.","line":1,"charStart":0,"charEnd":40}}]
+[{"method":"warning","params":{"file":"web/index.html","message":"definition for Polymer element with tag name \"ng-view\" not found.","line":17,"charStart":521,"charEnd":530}}]
+[{"method":"warning","params":{"file":"lib/polymer_ui_menu_button/polymer_ui_menu_button.html","message":"definition for Polymer element with tag name \"polymer-overlay\" not found.","line":33,"charStart":2303,"charEnd":2366}}]
+build.dart finished [2475 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+[{"method":"warning","params":{"file":"web/views/addresslist.html","message":"definition for Polymer element with tag name \"address-list\" not found.","line":1,"charStart":0,"charEnd":40}}]
+[{"method":"warning","params":{"file":"web/index.html","message":"definition for Polymer element with tag name \"ng-view\" not found.","line":17,"charStart":521,"charEnd":530}}]
+[{"method":"warning","params":{"file":"lib/polymer_ui_menu_button/polymer_ui_menu_button.html","message":"definition for Polymer element with tag name \"polymer-overlay\" not found.","line":33,"charStart":2303,"charEnd":2366}}]
+build.dart finished [2462 ms]
+
+---
+build.dart --machine --changed=lib/address.dart
+[{"method":"warning","params":{"file":"web/views/addresslist.html","message":"definition for Polymer element with tag name \"address-list\" not found.","line":1,"charStart":0,"charEnd":40}}]
+[{"method":"warning","params":{"file":"web/index.html","message":"definition for Polymer element with tag name \"ng-view\" not found.","line":17,"charStart":521,"charEnd":530}}]
+[{"method":"warning","params":{"file":"lib/polymer_ui_menu_button/polymer_ui_menu_button.html","message":"definition for Polymer element with tag name \"polymer-overlay\" not found.","line":33,"charStart":2303,"charEnd":2366}}]
+build.dart finished [2525 ms]
+
+---
+build.dart --machine --changed=lib/address.dart
+[{"method":"warning","params":{"file":"web/views/addresslist.html","message":"definition for Polymer element with tag name \"address-list\" not found.","line":1,"charStart":0,"charEnd":40}}]
+[{"method":"warning","params":{"file":"web/index.html","message":"definition for Polymer element with tag name \"ng-view\" not found.","line":17,"charStart":521,"charEnd":530}}]
+[{"method":"warning","params":{"file":"lib/polymer_ui_menu_button/polymer_ui_menu_button.html","message":"definition for Polymer element with tag name \"polymer-overlay\" not found.","line":33,"charStart":2303,"charEnd":2366}}]
+build.dart finished [2508 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+[{"method":"warning","params":{"file":"web/views/addresslist.html","message":"definition for Polymer element with tag name \"address-list\" not found.","line":1,"charStart":0,"charEnd":40}}]
+[{"method":"warning","params":{"file":"web/index.html","message":"definition for Polymer element with tag name \"ng-view\" not found.","line":17,"charStart":521,"charEnd":530}}]
+[{"method":"warning","params":{"file":"lib/polymer_ui_menu_button/polymer_ui_menu_button.html","message":"definition for Polymer element with tag name \"polymer-overlay\" not found.","line":33,"charStart":2303,"charEnd":2366}}]
+build.dart finished [2852 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+[{"method":"warning","params":{"file":"web/views/addresslist.html","message":"definition for Polymer element with tag name \"address-list\" not found.","line":1,"charStart":0,"charEnd":40}}]
+[{"method":"warning","params":{"file":"web/index.html","message":"definition for Polymer element with tag name \"ng-view\" not found.","line":17,"charStart":521,"charEnd":530}}]
+[{"method":"warning","params":{"file":"lib/polymer_ui_menu_button/polymer_ui_menu_button.html","message":"definition for Polymer element with tag name \"polymer-overlay\" not found.","line":33,"charStart":2303,"charEnd":2366}}]
+build.dart finished [2475 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+[{"method":"warning","params":{"file":"web/views/addresslist.html","message":"definition for Polymer element with tag name \"address-list\" not found.","line":1,"charStart":0,"charEnd":40}}]
+[{"method":"warning","params":{"file":"web/index.html","message":"definition for Polymer element with tag name \"ng-view\" not found.","line":17,"charStart":521,"charEnd":530}}]
+[{"method":"warning","params":{"file":"lib/polymer_ui_menu_button/polymer_ui_menu_button.html","message":"definition for Polymer element with tag name \"polymer-overlay\" not found.","line":33,"charStart":2303,"charEnd":2366}}]
+build.dart finished [2668 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+[{"method":"warning","params":{"file":"web/views/addresslist.html","message":"definition for Polymer element with tag name \"address-list\" not found.","line":1,"charStart":0,"charEnd":40}}]
+[{"method":"warning","params":{"file":"web/index.html","message":"definition for Polymer element with tag name \"ng-view\" not found.","line":17,"charStart":521,"charEnd":530}}]
+[{"method":"warning","params":{"file":"lib/polymer_ui_menu_button/polymer_ui_menu_button.html","message":"definition for Polymer element with tag name \"polymer-overlay\" not found.","line":33,"charStart":2303,"charEnd":2366}}]
+build.dart finished [2385 ms]
+
+---
+build.dart --machine --changed=test/test.dart
+[{"method":"warning","params":{"file":"web/views/addresslist.html","message":"definition for Polymer element with tag name \"address-list\" not found.","line":1,"charStart":0,"charEnd":40}}]
+[{"method":"warning","params":{"file":"web/index.html","message":"definition for Polymer element with tag name \"ng-view\" not found.","line":17,"charStart":521,"charEnd":530}}]
+[{"method":"warning","params":{"file":"lib/polymer_ui_menu_button/polymer_ui_menu_button.html","message":"definition for Polymer element with tag name \"polymer-overlay\" not found.","line":33,"charStart":2303,"charEnd":2366}}]
+build.dart finished [2326 ms]
+

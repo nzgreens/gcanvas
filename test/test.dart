@@ -34,13 +34,17 @@ main() {
           "50 Bignell street",
           "Gonville",
           "Wanganui",
-          "4501");
+          "4501",
+          169.201928,
+          49.21112);
     var address3 = new Address(
         3,
         "52 Bignell street",
         "Gonville",
         "Wanganui",
-        "4501");
+        "4501",
+        169.201928,
+        49.21112);
 
     setUp(() {
       Completer completer = new Completer();
@@ -64,7 +68,9 @@ main() {
           "48 Bignell street",
           "Gonville",
           "Wanganui",
-          "4501");
+          "4501",
+          169.201928,
+          49.21112);
       Future future = storeCtrl.addAddress(address);
       expect(future, completion(equals(address.id)));
     });
@@ -103,6 +109,7 @@ main() {
         future.then((residents) {
           expect(residents.length, equals(2));
         });
+        expect(future, completes);
     });
   });
 
@@ -116,7 +123,9 @@ main() {
           "48 Bignell street",
           "Gonville",
           "Wanganui",
-          "4501");
+          "4501",
+          169.201928,
+          49.21112);
 
     });
 
@@ -145,13 +154,24 @@ main() {
     });
 
 
+    test("latitude is 169.201928", () {
+      expect(address.latitude, equals(169.201928));
+    });
+
+    test("longitude is 49.21112", () {
+      expect(address.longitude, equals(49.21112));
+    });
+
+
     test("toMap generates map", () {
       var expected = {
         "id": 1,
         "street": "48 Bignell street",
         "suburb": "Gonville",
         "city": "Wanganui",
-        "postcode": "4501"
+        "postcode": "4501",
+        "latitude": 169.201928,
+        "longitude": 49.21112
       };
 
       expect(address.toMap(), equals(expected));
@@ -164,7 +184,9 @@ main() {
         "street": "48 Bignell street",
         "suburb": "Gonville",
         "city": "Wanganui",
-        "postcode": "4501"
+        "postcode": "4501",
+        "latitude": 169.201928,
+        "longitude": 49.21112
       };
 
       var copy = new Address.fromMap(map);
@@ -174,6 +196,8 @@ main() {
       expect(address.suburb, equals(copy.suburb));
       expect(address.city, equals(copy.city));
       expect(address.postcode, equals(copy.postcode));
+      expect(address.latitude, equals(copy.latitude));
+      expect(address.longitude, equals(copy.longitude));
     });
   });
 
