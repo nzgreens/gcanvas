@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 
-<html>
+<html ng-app>
   <head>
   	<meta charset="utf-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>index</title>
     <!-- import the click-counter -->
     <link rel="import" href="packages/gcanvas/elements/gcanvas-app.html">
-    <script type="application/dart">export 'package:polymer/init.dart';</script>
+    <link rel="import" href="packages/gcanvas/elements/address-list.html">
+    <script type="application/dart" src="main.dart"></script>
     <script src="packages/browser/dart.js"></script>
   </head>
  
-  <body>
-    <gcanvas-app></gcanvas-app>
+  <body ng-cloak>
+    <gcanvas-app>
+      <ng-view></ng-view>
+    </gcanvas-app>
   </body>
 </html>

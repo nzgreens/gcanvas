@@ -5,12 +5,182 @@ import 'package:unittest/html_config.dart';
 import 'dart:html';
 import 'dart:async';
 import 'package:polymer/polymer.dart';
+import 'package:angular/angular.dart';
+import 'package:lawndart/lawndart.dart';
+import 'package:unittest/mock.dart';
+import 'package:gcanvas/gcanvas.dart';
 
-import 'package:gcanvas/elements/address_list.dart';
+class StoreCtrlMock extends Mock implements StoreCtrl {
+
+}
+
+class DatabaseCtrlMock extends Mock implements DatabaseCtrl {
+
+}
+
+
+
+
 
 main() {
   useHtmlConfiguration(true);
   initPolymer();
+
+
+  group("[gcanvas StoreCtrl", () {
+    var storeCtrl = new StoreCtrl();
+    var address2 = new Address(
+          2,
+          "50 Bignell street",
+          "Gonville",
+          "Wanganui",
+          "4501");
+    var address3 = new Address(
+        3,
+        "52 Bignell street",
+        "Gonville",
+        "Wanganui",
+        "4501");
+
+    setUp(() {
+      Completer completer = new Completer();
+      var batched = {"2": address2.toMap(), "3": address3.toMap()};
+      if(!storeCtrl.addressStore.isOpen) {
+        return storeCtrl.addressStore.open()
+          ..then((_) => storeCtrl.addressStore.nuke())
+          ..then((_) => storeCtrl.addressStore.batch(batched).then((_) => completer.complete()));
+      } else {
+        return storeCtrl.addressStore
+          ..nuke().then((_) => storeCtrl.addressStore.batch(batched).then((_) => completer.complete()));
+      }
+
+
+      return completer.future;
+    });
+
+    test("adds an address", () {
+      var address = new Address(
+          1,
+          "48 Bignell street",
+          "Gonville",
+          "Wanganui",
+          "4501");
+      Future future = storeCtrl.addAddress(address);
+      expect(future, completion(equals(address.id)));
+    });
+
+
+    test("retreives an address", () {
+      Future future = storeCtrl.getAddressById(2);
+      future.then((address) {
+        expect(address.id, equals(address2.id));
+        expect(address.street, equals(address2.street));
+        expect(address.suburb, equals(address2.suburb));
+        expect(address.city, equals(address2.city));
+        expect(address.postcode, equals(address2.postcode));
+      });
+      expect(future, completes);
+    });
+
+
+
+    test("gets a list of all addresses", () {
+      var batched = {"2": address2.toMap(), "3": address3.toMap()};
+      Future future = storeCtrl.addressStore.batch(batched).then((_) {
+        Future future = storeCtrl.getAddressList();
+        future.then((addresses) {
+          expect(addresses.length, equals(2));
+          expect(addresses.firstWhere((item) => item.id == 2) != null, isTrue);
+          expect(addresses.firstWhere((item) => item.id == 3) != null, isTrue);
+        });
+
+      });
+      expect(future, completes);
+    });
+
+    test("gets a list of residents at adrees", () {
+        Future future = storeCtrl.getResidentsAtAddress(address2);
+        future.then((residents) {
+          expect(residents.length, equals(2));
+        });
+    });
+  });
+
+
+  group("[gcanvas address class]", () {
+    var address;
+
+    setUp(() {
+      address = new Address(
+          1,
+          "48 Bignell street",
+          "Gonville",
+          "Wanganui",
+          "4501");
+
+    });
+
+    test("id is 1", () {
+      expect(address.id, equals(1));
+    });
+
+
+    test("street is 48 Bignell street", () {
+      expect(address.street, equals("48 Bignell street"));
+    });
+
+
+    test("suburb is Gonville", () {
+      expect(address.suburb, equals("Gonville"));
+    });
+
+
+    test("city is Wanganui", () {
+      expect(address.city, equals("Wanganui"));
+    });
+
+
+    test("postcode is 4501", () {
+      expect(address.postcode, equals("4501"));
+    });
+
+
+    test("toMap generates map", () {
+      var expected = {
+        "id": 1,
+        "street": "48 Bignell street",
+        "suburb": "Gonville",
+        "city": "Wanganui",
+        "postcode": "4501"
+      };
+
+      expect(address.toMap(), equals(expected));
+    });
+
+
+    test("constructor fromMap works", () {
+      var map = {
+        "id": 1,
+        "street": "48 Bignell street",
+        "suburb": "Gonville",
+        "city": "Wanganui",
+        "postcode": "4501"
+      };
+
+      var copy = new Address.fromMap(map);
+
+      expect(address.id, equals(copy.id));
+      expect(address.street, equals(copy.street));
+      expect(address.suburb, equals(copy.suburb));
+      expect(address.city, equals(copy.city));
+      expect(address.postcode, equals(copy.postcode));
+    });
+  });
+
+
+  group("[gCanvas Resident class]", () {
+
+  });
 
   group("[gcanvas-app]", () {
     Element _el;
@@ -73,70 +243,34 @@ main() {
     });
 
 
-    test("hass address list", () {
-      AddressList addressList = querySelector("gcanvas-app").shadowRoot.querySelector("address-list");
-      expect(
-          addressList,
-          isNotNull
-      );
-    });
 
 
-    test("address list contains an address", () {
-      new Timer(
-          new Duration(milliseconds: 2500),
-          expectAsync0(() {
-            expect(
-              querySelector("gcanvas-app").shadowRoot.querySelector("address-list").shadowRoot.querySelector('address-view'),
-              isNotNull
-            );
-          })
-      );
-    });
   });
 
 
 
-  solo_group("[gCanvas Service]", () {
-    Element _el;
+  group("[gCanvas Service]", () {
+    DatabaseCtrl service;
+    Http http;
+    StoreCtrl store;
 
-    //uses events
     setUp((){
-      _el = createElement('<gcanvas-service></gcanvas-service>');
-      document.body.append(_el);
+      http = new Http();
+      store = new StoreMock();
+      service = new DatabaseCtrl(http, store);
     });
 
 
     tearDown((){
-      _el.remove();
     });
 
 
-    test("element exists", () {
-      var element = querySelector("gcanvas-service");
-      expect(
-          element,
-          isNotNull
-      );
-      expect(
-          element.shadowRoot,
-          isNotNull
-      );
+    test("adds a record", () {
+      service.add({'mok':"Mock data"});
+      service.getLogs(callsTo("add", {'mok':"Mock data"}))
+        .verify(happenedOnce);
     });
 
-
-    test("element is hidden", () {
-      var element = querySelector("gcanvas-service");
-      expect(
-          element.hidden,
-          isTrue
-      );
-    });
-
-
-    test("element gets a record", () {
-      //var
-    });
   });
 
   //pollForDone(testCases);
