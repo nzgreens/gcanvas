@@ -80,11 +80,51 @@ class StoreCtrl {
 
 
 
+  Future<bool> removeAddressById(var id) {
+    Completer<bool> completer = new Completer<bool>();
+
+    _open().then((_) {
+      addressStore.removeByKey("${id}").then((_) => completer.complete(true));
+    });
+
+    return completer.future;
+  }
+
+
+
+  Future<int> addResident(var resident) {
+    Completer<int> completer = new Completer<int>();
+
+    _open().then((_) {
+      residentsStore.save(resident.toMap(), "${resident.id}").then((key) {
+        completer.complete(int.parse(key));
+      });
+    });
+
+
+    return completer.future;
+  }
+
+
+  Future<Resident> getResidentById(int id) {
+    Completer<Resident> completer = new Completer<Resident>();
+
+    _open().then((_) {
+      residentsStore.getByKey("${id}").then((map) {
+        Resident resident = new Resident.fromMap(map);
+        completer.complete(resident);
+      });
+    });
+
+    return completer.future;
+  }
+
+
   Future<List<Resident>> getResidentsAtAddress(var address) {
     Completer<List<Resident>> completer = new Completer<List<Resident>>();
 
     _open().then((_) {
-      residentsStore.all().where((resident) => resident['addressId'] == address.id).toList().then((values) {
+      residentsStore.all().where((resident) => resident['address']['id'] == address.id).toList().then((values) {
         List<Resident> residents = new List<Resident>();
         for(var map in values) {
           residents.add(new Resident.fromMap(map));
