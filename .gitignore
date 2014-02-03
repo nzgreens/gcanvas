@@ -3,3 +3,6 @@ packages
 .project
 pubspec.lock
 .buildlog
+/.buildlog
+/asset/Flaticon_AllFiles.zip
+/lib/elements/images/rotate2.svg

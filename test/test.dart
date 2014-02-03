@@ -27,7 +27,7 @@ main() {
   initPolymer();
 
 
-  group("[gcanvas StoreCtrl", () {
+  group("[gcanvas StoreCtrl]", () {
     var storeCtrl = new StoreCtrl();
     var address2 = new Address(
           2,
@@ -203,7 +203,7 @@ main() {
 
 
   group("[gCanvas Resident class]", () {
-
+    
   });
 
   group("[gcanvas-app]", () {
