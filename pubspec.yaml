@@ -4,6 +4,7 @@ dependencies:
   browser: any
   polymer: any
   lawndart: any
+  paradox: any
   angular: any
   angular_node_bind: any
 dev_dependencies:
