@@ -218,6 +218,22 @@ main() {
       expect(future, completes);
     });
 
+
+
+    test("remove a resident", () {
+      Future<bool> future = storeCtrl.removeResidentById(voter2.id);
+
+      future.then((success) {
+        expect(success, isTrue);
+        Future<bool> check = storeCtrl.residentsStore.exists("${voter2.id}");
+        check.then((exists) {
+          expect(exists, isFalse);
+        });
+        expect(check, completes);
+      });
+
+      expect(future, completes);
+    });
   });
 
 

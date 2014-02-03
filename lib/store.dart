@@ -136,4 +136,16 @@ class StoreCtrl {
 
     return completer.future;
   }
+
+
+
+  Future<bool> removeResidentById(var id) {
+    Completer<bool> completer = new Completer<bool>();
+
+    _open().then((_) {
+      residentsStore.removeByKey("${id}").then((_) => completer.complete(true));
+    });
+
+    return completer.future;
+  }
 }
