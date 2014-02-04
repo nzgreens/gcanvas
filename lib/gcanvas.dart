@@ -9,3 +9,4 @@ part 'store.dart';
 part 'router.dart';
 part 'service.dart';
 part 'address.dart';
+part 'response.dart';
