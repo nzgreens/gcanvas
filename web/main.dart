@@ -9,7 +9,7 @@ class StoreModule extends Module {
   StoreModule() {
     type(NodeBindDirective);
     type(DatabaseCtrl);
-    type(AddressCtrl);
+    type(AddressListCtrl);
     type(RouteInitializer, implementedBy: StoreRouter);
   }
 }

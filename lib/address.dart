@@ -4,40 +4,47 @@ part of gcanvas;
   selector: '[addresses]',
   publishAs: 'addreses'
 )
-class AddressCtrl {
-  StoreCtrl _addressStore;
-  Http _http;
-  bool _isOnline = false;
+class AddressListCtrl {
+  StoreCtrl _storeCtrl;
 
-  AddressCtrl(this._addressStore, this._http) {
-    window.onOnline.listen((data) {
-      _isOnline = true;
-      sync();
-    });
+  AddressListCtrl(this._storeCtrl);
 
-    window.onOffline.listen((_) {
-      _isOnline = false;
-    });
+
+  Future<int> add(Address addr) {
+    return _storeCtrl.addAddress(addr);
   }
 
 
-  void add(Address addr) {
-
+  Future<bool> remove(Address addr) {
+    return _storeCtrl.removeAddress(addr);
   }
 
 
-  void remove(Address addr) {
+  Future<List<Address>> getList() {
+    return _storeCtrl.getAddressList();
+  }
+}
 
+
+
+class ResidentListCtrl {
+  StoreCtrl _storeCtrl;
+
+  ResidentListCtrl(this._storeCtrl);
+
+
+  Future<List<Resident>> getResidentsAtAddress(Address address) {
+    return _storeCtrl.getResidentsAtAddress(address);
   }
 
 
-  List<Address> getList() {
-
+  Future<int> add(Resident resident) {
+    return _storeCtrl.addResident(resident);
   }
 
 
-  void sync() {
-
+  Future<bool> remove(Resident resident) {
+    return _storeCtrl.removeResident(resident);
   }
 }
 

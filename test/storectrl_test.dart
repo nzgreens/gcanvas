@@ -181,7 +181,7 @@ void storectrl_test() {
 
 
       test("removes an address", () {
-        Future<bool> future = storeCtrl.removeAddressById(address2.id);
+        Future<bool> future = storeCtrl.removeAddress(address2);
 
         future.then((success) {
           expect(success, isTrue);
@@ -198,7 +198,7 @@ void storectrl_test() {
 
 
       test("remove a resident", () {
-        Future<bool> future = storeCtrl.removeResidentById(voter2.id);
+        Future<bool> future = storeCtrl.removeResident(voter2);
 
         future.then((success) {
           expect(success, isTrue);

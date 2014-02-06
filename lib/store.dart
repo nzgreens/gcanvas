@@ -35,7 +35,7 @@ class StoreCtrl {
     return completer.future;
   }
 
-  Future<int> addAddress(var address) {
+  Future<int> addAddress(Address address) {
     Completer<int> completer = new Completer<int>();
 
     _open().then((_) {
@@ -48,7 +48,7 @@ class StoreCtrl {
   }
 
 
-  Future<Address> getAddressById(var id) {
+  Future<Address> getAddressById(int id) {
     Completer<Address> completer = new Completer<Address>();
 
     _open().then((_) {
@@ -80,11 +80,11 @@ class StoreCtrl {
 
 
 
-  Future<bool> removeAddressById(var id) {
+  Future<bool> removeAddress(Address address) {
     Completer<bool> completer = new Completer<bool>();
 
     _open().then((_) {
-      addressStore.removeByKey("${id}").then((_) => completer.complete(true));
+      addressStore.removeByKey("${address.id}").then((_) => completer.complete(true));
     });
 
     return completer.future;
@@ -92,7 +92,7 @@ class StoreCtrl {
 
 
 
-  Future<int> addResident(var resident) {
+  Future<int> addResident(Resident resident) {
     Completer<int> completer = new Completer<int>();
 
     _open().then((_) {
@@ -120,7 +120,7 @@ class StoreCtrl {
   }
 
 
-  Future<List<Resident>> getResidentsAtAddress(var address) {
+  Future<List<Resident>> getResidentsAtAddress(Address address) {
     Completer<List<Resident>> completer = new Completer<List<Resident>>();
 
     _open().then((_) {
@@ -139,11 +139,11 @@ class StoreCtrl {
 
 
 
-  Future<bool> removeResidentById(var id) {
+  Future<bool> removeResident(Resident resident) {
     Completer<bool> completer = new Completer<bool>();
 
     _open().then((_) {
-      residentsStore.removeByKey("${id}").then((_) => completer.complete(true));
+      residentsStore.removeByKey("${resident.id}").then((_) => completer.complete(true));
     });
 
     return completer.future;

@@ -5,7 +5,7 @@ import 'package:unittest/html_config.dart';
 import 'dart:html';
 import 'dart:async';
 import 'package:polymer/polymer.dart';
-//import 'package:angular/angular.dart';
+import 'package:angular/angular.dart';
 //import 'package:lawndart/lawndart.dart';
 import 'package:unittest/mock.dart';
 import 'package:gcanvas/gcanvas.dart';
@@ -16,6 +16,9 @@ part 'address_test.dart';
 part 'resident_test.dart';
 part 'gcanvas_app_element_test.dart';
 part 'response_test.dart';
+part 'addresslistctrl_test.dart';
+part 'residentlistctrl_test.dart';
+
 
 main() {
   useHtmlConfiguration(true);
@@ -27,6 +30,8 @@ main() {
   resident_test();
   gcanvas_app_element_test();
   response_test();
+  addresslistctrl_test();
+  residentlistctrl_test();
 
   //pollForDone(testCases);
 }
