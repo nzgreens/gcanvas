@@ -8,7 +8,6 @@ import 'package:gcanvas/gcanvas.dart';
 class StoreModule extends Module {
   StoreModule() {
     type(NodeBindDirective);
-    type(DatabaseCtrl);
     type(AddressListCtrl);
     type(RouteInitializer, implementedBy: StoreRouter);
   }
