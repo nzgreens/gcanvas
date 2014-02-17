@@ -12,7 +12,8 @@ void address_test() {
             "Wanganui",
             "4501",
             169.201928,
-            49.21112);
+            49.21112,
+            false);
 
       });
 
@@ -50,6 +51,11 @@ void address_test() {
       });
 
 
+      test("visited is false", () {
+        expect(address.visited, isFalse);
+      });
+
+
       test("toMap generates map", () {
         var expected = {
           "id": 1,
@@ -58,7 +64,8 @@ void address_test() {
           "city": "Wanganui",
           "postcode": "4501",
           "latitude": 169.201928,
-          "longitude": 49.21112
+          "longitude": 49.21112,
+          "visited": false
         };
 
         expect(address.toMap(), equals(expected));
@@ -73,7 +80,8 @@ void address_test() {
           "city": "Wanganui",
           "postcode": "4501",
           "latitude": 169.201928,
-          "longitude": 49.21112
+          "longitude": 49.21112,
+          "visited": false
         };
 
         var copy = new Address.fromMap(map);
@@ -85,6 +93,7 @@ void address_test() {
         expect(address.postcode, equals(copy.postcode));
         expect(address.latitude, equals(copy.latitude));
         expect(address.longitude, equals(copy.longitude));
+        expect(address.visited, equals(copy.visited));
       });
     });
 }

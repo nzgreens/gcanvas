@@ -3,7 +3,7 @@ part of gcanvas_test;
 
 void storectrl_test() {
   group("[gcanvas StoreCtrl]", () {
-      var storeCtrl = new StoreCtrl();
+      var storeCtrl = new StoreCtrl.create();
 
       var address = new Address(
             1,
@@ -12,7 +12,8 @@ void storectrl_test() {
             "Wanganui",
             "4501",
             169.201928,
-            49.21112);
+            49.21112,
+            false);
 
         var address2 = new Address(
             2,
@@ -21,7 +22,8 @@ void storectrl_test() {
             "Wanganui",
             "4501",
             169.201928,
-            49.21112);
+            49.21112,
+            false);
 
         var address3 = new Address(
             3,
@@ -30,7 +32,8 @@ void storectrl_test() {
             "Wanganui",
             "4501",
             169.201928,
-            49.21112);
+            49.21112,
+            false);
 
         var voter = new Resident(
             1,
@@ -110,7 +113,8 @@ void storectrl_test() {
                 "",
                 "",
                 0,
-                0);
+                0,
+                false);
         var batched = {"2": address2.toMap(), "3": address3.toMap()};
         Future future = storeCtrl.addressStore.batch(batched).then((_) {
           Future future = storeCtrl.getAddressList();
@@ -179,7 +183,6 @@ void storectrl_test() {
       });
 
 
-
       test("removes an address", () {
         Future<bool> future = storeCtrl.removeAddress(address2);
 
@@ -211,5 +214,26 @@ void storectrl_test() {
 
         expect(future, completes);
       });
-    });
+
+
+
+      test("gets current null state", () {
+        Future<State> future = storeCtrl.getState();
+        future.then((state) {
+          expect(state, isNull);
+        });
+        expect(future, completes);
+      });
+
+
+
+      test("saves state", () {
+        State state = new State(false, true, address);
+        Future<State> future = storeCtrl.saveState(state);
+        future.then((success) {
+          expect(success, isTrue);
+        });
+        expect(future, completes);
+      });
+  });
 }

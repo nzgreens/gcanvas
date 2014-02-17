@@ -9,7 +9,8 @@ void resident_test() {
           "Wanganui",
           "4501",
           169.201928,
-          49.21112);
+          49.21112,
+          false);
 
       var voter = new Resident(
         1,

@@ -1,0 +1,22 @@
+<polymer-element name="address-list-item" attributes="address">
+  <template>
+    <style>
+    :host {
+      /*display: none;*/
+      cursor: pointer;
+    }
+
+    @host {
+      * {
+        /*display: none;*/
+        cursor: pointer;
+      }
+    }
+    </style>
+    <div>
+      <div>{{address.street}}</div>
+      <div>{{address.suburb}}</div>
+    </div>
+  </template>
+  <script type="application/dart" src="address_list_item.dart"></script>
+</polymer-element>

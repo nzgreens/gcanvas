@@ -10,7 +10,8 @@ void residentlistctrl_test() {
         "Wanganui",
         "4501",
         169.201928,
-        49.21112);
+        49.21112,
+        false);
 
     var address2 = new Address(
         2,
@@ -19,7 +20,8 @@ void residentlistctrl_test() {
         "Wanganui",
         "4501",
         169.201928,
-        49.21112);
+        49.21112,
+        false);
 
     var address3 = new Address(
         3,
@@ -28,7 +30,8 @@ void residentlistctrl_test() {
         "Wanganui",
         "4501",
         169.201928,
-        49.21112);
+        49.21112,
+        false);
 
 
     var voter = new Resident(

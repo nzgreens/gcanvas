@@ -11,7 +11,8 @@ void response_test() {
         "Wanganui",
         "4501",
         169.201928,
-        49.21112);
+        49.21112,
+        false);
 
     var address2 = new Address(
         2,
@@ -20,7 +21,8 @@ void response_test() {
         "Wanganui",
         "4501",
         169.201928,
-        49.21112);
+        49.21112,
+        false);
 
     var address3 = new Address(
         3,
@@ -29,7 +31,8 @@ void response_test() {
         "Wanganui",
         "4501",
         169.201928,
-        49.21112);
+        49.21112,
+        false);
 
     var voter = new Resident(
         1,
@@ -92,6 +95,7 @@ void response_test() {
 
     test("response toMap()", () {
       var expected = {
+        "id": 1,
         "response": "No Answer",
         "reason": "No Answer",
         "address": address.toMap(),
@@ -99,6 +103,7 @@ void response_test() {
       };
 
       resResponse
+        ..id = 1
         ..response = "No Answer"
         ..reason = "No Answer"
         ..presentResidents.add(voter);
@@ -109,6 +114,7 @@ void response_test() {
 
     test("response fromMap()", () {
       var map = {
+        "id": 1,
         "response": "No Answer",
         "reason": "No Answer",
         "address": address.toMap(),

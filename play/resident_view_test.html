@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>index</title>
+    <!-- import the elements -->
+    <link rel="import" href="resident-test.html">
+    <script type="application/dart">
+      import 'package:polymer/polymer.dart';
+      import 'package:gcanvas/resident.dart';
+
+      main() {
+        initPolymer().run((){
+        });
+      }
+    </script>
+    <script src="packages/browser/dart.js"></script>
+  </head>
+
+  <body>
+    <resident-test></resident-test>
+  </body>
+</html>

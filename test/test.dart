@@ -1,15 +1,16 @@
 library gcanvas_test;
 
 import 'package:unittest/unittest.dart';
+import 'package:unittest/unittest.dart' as unittest;
 import 'package:unittest/html_config.dart';
 import 'dart:html';
 import 'dart:async';
 import 'package:polymer/polymer.dart';
-import 'package:angular/angular.dart';
-//import 'package:lawndart/lawndart.dart';
 import 'package:unittest/mock.dart';
 import 'package:gcanvas/gcanvas.dart';
-
+import 'package:gcanvas/address.dart';
+import 'package:gcanvas/resident.dart';
+import 'package:gcanvas/response.dart';
 
 part 'storectrl_test.dart';
 part 'address_test.dart';

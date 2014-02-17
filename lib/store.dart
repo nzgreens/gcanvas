@@ -1,35 +1,36 @@
-part of gcanvas;
+part of gcanvas.client;
 
+@reflectable
 class StoreCtrl {
-  Store addressStore;
-  Store residentsStore;
+  @reflectable final Store addressStore;
+  @reflectable final Store residentsStore;
+  @reflectable final Store appstateStore;
 
-  StoreCtrl() {
-    addressStore = new Store("gcanvas", "addresses");
+  const StoreCtrl(this.addressStore, this.residentsStore, this.appstateStore);
 
-    residentsStore = new Store("gcanvas", "residents");
+
+  factory StoreCtrl.create() {
+    return new StoreCtrl(
+        new Store("gcanvas", "addresses"),
+        new Store("gcanvas", "residents"),
+        new Store('gcanvas', 'app-state')
+    );
   }
 
 
   Future<bool> _open() {
     Completer<bool> completer = new Completer<bool>();
 
-    if(addressStore.isOpen && residentsStore.isOpen) {
+    if(addressStore.isOpen && residentsStore.isOpen && appstateStore.isOpen) {
       completer.complete(true);
     } else {
-      if(!addressStore.isOpen) {
-        addressStore.open().then((_) {
-          if(!residentsStore.isOpen) {
-            residentsStore.open().then((_) {
-              completer.complete(true);
-            });
-          } else {
+      addressStore.open().then((_) {
+        residentsStore.open().then((_) {
+          appstateStore.open().then((_) {
             completer.complete(true);
-          }
+          });
         });
-      } else {
-        residentsStore.open().then((_) => completer.complete(true));
-      }
+      });
     }
 
     return completer.future;
@@ -144,6 +145,34 @@ class StoreCtrl {
 
     _open().then((_) {
       residentsStore.removeByKey("${resident.id}").then((_) => completer.complete(true));
+    });
+
+    return completer.future;
+  }
+
+
+
+  Future<State> getState() {
+    Completer<State> completer = new Completer<State>();
+
+    _open().then((_) {
+      appstateStore.getByKey("state").then((map) {
+        State state = map != null ? new State.fromMap(map) : null;
+        completer.complete(state);
+      });
+    });
+
+    return completer.future;
+  }
+
+
+  Future<bool> saveState(State state) {
+    Completer<bool> completer = new Completer<bool>();
+
+    _open().then((_) {
+      appstateStore.save(state.toMap(), 'state').then((key) {
+        completer.complete(true);
+      });
     });
 
     return completer.future;

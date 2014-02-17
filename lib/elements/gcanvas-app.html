@@ -1,3 +1,5 @@
+<link rel="import" href="address-list.html">
+<link rel="import" href="address-view.html">
 <polymer-element name="gcanvas-app">
   <template>
     <style>
@@ -11,26 +13,35 @@
       }
     }
 
-    h3 {
+    h1 {
       display: inline-block;
+      text-align: center;
+      width: 80%;
     }
 
     #refresh {
-      width: 32px;
-      height: 32px;
-      background-image: url(packages/gcanvas/elements/images/rotate2.png);
+      width: 62px;
+      height: 62px;
+      background-image: url(/assets/gcanvas/images/rotate2.png);
+      background-size: 50px 50px;
       background-repeat: no-repeat;
     }
 
     #back {
-      width: 32px;
-      height: 32px;
-      background-image: url(packages/gcanvas/elements/images/controls1.png);
+      width: 62px;
+      height: 62px;
+      background-image: url(/assets/gcanvas/images/controls1.png);
       background-repeat: no-repeat;
     }
     </style>
-    <button id="back">&nbsp;</button><h3>gCanvas</h3><button id="refresh">&nbsp;</button>
-    <content></content>
+    <button id="back" on-click="{{navBack}}">&nbsp;</button><h1>gCanvas</h1><button id="refresh" on-click="{{refresh}}">&nbsp;</button>
+    
+    <template if="{{addressListView}}">
+      <address-list addresses="{{addresses}}" on-address-clicked="{{showAddress}}"></address-list>
+    </template>
+    <template if="{{addressView}}">
+      <address-view address="{{address}}" residents="{{residentsAtAddress}}"></address-view>
+    </template>
   </template>
   <script type="application/dart" src="gcanvas_app.dart"></script>
 </polymer-element>

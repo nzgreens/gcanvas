@@ -1,0 +1,60 @@
+<polymer-element name="response-view">
+  <template>
+    <div>Response</div>
+    <div>
+      <select id="response" on-change="{{responseSelected}}">
+        <option template repeat="{{response in responseList}}">
+          {{response}}
+        </option>
+      </select>
+    </div>
+    
+    <div>Reason</div>
+    <template if="{{selectionMap['No Answer']}}">
+      <div>
+        <select id="noanswer" on-change="{{reasonSelected}}">
+          <option template repeat="{{response in noAnswerReason}}">
+            {{response}}
+          </option>
+        </select>
+      </div>
+    </template>
+    <template if="{{selectionMap['Bad Information']}}">
+      <div>
+        <select id="badinformation" on-change="{{reasonSelected}}">
+          <option template repeat="{{response in badInfoReason}}">
+            {{response}}
+          </option>
+        </select>
+      </div>
+    </template>
+    <template if="{{selectionMap['Not Interested']}}">
+      <div>
+        <select id="notinterested" on-change="{{reasonSelected}}">
+          <option template repeat="{{response in notInterestedReason}}">
+            {{response}}
+          </option>
+        </select>
+      </div>
+    </template>
+    <template if="{{selectionMap['Refused']}}">
+      <div>
+        <select id="refused" on-change="{{reasonSelected}}">
+          <option template repeat="{{response in refusedReason}}">
+            {{response}}
+          </option>
+        </select>
+      </div>
+    </template>
+    <template if="{{selectionMap['Answered']}}">
+      <div>
+        <select id="answered" on-change="{{reasonSelected}}">
+          <option template repeat="{{response in answeredReason}}">
+            {{response}}
+          </option>
+        </select>
+      </div>
+    </template>
+  </template>
+  <script type="application/dart" src="response_view.dart"></script>  
+</polymer-element>

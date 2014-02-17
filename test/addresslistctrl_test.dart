@@ -1,11 +1,8 @@
 part of gcanvas_test;
 
-class StoreCtrlMock extends Mock implements StoreCtrl {
+class StoreCtrlMock extends Mock implements StoreCtrl {}
 
-}
-
-
-class HttpMock extends Mock implements Http {}
+class HttpMock extends Mock implements DelayedHttp {}
 
 void addresslistctrl_test() {
   group("[Address List Ctrl]", () {
@@ -16,7 +13,8 @@ void addresslistctrl_test() {
         "Wanganui",
         "4501",
         169.201928,
-        49.21112);
+        49.21112,
+        false);
 
     var address2 = new Address(
         2,
@@ -25,7 +23,8 @@ void addresslistctrl_test() {
         "Wanganui",
         "4501",
         169.201928,
-        49.21112);
+        49.21112,
+        false);
 
     var address3 = new Address(
         3,
@@ -34,7 +33,8 @@ void addresslistctrl_test() {
         "Wanganui",
         "4501",
         169.201928,
-        49.21112);
+        49.21112,
+        false);
 
     var store = new StoreCtrlMock();
     var addressList = [address, address2];
@@ -71,7 +71,7 @@ void addresslistctrl_test() {
         expect(id, equals(expectedId));
       });
       expect(future, completes);
-      store.getLogs(callsTo('addAddress')).verify(happenedOnce);
+      store.getLogs(callsTo('addAddress')).verify(happenedAtLeastOnce);
     });
 
 
@@ -83,6 +83,17 @@ void addresslistctrl_test() {
       });
       expect(future, completes);
       store.getLogs(callsTo('removeAddress')).verify(happenedOnce);
+    });
+
+
+    test("updates an address", () {
+      address3.visited = true;
+      Future<bool> future = addressCtrl.update(address3);
+      future.then((success) {
+        expect(success, isTrue);
+      });
+      expect(future, completes);
+      store.getLogs(callsTo('addAddress')).verify(happenedAtLeastOnce);
     });
   });
 }

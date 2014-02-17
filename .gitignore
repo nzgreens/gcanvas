@@ -7,3 +7,8 @@ pubspec.lock
 /asset/Flaticon_AllFiles.zip
 /lib/elements/images/rotate2.svg
 /.buildlog.bak
+temp.txt
+node_modules/grunt node_modules/grunt-cli node_modules/grunt-contrib-watch node_modules/grunt-shell
+node_modules
+packages
+lib/image.dart

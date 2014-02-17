@@ -1,0 +1,32 @@
+<polymer-element name="resident-view">
+  <template>
+    <style>
+    :host {
+      width: 100px;
+      height: 100px;
+      /* cherry juice and ginger ale*/
+      display: inline-block;
+      border: solid 1px blue;
+    }
+
+    @host {
+      * {
+        width: 100px;
+        height: 100px;
+        display: inline-block;
+        border: solid 1px blue;
+      }
+    }
+    
+    #icon {
+      top: 0px;
+      width: 75px;
+      height: 75px;
+      border: none 1px blue;
+    }
+    </style>
+    <img id="icon">
+    <div><span>{{resident.firstname}}</span> <span>{{resident.lastname}}</span></div>
+  </template>
+  <script type="application/dart" src="resident_view.dart"></script>
+</polymer-element>
