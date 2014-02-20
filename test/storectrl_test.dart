@@ -227,11 +227,27 @@ void storectrl_test() {
 
 
 
-      test("saves state", () {
+      test("saves app state", () {
         State state = new State(false, true, address);
-        Future<State> future = storeCtrl.saveState(state);
+        Future<bool> future = storeCtrl.saveState(state);
         future.then((success) {
           expect(success, isTrue);
+        });
+        expect(future, completes);
+      });
+
+
+      test("gets a saved state", () {
+        State state = new State(false, true, address);
+        Future<State> future = storeCtrl.saveState(state).then((_) {
+          return storeCtrl.getState();
+        });
+
+        future.then((state) {
+          expect(state, isNotNull);
+          expect(state.address.id, equals(address.id));
+          expect(state.addressListView, isFalse);
+          expect(state.addressView, isTrue);
         });
         expect(future, completes);
       });

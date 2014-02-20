@@ -12,35 +12,42 @@ class GCanvasApp extends PolymerElement {
   @observable Address address;
   @observable final List<Resident> residentsAtAddress = toObservable([]);
 
-  @observable AddressListCtrl _addressListCtrl;
-
-  @observable bool addressListView = true;
-  @observable bool addressView = false;
+  @observable State appState;
+  AppStateCtrl _appStateCtrl;
+  AddressListCtrl _addressListCtrl;
 
   GCanvasApp.created() : super.created() {
     _addressListCtrl = new AddressListCtrl.create();
+    _appStateCtrl = new AppStateCtrl.create();
     _addressListCtrl.getList().then((addrList) {
       addresses.addAll(addrList);
+      _appStateCtrl.get().then((state) {
+        appState = state;
+      });
     });
+
+    var count = 10;
+    var generator = (n) => n;
+
+    var it = new Iterable.generate(count, generator);
   }
 
 
   @override
   void enteredView() {
     super.enteredView();
-
-    $['back'].hidden = true;
   }
 
 
   void navBack() {
-    addressView = false;
-    addressListView = true;
-    $['back'].hidden = true;
+    appState.addressView = false;
+    appState.addressListView = true;
     _addressListCtrl.getList().then((addrList) {
       addresses.clear();
       addresses.addAll(addrList.where((address) => !address.visited));
     });
+
+    _appStateCtrl.save(appState);
   }
 
 
@@ -67,11 +74,10 @@ class GCanvasApp extends PolymerElement {
 
 
   void showAddress(Event event) {
-    address = event.detail as Address;
-    address.visited = true;
-    _addressListCtrl.update(address);
-    addressView = true;
-    addressListView = false;
-    $['back'].hidden = false;
+    appState.address = event.detail as Address;
+    appState.addressView = true;
+    appState.addressListView = false;
+
+    _appStateCtrl.save(appState);
   }
 }

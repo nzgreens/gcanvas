@@ -17,6 +17,7 @@ dependencies:
   uuid: any
 dev_dependencies:
   unittest: any
+  hop: any
 transformers:
 - polymer:
     entry_points:

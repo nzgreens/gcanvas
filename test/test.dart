@@ -19,6 +19,7 @@ part 'gcanvas_app_element_test.dart';
 part 'response_test.dart';
 part 'addresslistctrl_test.dart';
 part 'residentlistctrl_test.dart';
+part 'appstatectrl_test.dart';
 
 
 main() {
@@ -33,7 +34,7 @@ main() {
   response_test();
   addresslistctrl_test();
   residentlistctrl_test();
-
+  appstatectrl_test();
   //pollForDone(testCases);
 }
 

@@ -17,6 +17,24 @@ class Resident {
   Resident(this.id, this.firstname, this.lastname, this.dob, this.address);
 
 
+  factory Resident.create({
+        int id: -1,
+        String firstname: '',
+        String lastname: '',
+        DateTime dob, Address address
+        }) {
+    if (dob == null) {
+      dob = new DateTime.now();
+    }
+
+    if (address == null) {
+      address = new Address.create();
+    }
+
+    return new Resident(id, firstname, lastname, dob, address);
+  }
+
+
   Resident.fromMap(var map) {
     id = map['id'];
     firstname = map['firstname'];

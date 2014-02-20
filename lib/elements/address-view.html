@@ -13,6 +13,10 @@
         /*display: none;*/
       }
     }
+    button {
+      width: 62px;
+      height: 62px;
+    }
     </style>
     <template if="{{showAddress}}">
       <div>{{address.street}}</div>
@@ -26,7 +30,9 @@
         </div>
       </template>
     </template>
-    <button on-click="{{askQuestions}}">Script</button>
+    <template if="{{showScript == false}}">
+      <button on-click="{{askQuestions}}">Ok</button>
+    </template>
     <template if="{{showScript}}">
       <question-script script="{{script}}" on-save="{{saveScriptResults}}" on-cancel="{{cancelScriptResults}}"></question-script>
     </template>

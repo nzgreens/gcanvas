@@ -1,5 +1,6 @@
 import 'package:polymer/polymer.dart';
 import 'package:gcanvas/address.dart';
+import 'dart:html';
 
 import 'dart:html' show Event;
 
@@ -9,21 +10,8 @@ class AddressList extends PolymerElement {
 
   AddressList.created() : super.created();
 
-
-  @override
-  void ready() {
-    super.ready();
-
-    print("AddressList ready");
-  }
-
-  @override
-  void enteredView() {
-    super.enteredView();
-  }
-
-
   void addressClicked(Event event) {
-    fire('address-clicked', detail: event.detail);
+    var customEvent = new CustomEvent('address-clicked', detail: event.detail);
+    dispatchEvent(customEvent);
   }
 }

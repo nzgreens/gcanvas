@@ -16,7 +16,7 @@
     h1 {
       display: inline-block;
       text-align: center;
-      width: 80%;
+      width: 50%;
     }
 
     #refresh {
@@ -33,14 +33,30 @@
       background-image: url(/assets/gcanvas/images/controls1.png);
       background-repeat: no-repeat;
     }
+
+    .button_box {
+      width: 63px;
+      height: 63px;
+      display: inline-block;
+    }
     </style>
-    <button id="back" on-click="{{navBack}}">&nbsp;</button><h1>gCanvas</h1><button id="refresh" on-click="{{refresh}}">&nbsp;</button>
-    
-    <template if="{{addressListView}}">
+
+    <div class="button_box">
+      <template if="{{appState.addressView}}">
+        <button id="back" on-click="{{navBack}}">&nbsp;</button>
+      </template>
+    </div>
+    <h1>gCanvas</h1>
+    <div class="button_box">
+      <button id="refresh" on-click="{{refresh}}">&nbsp;</button>
+    </div>
+
+
+    <template if="{{appState.addressListView}}">
       <address-list addresses="{{addresses}}" on-address-clicked="{{showAddress}}"></address-list>
     </template>
-    <template if="{{addressView}}">
-      <address-view address="{{address}}" residents="{{residentsAtAddress}}"></address-view>
+    <template if="{{appState.addressView}}">
+      <address-view address="{{appState.address}}" residents="{{residentsAtAddress}}"></address-view>
     </template>
   </template>
   <script type="application/dart" src="gcanvas_app.dart"></script>

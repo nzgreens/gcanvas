@@ -1,10 +1,12 @@
 import 'package:polymer/polymer.dart';
 import 'package:gcanvas/address.dart';
+import 'package:gcanvas/resident.dart';
 import 'dart:html' show Event, window;
 
 @CustomTag('address-edit')
 class AddressEditElement extends PolymerElement {
-  @observable Address addr = new Address();
+  @observable Address addr = new Address.create();
+  @observable List<Resident> residents = toObservable([]);
   @observable String latitude;
   @observable String longitude;
 
