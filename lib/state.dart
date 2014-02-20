@@ -1,12 +1,12 @@
 part of gcanvas.client;
 
 
-class State {
-  final Address address;
-  final bool addressListView;
-  final bool addressView;
+class State extends Observable {
+  @observable Address address;
+  @observable bool addressListView;
+  @observable bool addressView;
 
-  const State(this.addressListView, this.addressView, [this.address = null]);
+  State(this.addressListView, this.addressView, [this.address = null]);
 
 
   factory State.fromMap(Map map) {
@@ -23,4 +23,5 @@ class State {
       'address': address.toMap()
     };
   }
+
 }
