@@ -30,59 +30,60 @@ main(List<String> args) {
 
   //seems the max number here will stop some connections altogether rather than just delay, while waiting for a connection, as I expected.
   var pool = new Pool(postgres_uri, min: 2, max: 10);
-  addressTableExists(pool).then((exists) {
+  String dbName = postgres_uri.split('/').last;
+  addressTableExists(pool, dbName).then((exists) {
     print("address: $exists");
     if (!exists) {
-      createAddressTable(pool).then((success) {
+      createAddressTable(pool, dbName).then((success) {
         print("created address: $success");
       });
     }
   });
 
-  questionScriptResponseTableExists(pool).then((exists) {
+  questionScriptResponseTableExists(pool, dbName).then((exists) {
     print("question_script_response: $exists");
     if (!exists) {
-      createQuestionScriptResponseTable(pool).then((success) {
+      createQuestionScriptResponseTable(pool, dbName).then((success) {
         print("created question_script response: $success");
       });
     }
   });
 
 
-  questionScriptTableExists(pool).then((exists) {
+  questionScriptTableExists(pool, dbName).then((exists) {
     print("question_script: $exists");
     if (!exists) {
-      createQuestionScriptTable(pool).then((success) {
+      createQuestionScriptTable(pool, dbName).then((success) {
         print("created question_script: $success");
       });
     }
   });
 
 
-  residentResponseProxyTableExists(pool).then((exists) {
+  residentResponseProxyTableExists(pool, dbName).then((exists) {
     print("resident_response_proxy: $exists");
     if (!exists) {
-      createResidentResponseProxyTable(pool).then((success) {
+      createResidentResponseProxyTable(pool, dbName).then((success) {
         print("created resident_response_proxy: $success");
       });
     }
   });
 
 
-  residentResponseTableExists(pool).then((exists) {
+  residentResponseTableExists(pool, dbName).then((exists) {
     print("resident_response: $exists");
     if (!exists) {
-      createResidentResponseTable(pool).then((success) {
+      createResidentResponseTable(pool, dbName).then((success) {
         print("created resident_response: $success");
       });
     }
   });
 
 
-  residentTableExists(pool).then((exists) {
+  residentTableExists(pool, dbName).then((exists) {
     print("resident: $exists");
     if (!exists) {
-      createResidentTable(pool).then((success) {
+      createResidentTable(pool, dbName).then((success) {
         print("created resident: $success");
       });
     }

@@ -38,10 +38,10 @@ String get _createQuestionScriptResponseSQL =>
 
 
 
-Future<bool> _tableExists(Pool pool, String tablename) {
+Future<bool> _tableExists(Pool pool, String dbName, String tablename) {
   Completer<bool> completer = new Completer<bool>();
   var sql = "SELECT EXISTS(SELECT 1 FROM information_schema.tables "
-      " WHERE table_catalog='gcanvas2' AND"
+      " WHERE table_catalog='$dbName' AND"
       " table_schema='public' AND "
       " table_name='$tablename');";
 
@@ -57,16 +57,16 @@ Future<bool> _tableExists(Pool pool, String tablename) {
 }
 
 
-Future<bool> addressTableExists(Pool pool) {
-  return _tableExists(pool, 'address');
+Future<bool> addressTableExists(Pool pool, String dbName) {
+  return _tableExists(pool, dbName, 'address');
 }
 
 
-Future<bool> createAddressTable(Pool pool) {
+Future<bool> createAddressTable(Pool pool, String dbName) {
   Completer<bool> completer = new Completer<bool>();
   pool.connect().then((Connection conn) {
     conn.execute(_createAddressSQL).then((result) {
-      addressTableExists(pool).then((exists) {
+      addressTableExists(pool, dbName).then((exists) {
         completer.complete(exists);
       });
     }, onError: () => print("table address exists"));
@@ -76,16 +76,16 @@ Future<bool> createAddressTable(Pool pool) {
 }
 
 
-Future<bool> residentTableExists(Pool pool) {
-  return _tableExists(pool, 'resident');
+Future<bool> residentTableExists(Pool pool, String dbName) {
+  return _tableExists(pool, dbName, 'resident');
 }
 
 
-Future<bool> createResidentTable(Pool pool) {
+Future<bool> createResidentTable(Pool pool, String dbName) {
   Completer<bool> completer = new Completer<bool>();
   pool.connect().then((Connection conn) {
     conn.execute(_createResidentSQL).then((result) {
-      addressTableExists(pool).then((exists) {
+      addressTableExists(pool, dbName).then((exists) {
         completer.complete(exists);
       });
     }, onError: () => print("table resident exists"));
@@ -95,16 +95,16 @@ Future<bool> createResidentTable(Pool pool) {
 }
 
 
-Future<bool> residentResponseTableExists(Pool pool) {
-  return _tableExists(pool, 'resident_response');
+Future<bool> residentResponseTableExists(Pool pool, String dbName) {
+  return _tableExists(pool, dbName, 'resident_response');
 }
 
 
-Future<bool> createResidentResponseTable(Pool pool) {
+Future<bool> createResidentResponseTable(Pool pool, String dbName) {
   Completer<bool> completer = new Completer<bool>();
   pool.connect().then((Connection conn) {
     conn.execute(_createResidentResponseSQL).then((result) {
-      addressTableExists(pool).then((exists) {
+      addressTableExists(pool, dbName).then((exists) {
         completer.complete(exists);
       });
     }, onError: () => print("table resident_response exists"));
@@ -114,16 +114,16 @@ Future<bool> createResidentResponseTable(Pool pool) {
 }
 
 
-Future<bool> residentResponseProxyTableExists(Pool pool) {
-  return _tableExists(pool, 'resident_response_proxy');
+Future<bool> residentResponseProxyTableExists(Pool pool, String dbName) {
+  return _tableExists(pool, dbName, 'resident_response_proxy');
 }
 
 
-Future<bool> createResidentResponseProxyTable(Pool pool) {
+Future<bool> createResidentResponseProxyTable(Pool pool, String dbName) {
   Completer<bool> completer = new Completer<bool>();
   pool.connect().then((Connection conn) {
     conn.execute(_createResidentResponseProxySQL).then((result) {
-      addressTableExists(pool).then((exists) {
+      addressTableExists(pool, dbName).then((exists) {
         completer.complete(exists);
       });
     }, onError: () => print("table resident_response_proxy exists"));
@@ -133,16 +133,16 @@ Future<bool> createResidentResponseProxyTable(Pool pool) {
 }
 
 
-Future<bool> questionScriptTableExists(Pool pool) {
-  return _tableExists(pool, 'question_script');
+Future<bool> questionScriptTableExists(Pool pool, String dbName) {
+  return _tableExists(pool, dbName, 'question_script');
 }
 
 
-Future<bool> createQuestionScriptTable(Pool pool) {
+Future<bool> createQuestionScriptTable(Pool pool, String dbName) {
   Completer<bool> completer = new Completer<bool>();
   pool.connect().then((Connection conn) {
     conn.execute(_createQuestionScriptSQL).then((result) {
-      addressTableExists(pool).then((exists) {
+      addressTableExists(pool, dbName).then((exists) {
         completer.complete(exists);
       });
     }, onError: () => print("table question_script exists"));
@@ -152,16 +152,16 @@ Future<bool> createQuestionScriptTable(Pool pool) {
 }
 
 
-Future<bool> questionScriptResponseTableExists(Pool pool) {
-  return _tableExists(pool, 'question_script_response');
+Future<bool> questionScriptResponseTableExists(Pool pool, String dbName) {
+  return _tableExists(pool, dbName, 'question_script_response');
 }
 
 
-Future<bool> createQuestionScriptResponseTable(Pool pool) {
+Future<bool> createQuestionScriptResponseTable(Pool pool, String dbName) {
   Completer<bool> completer = new Completer<bool>();
   pool.connect().then((Connection conn) {
     conn.execute(_createQuestionScriptResponseSQL).then((result) {
-      addressTableExists(pool).then((exists) {
+      addressTableExists(pool, dbName).then((exists) {
         completer.complete(exists);
       });
     }, onError: () => print("table question_script_response exists"));
