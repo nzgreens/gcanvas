@@ -1,0 +1,7 @@
+{
+  "name": "gcanvas",
+  "devDependencies": {
+    "grunt-shell": "~0.6.4",
+    "grunt-contrib-watch": "~0.5.3"
+  }
+}

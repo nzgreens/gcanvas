@@ -1,0 +1,10 @@
+<polymer-element name="question-script">
+  <template>
+    <form id="form" on-submit="{{submit}}">
+      <div id="script"></div>
+      <button type="submit">Save</button>
+      <button on-click="{{cancel}}">Cancel</button>
+    </form>
+  </template>
+  <script type="application/dart" src="question_script.dart"></script>
+</polymer-element>

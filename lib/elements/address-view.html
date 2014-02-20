@@ -1,6 +1,41 @@
-<polymer-element name="address-view" attributes="address">
+<link rel="import" href="resident-view.html">
+<link rel="import" href="response-view.html">
+<link rel="import" href="question-script.html">
+<polymer-element name="address-view">
   <template>
-    <div>{{address}}</div>
+    <style>
+    :host {
+      /*display: none;*/
+    }
+
+    @host {
+      * {
+        /*display: none;*/
+      }
+    }
+    button {
+      width: 62px;
+      height: 62px;
+    }
+    </style>
+    <template if="{{showAddress}}">
+      <div>{{address.street}}</div>
+      <div>{{address.suburb}}</div>
+      <div>{{address.city}}</div>
+      <div>{{address.postcode}}</div>
+      <response-view on-reasponse-selected="{{reasonSelected}}" on-reason-selected="{{reasonSelected}}"></response-view>
+      <template repeat="{{resident in residents}}">
+        <div>
+          <resident-view on-resident-selected="{{residentSelected}}" on-resident-deselected="{{residentDeselected}}" resident="{{resident}}"></resident-view>
+        </div>
+      </template>
+    </template>
+    <template if="{{showScript == false}}">
+      <button on-click="{{askQuestions}}">Ok</button>
+    </template>
+    <template if="{{showScript}}">
+      <question-script script="{{script}}" on-save="{{saveScriptResults}}" on-cancel="{{cancelScriptResults}}"></question-script>
+    </template>
   </template>
   <script type="application/dart" src="address_view.dart"></script>
 </polymer-element>

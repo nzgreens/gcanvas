@@ -1,8 +1,8 @@
-<link rel="import" href="address-view.html">
-<polymer-element name="address-list" attributes="addresses">
+<link rel="import" href="address-list-item.html">
+<polymer-element name="address-list"  attributes="addresses">
   <template>
     <template repeat="{{address in addresses}}">
-      <address-view address="{{address}}"></address-view>
+      <address-list-item address="{{address}}" on-address-item-clicked="{{addressClicked}}"></address-list-item>
     </template>
   </template>
   <script type="application/dart" src="address_list.dart"></script>
