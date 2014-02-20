@@ -6,7 +6,7 @@ part of gcanvas.server;
 // import 'package:postgresql/postgresql.dart';
 // import 'package:postgresql/postgresql_pool.dart';
 
-String get 
+String get
   _createAddressSQL =>
   "CREATE TABLE address (id SERIAL, street text,"
   " suburb text, city text, postcode text,"
@@ -41,7 +41,7 @@ String get _createQuestionScriptResponseSQL =>
 Future<bool> _tableExists(Pool pool, String tablename) {
   Completer<bool> completer = new Completer<bool>();
   var sql = "SELECT EXISTS(SELECT 1 FROM information_schema.tables "
-      " WHERE table_catalog='gcanvas' AND"
+      " WHERE table_catalog='gcanvas2' AND"
       " table_schema='public' AND "
       " table_name='$tablename');";
 
@@ -69,7 +69,7 @@ Future<bool> createAddressTable(Pool pool) {
       addressTableExists(pool).then((exists) {
         completer.complete(exists);
       });
-    });
+    }, onError: () => print("table address exists"));
   });
 
   return completer.future;
@@ -88,7 +88,7 @@ Future<bool> createResidentTable(Pool pool) {
       addressTableExists(pool).then((exists) {
         completer.complete(exists);
       });
-    });
+    }, onError: () => print("table resident exists"));
   });
 
   return completer.future;
@@ -107,7 +107,7 @@ Future<bool> createResidentResponseTable(Pool pool) {
       addressTableExists(pool).then((exists) {
         completer.complete(exists);
       });
-    });
+    }, onError: () => print("table resident_response exists"));
   });
 
   return completer.future;
@@ -126,7 +126,7 @@ Future<bool> createResidentResponseProxyTable(Pool pool) {
       addressTableExists(pool).then((exists) {
         completer.complete(exists);
       });
-    });
+    }, onError: () => print("table resident_response_proxy exists"));
   });
 
   return completer.future;
@@ -145,7 +145,7 @@ Future<bool> createQuestionScriptTable(Pool pool) {
       addressTableExists(pool).then((exists) {
         completer.complete(exists);
       });
-    });
+    }, onError: () => print("table question_script exists"));
   });
 
   return completer.future;
@@ -164,7 +164,7 @@ Future<bool> createQuestionScriptResponseTable(Pool pool) {
       addressTableExists(pool).then((exists) {
         completer.complete(exists);
       });
-    });
+    }, onError: () => print("table question_script_response exists"));
   });
 
   return completer.future;
