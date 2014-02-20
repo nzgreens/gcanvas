@@ -13,7 +13,7 @@ dependencies:
   mime: any
   polymer: any
   postgresql: any
-  route_hierarchical: any
+  route: any
   uuid: any
 dev_dependencies:
   unittest: any
@@ -22,4 +22,3 @@ transformers:
 - polymer:
     entry_points:
       - web/index.html
-      - web/add_address.html
