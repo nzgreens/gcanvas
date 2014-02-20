@@ -22,3 +22,4 @@ transformers:
 - polymer:
     entry_points:
       - web/index.html
+      - web/add_address.html
