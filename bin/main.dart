@@ -23,9 +23,8 @@ UrlPattern indivAddrMatch = new UrlPattern(r'/address/(\d+)');
 UrlPattern serveAddrJsonMatch = new UrlPattern(r'/address');
 
 
-main(args) {
-  var password = Platform.environment['POSTGRESQL_PASSWORD'] == null ? 'gcanvasbkd7ffvf' : Platform.environment['POSTGRESQL_PASSWORD'];
-  var postgres_uri = 'postgres://postgres:$password@localhost:5432/gcanvas';
+main(List<String> args) {
+  var postgres_uri = Platform.environment['HEROKU_POSTGRESQL_CHARCOAL_URL'] == null ? 'postgres://postgres:gcanvasbkd7ffvf@localhost:5432/gcanvas' : Platform.environment['HEROKU_POSTGRESQL_CHARCOAL_URL'];
   var portEnv = Platform.environment['PORT'];
   var port = portEnv == null ? 9999 : int.parse(portEnv);
 
@@ -91,7 +90,7 @@ main(args) {
 
   HttpServer.bind(InternetAddress.ANY_IP_V4, port).then((HttpServer server) {
     print("Listening on address ${server.address.address}:${port}" );
-    String buildBaseDir = "build/web";
+    String buildBaseDir = args.length > 0 ? args[0] : "build/web";
     String packageBaseDir = ".";
     new Directory(buildBaseDir).exists().then((exists) {
       if(exists) {
