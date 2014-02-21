@@ -169,3 +169,13 @@ Future<bool> createQuestionScriptResponseTable(Pool pool, String dbName) {
 
   return completer.future;
 }
+
+
+Future<List<Address>> fetchAddresses(String uri) {
+
+}
+
+
+Future<int> populateAddressTable(Pool pool, {source: addressUri, callBack: fetchAddresses}) {
+  
+}

@@ -41,22 +41,24 @@ Function serveAddresses(Pool pool) {
       print("serveAddresses");
       var sql = "SELECT * FROM address WHERE latitude < ${lat+oneKmOfLatOrLng} AND latitude > ${lat-oneKmOfLatOrLng} AND longitude < ${lng+oneKmOfLatOrLng} AND longitude > ${lng-oneKmOfLatOrLng} AND visited=false;";
       pool.connect().then((Connection conn) {
-        conn.query(sql).toList().then((List rows) {
-          request.response
-            ..write(JSON.encode(
-              rows.map((row) => new Address(
-                                        row.id,
-                                        row.street,
-                                        row.suburb,
-                                        row.city,
-                                        row.postcode,
-                                        row.latitude,
-                                        row.longitude,
-                                        row.visited
-                                      )).toList()
-            ))
-            ..close();
-        });
+        conn
+          ..query(sql).toList().then((List rows) {
+            request.response
+              ..write(JSON.encode(
+                      rows.map((row) => new Address(
+                              row.id,
+                              row.street,
+                              row.suburb,
+                              row.city,
+                              row.postcode,
+                              row.latitude,
+                              row.longitude,
+                              row.visited
+                                                    )).toList()
+                                  ))
+              ..close();
+          })
+          ..close();
       });
     } on FormatException catch(e) {
       print("wrong :-) $e");
@@ -100,13 +102,15 @@ Function uploadAddressesCsv(Pool pool) {
 
       //wait till we have the data in the format we want before opening a connection
       pool.connect().then((Connection conn) {
-        conn.execute(sqlInsert).then((int rowsAdded){
-          var result = {'rows': rowsAdded, 'errors': errors.toString()};
-          request.response
-            ..write(JSON.encode(result))
-            ..close()
-            ;
-        });
+        conn
+          ..execute(sqlInsert).then((int rowsAdded){
+            var result = {'rows': rowsAdded, 'errors': errors.toString()};
+            request.response
+              ..write(JSON.encode(result))
+              ..close()
+              ;
+          })
+          ..close();
       });
     });
   };
@@ -136,13 +140,15 @@ Function uploadAddressesJson(Pool pool) {
 
         //wait till we have the data in the format we want before opening a connection
         pool.connect().then((Connection conn) {
-          conn.execute(sqlInsert).then((int rowsAdded){
-            var result = {'rows': rowsAdded, 'errors': errors.toString()};
-            request.response
-              ..write(JSON.encode(result))
-              ..close()
-              ;
-          });
+          conn
+            ..execute(sqlInsert).then((int rowsAdded){
+              var result = {'rows': rowsAdded, 'errors': errors.toString()};
+              request.response
+                ..write(JSON.encode(result))
+                ..close()
+                ;
+            })
+            ..close();
         });
       } catch(all) {
         print(all);
@@ -165,22 +171,24 @@ Function getAddressesJson(Pool pool) {
     var sqlSelect = "SELECT * from address";
     print ("getAddressesJson");
     pool.connect().then((Connection conn) {
-      conn.query(sqlSelect)..toList().then((List rows) {
-        request.response
-          ..write(JSON.encode(
-            rows.map((row) => new Address(
-                                      row.id,
-                                      row.street,
-                                      row.suburb,
-                                      row.city,
-                                      row.postcode,
-                                      row.latitude,
-                                      row.longitude,
-                                      row.visited
-                                    )).toList()
-          ))
-          ..close();
-      });
+      conn
+        ..query(sqlSelect)..toList().then((List rows) {
+          request.response
+            ..write(JSON.encode(
+                    rows.map((row) => new Address(
+                            row.id,
+                            row.street,
+                            row.suburb,
+                            row.city,
+                            row.postcode,
+                            row.latitude,
+                            row.longitude,
+                            row.visited
+                                                  )).toList()
+                                ))
+            ..close();
+        })
+        ..close();
     });
   };
 }
@@ -199,26 +207,28 @@ Function getAddressJson(Pool pool) {
     var sqlSelect = "SELECT * from address WHERE id=$id";
     //
     pool.connect().then((Connection conn) {
-      conn.query(sqlSelect)..toList().then((List rows) {
-        if(rows.length > 0) {
-        request.response
-          ..write(JSON.encode(
-            rows.map((row) => new Address(
-                                      row.id,
-                                      row.street,
-                                      row.suburb,
-                                      row.city,
-                                      row.postcode,
-                                      row.latitude,
-                                      row.longitude,
-                                      row.visited
-                                    )).toList()
-          ))
-          ..close();
-        } else {
-          send404(request);
-        }
-      });
+      conn
+        ..query(sqlSelect)..toList().then((List rows) {
+          if(rows.length > 0) {
+            request.response
+              ..write(JSON.encode(
+                      rows.map((row) => new Address(
+                              row.id,
+                              row.street,
+                              row.suburb,
+                              row.city,
+                              row.postcode,
+                              row.latitude,
+                              row.longitude,
+                              row.visited
+                                                    )).toList()
+                                  ))
+              ..close();
+          } else {
+            send404(request);
+          }
+        })
+        ..close();
     });
   };
 }
@@ -242,13 +252,15 @@ Function modifyAddressJson(Pool pool) {
         String updates = keyVals.join(",");
         var sqlUpdate = 'UPDATE address SET $updates WHERE id="$id";';
         pool.connect().then((Connection conn) {
-          conn.execute(sqlUpdate).then((int rowsUpdated){
-            var result = {'success': true, 'rowsUpdated': rowsUpdated};
-            request.response
-              ..write(JSON.encode(result))
-              ..close()
-              ;
-          });
+          conn
+            ..execute(sqlUpdate).then((int rowsUpdated){
+              var result = {'success': true, 'rowsUpdated': rowsUpdated};
+              request.response
+                ..write(JSON.encode(result))
+                ..close()
+                ;
+            })
+            ..close();
         });
       } catch(all) {
 
@@ -271,13 +283,15 @@ Function deleteAddressJson(Pool pool) {
 
     var sqlDelete = "DELETE FROM address where id=$id;";
     pool.connect().then((Connection conn) {
-      conn.execute(sqlDelete).then((int rowsDeleted){
-        var result = {'success': true, 'rowsDeleted': rowsDeleted};
-        request.response
-          ..write(JSON.encode(result))
-          ..close()
-          ;
-      });
+      conn
+        ..execute(sqlDelete).then((int rowsDeleted){
+          var result = {'success': true, 'rowsDeleted': rowsDeleted};
+          request.response
+            ..write(JSON.encode(result))
+            ..close()
+            ;
+        })
+        ..close();
     });
   };
 }

@@ -18,7 +18,7 @@ part 'dbsetup.dart';
 part 'utils.dart';
 
 //need these for the pattern matching like \d+ to work.
-UrlPattern serveAddrMatch = new UrlPattern(r'/address/(-?\d+\.\d+)/(\d+\.\d)');
+UrlPattern serveAddrMatch = new UrlPattern(r'/address/(-?\d+\.\d+)/(\d+\.\d+)');
 UrlPattern indivAddrMatch = new UrlPattern(r'/address/(\d+)');
 UrlPattern serveAddrJsonMatch = new UrlPattern(r'/address');
 
