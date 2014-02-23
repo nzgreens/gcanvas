@@ -7,9 +7,11 @@ import 'package:postgresql/postgresql_pool.dart';
 
 class DBConnection {
   Pool _pool;
+  String dbName;
 
   DBConnection() {
     var postgres_uri = Platform.environment['HEROKU_POSTGRESQL_CHARCOAL_URL'] == null ? 'postgres://postgres:gcanvasbkd7ffvf@localhost:5432/gcanvas' : Platform.environment['HEROKU_POSTGRESQL_CHARCOAL_URL'];
+    dbName = postgres_uri.split('/').last;
     _pool = new Pool(postgres_uri, min: 2, max: 10);
   }
 

@@ -6,6 +6,15 @@ part of gcanvas.server;
 // import 'package:postgresql/postgresql.dart';
 // import 'package:postgresql/postgresql_pool.dart';
 
+Map<String, Function> _tables => {
+  "address": createAddressTable,
+  "resident": createResidentTable,
+  "resident_response": createResidentResponseTable,
+  "resident_response_proxy": createResidentResponseProxyTable,
+  "question_script": createQuestionScriptTable,
+  "question_script_response": createQuestionScriptResponseTable
+
+};
 
 String get
   _createAddressSQL =>
@@ -203,7 +212,7 @@ Future<Map> fetchAddresses() {
 }
 
 
-Future<int> populateAddressTable(
+Future<int> populateTables(
     DBConnection conn,
     {
       Future<Map> fetchCallback(): fetchAddresses,
@@ -221,3 +230,12 @@ Future<int> populateAddressTable(
   return completer.future;
 }
 
+
+void resetDB(DBConnection conn) {
+  _tables.forEach((table, createTable) {
+    String sql = "DROP TABLE $table;";
+    conn.execute(sql).then((_) {
+      createTable(conn, conn.dbName);
+    });
+  });
+}
