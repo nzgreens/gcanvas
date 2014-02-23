@@ -8,6 +8,8 @@ class Address extends Reflectable {
   @reflectable String suburb;
   @reflectable String city;
   @reflectable String postcode;
+  @reflectable int meshblock;
+  @reflectable int electorate;
   @reflectable num latitude;
   @reflectable num longitude;
   @reflectable bool visited = false;
@@ -19,6 +21,8 @@ class Address extends Reflectable {
       this.suburb,
       this.city,
       this.postcode,
+      this.meshblock,
+      this.electorate,
       this.latitude,
       this.longitude,
       this.visited
@@ -34,6 +38,8 @@ class Address extends Reflectable {
       String suburb: "",
       String city: "",
       String postcode: "",
+      int meshblock: -1,
+      int electorate: -1,
       num latitude: 0,
       num longitude: 0,
       bool visited: false}) {
@@ -43,6 +49,8 @@ class Address extends Reflectable {
           suburb,
           city,
           postcode,
+          meshblock,
+          electorate,
           latitude,
           longitude,
           visited
@@ -57,6 +65,8 @@ class Address extends Reflectable {
       var suburb = map['suburb'];
       var city = map['city'];
       var postcode = map['postcode'];
+      var meshblock = map['meshblock'];
+      var electorate = map['electorate'];
       var latitude = map['latitude'];
       var longitude = map['longitude'];
       var visited = map['visited'];
@@ -67,6 +77,8 @@ class Address extends Reflectable {
                             suburb: suburb,
                             city: city,
                             postcode: postcode,
+                            meshblock: meshblock,
+                            electorate: electorate,
                             latitude: latitude,
                             longitude: longitude,
                             visited: visited);
@@ -81,6 +93,8 @@ class Address extends Reflectable {
       "suburb": suburb,
       "city": city,
       "postcode": postcode,
+      "meshblock": meshblock,
+      "electorate": electorate,
       "latitude": latitude,
       "longitude": longitude,
       "visited": visited

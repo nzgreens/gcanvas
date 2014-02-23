@@ -1,16 +1,16 @@
 part of gcanvas.test;
 
 void appstatectrl_test() {
-  solo_group("[AppStateCtrl]", () {
-    var address3 = new Address(
-        3,
-        "52 Bignell street",
-        "Gonville",
-        "Wanganui",
-        "4501",
-        169.201928,
-        49.21112,
-        false);
+  group("[AppStateCtrl]", () {
+    var address3 = new Address.create(
+        id: 3,
+        street: "52 Bignell street",
+        suburb: "Gonville",
+        city: "Wanganui",
+        postcode: "4501",
+        latitude: 169.201928,
+        longitude: 49.21112,
+        visited: false);
     var store = new StoreCtrlMock();
 
     var state = new State(false, true, address3);

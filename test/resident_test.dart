@@ -2,22 +2,22 @@ part of gcanvas_test;
 
 void resident_test() {
   group("[gCanvas Resident class]", () {
-      var address = new Address(
-          1,
-          "48 Bignell street",
-          "Gonville",
-          "Wanganui",
-          "4501",
-          169.201928,
-          49.21112,
-          false);
+      var address = new Address.create(
+          id: 1,
+          street: "48 Bignell street",
+          suburb: "Gonville",
+          city: "Wanganui",
+          postcode: "4501",
+          latitude: 169.201928,
+          longitude: 49.21112,
+          visited: false);
 
-      var voter = new Resident(
-        1,
-        "Bob",
-        "Kate",
-        new DateTime(1973, 4, 10),
-        address
+      var voter = new Resident.create(
+          id: 1,
+          firstname: "Bob",
+          lastname: "Kate",
+          // new DateTime(1973, 4, 10),
+          address: address
       );
 
 
@@ -36,9 +36,9 @@ void resident_test() {
       });
 
 
-      test("dob is 10/4/1973", () {
+      /*test("dob is 10/4/1973", () {
         expect(voter.dob, equals(new DateTime(1973, 4, 10)));
-      });
+        });*/
 
 
       test("address is address", () {
@@ -49,9 +49,13 @@ void resident_test() {
       test("toMap works", () {
         var expected = {
           'id': 1,
+          'title': '',
           'firstname': 'Bob',
+          'middlenames': '',
           'lastname': 'Kate',
-          'dob': new DateTime(1973, 4, 10).toString(),
+          'occupation': '',
+          'gender': '',
+            //'dob': new DateTime(1973, 4, 10).toString(),
           'address': address.toMap()
         };
 
@@ -64,7 +68,7 @@ void resident_test() {
           'id': 1,
           'firstname': 'Bob',
           'lastname': 'Kate',
-          'dob': new DateTime(1973, 4, 10).toString(),
+            //'dob': new DateTime(1973, 4, 10).toString(),
           'address': address.toMap()
         };
 
@@ -72,7 +76,7 @@ void resident_test() {
         expect(copy.id, equals(1));
         expect(copy.firstname, equals("Bob"));
         expect(copy.lastname, equals("Kate"));
-        expect(copy.dob, equals(new DateTime(1973, 4, 10)));
+        //expect(copy.dob, equals(new DateTime(1973, 4, 10)));
         expect(copy.address.id, equals(1));
       });
     });

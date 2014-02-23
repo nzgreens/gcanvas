@@ -14,8 +14,14 @@ import 'package:http_server/http_server.dart';
 
 import 'package:gcanvas/address.dart';
 
+import 'dbconnection.dart';
+
 part 'dbsetup.dart';
 part 'utils.dart';
+
+var externalAddressSrc = "";
+var username = "";
+var password = "";
 
 //need these for the pattern matching like \d+ to work.
 UrlPattern serveAddrMatch = new UrlPattern(r'/address/(-?\d+\.\d+)/(\d+\.\d+)');
@@ -29,65 +35,66 @@ main(List<String> args) {
   var port = portEnv == null ? 9999 : int.parse(portEnv);
 
   //seems the max number here will stop some connections altogether rather than just delay, while waiting for a connection, as I expected.
-  var pool = new Pool(postgres_uri, min: 2, max: 10);
+  var conn = new DBConnection();
   String dbName = postgres_uri.split('/').last;
-  addressTableExists(pool, dbName).then((exists) {
+  addressTableExists(conn, dbName).then((exists) {
     print("address: $exists");
     if (!exists) {
-      createAddressTable(pool, dbName).then((success) {
+      createAddressTable(conn, dbName).then((success) {
         print("created address: $success");
       });
     }
   });
 
-  questionScriptResponseTableExists(pool, dbName).then((exists) {
+  questionScriptResponseTableExists(conn, dbName).then((exists) {
     print("question_script_response: $exists");
     if (!exists) {
-      createQuestionScriptResponseTable(pool, dbName).then((success) {
+      createQuestionScriptResponseTable(conn, dbName).then((success) {
         print("created question_script response: $success");
       });
     }
   });
 
 
-  questionScriptTableExists(pool, dbName).then((exists) {
+  questionScriptTableExists(conn, dbName).then((exists) {
     print("question_script: $exists");
     if (!exists) {
-      createQuestionScriptTable(pool, dbName).then((success) {
+      createQuestionScriptTable(conn, dbName).then((success) {
         print("created question_script: $success");
       });
     }
   });
 
 
-  residentResponseProxyTableExists(pool, dbName).then((exists) {
+  residentResponseProxyTableExists(conn, dbName).then((exists) {
     print("resident_response_proxy: $exists");
     if (!exists) {
-      createResidentResponseProxyTable(pool, dbName).then((success) {
+      createResidentResponseProxyTable(conn, dbName).then((success) {
         print("created resident_response_proxy: $success");
       });
     }
   });
 
 
-  residentResponseTableExists(pool, dbName).then((exists) {
+  residentResponseTableExists(conn, dbName).then((exists) {
     print("resident_response: $exists");
     if (!exists) {
-      createResidentResponseTable(pool, dbName).then((success) {
+      createResidentResponseTable(conn, dbName).then((success) {
         print("created resident_response: $success");
       });
     }
   });
 
 
-  residentTableExists(pool, dbName).then((exists) {
+  residentTableExists(conn, dbName).then((exists) {
     print("resident: $exists");
     if (!exists) {
-      createResidentTable(pool, dbName).then((success) {
+      createResidentTable(conn, dbName).then((success) {
         print("created resident: $success");
       });
     }
   });
+
 
   HttpServer.bind(InternetAddress.ANY_IP_V4, port).then((HttpServer server) {
     print("Listening on address ${server.address.address}:${port}" );
@@ -104,13 +111,13 @@ main(List<String> args) {
           ..serve(r'/index.html_bootstrap.dart.js').listen(serveFile('${buildBaseDir}/index.html_bootstrap.dart.js'))
           ..serve(r'/assets/gcanvas/images/rotate2.png').listen(serveFile('${buildBaseDir}/assets/gcanvas/images/rotate2.png'))
           ..serve(r'/assets/gcanvas/images/controls1.png').listen(serveFile('${buildBaseDir}/assets/gcanvas/images/controls1.png'))
-          ..serve(r'/address/csv', method: 'post'.toUpperCase()).listen(uploadAddressesCsv(pool))
-          ..serve(serveAddrMatch).listen(serveAddresses(pool))
-          ..serve(serveAddrJsonMatch, method: 'get'.toUpperCase()).listen((getAddressesJson(pool)))
-          ..serve(serveAddrJsonMatch, method: 'post'.toUpperCase()).listen((uploadAddressesJson(pool)))
-          ..serve(indivAddrMatch, method: 'get'.toUpperCase()).listen((getAddressJson(pool)))
-          ..serve(indivAddrMatch, method: 'put'.toUpperCase()).listen((modifyAddressJson(pool)))
-          ..serve(indivAddrMatch, method: 'delete'.toUpperCase()).listen((deleteAddressJson(pool)))
+          ..serve(r'/address/csv', method: 'post'.toUpperCase()).listen(uploadAddressesCsv(conn))
+          ..serve(serveAddrMatch).listen(serveAddresses(conn))
+          ..serve(serveAddrJsonMatch, method: 'get'.toUpperCase()).listen((getAddressesJson(conn)))
+          //..serve(serveAddrJsonMatch, method: 'post'.toUpperCase()).listen((uploadAddressesJson(conn)))
+          ..serve(indivAddrMatch, method: 'get'.toUpperCase()).listen((getAddressJson(conn)))
+          //..serve(indivAddrMatch, method: 'put'.toUpperCase()).listen((modifyAddressJson(conn)))
+          //..serve(indivAddrMatch, method: 'delete'.toUpperCase()).listen((deleteAddressJson(conn)))
           ..defaultStream.listen(serve404);
           ;
       } else {

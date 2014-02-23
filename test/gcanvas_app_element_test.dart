@@ -30,20 +30,20 @@ void gcanvas_app_element_test() {
         );
       });
 
-      test("has back button", () {
+      /*test("has back button", () {
         ButtonElement back = querySelector("gcanvas-app").shadowRoot.querySelector("#back");
         expect(
           back,
           isNotNull
         );
-      });
+        });*/
 
-      test("start screen back button is hidden", () {
+      /*test("start screen back button is hidden", () {
         ButtonElement back = querySelector("gcanvas-app").shadowRoot.querySelector("#back");
         expect(
           back.hidden,
           isTrue
         );
-      });
+      });*/
     });
 }

@@ -5,56 +5,56 @@ void storectrl_test() {
   group("[gcanvas StoreCtrl]", () {
       var storeCtrl = new StoreCtrl.create();
 
-      var address = new Address(
-            1,
-            "48 Bignell street",
-            "Gonville",
-            "Wanganui",
-            "4501",
-            169.201928,
-            49.21112,
-            false);
+      var address = new Address.create(
+          id: 1,
+          street: "48 Bignell street",
+          suburb: "Gonville",
+          city: "Wanganui",
+          postcode: "4501",
+          latitude: 169.201928,
+          longitude: 49.21112,
+          visited: false);
 
-        var address2 = new Address(
-            2,
-            "50 Bignell street",
-            "Gonville",
-            "Wanganui",
-            "4501",
-            169.201928,
-            49.21112,
-            false);
+        var address2 = new Address.create(
+            id: 2,
+            street: "50 Bignell street",
+            suburb: "Gonville",
+            city: "Wanganui",
+            postcode: "4501",
+            latitude: 169.201928,
+            longitude: 49.21112,
+            visited: false);
 
-        var address3 = new Address(
-            3,
-            "52 Bignell street",
-            "Gonville",
-            "Wanganui",
-            "4501",
-            169.201928,
-            49.21112,
-            false);
+        var address3 = new Address.create(
+            id: 3,
+            street: "52 Bignell street",
+            suburb: "Gonville",
+            city: "Wanganui",
+            postcode: "4501",
+            latitude: 169.201928,
+            longitude: 49.21112,
+            visited: false);
 
-        var voter = new Resident(
-            1,
-            "Bob",
-            "Kate",
-            new DateTime(1973, 4, 10),
-            address);
+        var voter = new Resident.create(
+            id: 1,
+            firstname: "Bob",
+            lastname: "Kate",
+            //new DateTime(1973, 4, 10),
+            address: address);
 
-        var voter2 = new Resident(
-            2,
-            "Bobby",
-            "Kate",
-            new DateTime(1973, 4, 10),
-            address2);
+        var voter2 = new Resident.create(
+            id: 2,
+            firstname: "Bobby",
+            lastname: "Kate",
+            //new DateTime(1973, 4, 10),
+            address: address2);
 
-        var voter3 = new Resident(
-            3,
-            "Bobby3",
-            "Kate",
-            new DateTime(1973, 4, 10),
-            address2);
+        var voter3 = new Resident.create(
+            id: 3,
+            firstname: "Bobby3",
+            lastname: "Kate",
+            //new DateTime(1973, 4, 10),
+            address: address2);
 
 
       setUp(() {
@@ -106,15 +106,8 @@ void storectrl_test() {
 
 
       test("gets a list of all addresses", () {
-        var nullAddress = new Address(
-                -1,
-                "",
-                "",
-                "",
-                "",
-                0,
-                0,
-                false);
+        var nullAddress = new Address.create();
+
         var batched = {"2": address2.toMap(), "3": address3.toMap()};
         Future future = storeCtrl.addressStore.batch(batched).then((_) {
           Future future = storeCtrl.getAddressList();
@@ -148,13 +141,14 @@ void storectrl_test() {
 
 
       test("gets a list of residents at address", () {
-          var nullResident = new Resident(
-              -1,
-              "",
-              "",
-              new DateTime(1, 1, 1),
-              address3
+          var nullResident = new Resident.create(
+              id: -1,
+              firstname: "",
+              lastname: "",
+              //new DateTime(1, 1, 1),
+              address: address3
           );
+
           Future future = storeCtrl.getResidentsAtAddress(address2);
           future.then((residents) {
             expect(residents.length, equals(2));
@@ -175,7 +169,7 @@ void storectrl_test() {
           expect(copy.id, equals(voter2.id));
           expect(copy.firstname, equals(voter2.firstname));
           expect(copy.lastname, equals(voter2.lastname));
-          expect(copy.dob, equals(voter2.dob));
+          //expect(copy.dob, equals(voter2.dob));
           expect(copy.address.id, equals(voter2.address.id));
         });
 

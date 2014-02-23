@@ -54,8 +54,7 @@ Function serveAddresses(Pool pool) {
                               row.latitude,
                               row.longitude,
                               row.visited
-                                                    )).toList()
-                                  ))
+                                                    )).toList()))
               ..close();
           })
           ..close();
@@ -129,26 +128,14 @@ Function uploadAddressesJson(Pool pool) {
       var jsonStrData = body.body.toString();
       try {
         List<Map> jsonData = JSON.decode(jsonStrData);
-        var errors = new StringBuffer();
 
-        var massInsertData = jsonData.map((Map addressMap) {
-          return '("${addressMap['street']}","${addressMap['suburb']}","${addressMap['city']}","${addressMap['postcode']}","${addressMap['latitude']}","${addressMap['longitude']}","${addressMap['visited']}")';
-        }).toList();
 
-        //prepare the statement
-        var sqlInsert = "INSERT INTO address (street,suburb,city,postcode,latitude,longitude,visited) VALUES ${massInsertData.join(",")};";
-
-        //wait till we have the data in the format we want before opening a connection
-        pool.connect().then((Connection conn) {
-          conn
-            ..execute(sqlInsert).then((int rowsAdded){
-              var result = {'rows': rowsAdded, 'errors': errors.toString()};
-              request.response
-                ..write(JSON.encode(result))
-                ..close()
-                ;
-            })
-            ..close();
+        massInsertOfAddresses(pool, jsonData).then((rowsAdded) {
+          var result = {'rows': rowsAdded};
+          request.response
+            ..write(JSON.encode(result))
+            ..close()
+            ;
         });
       } catch(all) {
         print(all);
@@ -172,7 +159,7 @@ Function getAddressesJson(Pool pool) {
     print ("getAddressesJson");
     pool.connect().then((Connection conn) {
       conn
-        ..query(sqlSelect)..toList().then((List rows) {
+        ..query(sqlSelect).toList().then((List rows) {
           request.response
             ..write(JSON.encode(
                     rows.map((row) => new Address(
@@ -208,7 +195,7 @@ Function getAddressJson(Pool pool) {
     //
     pool.connect().then((Connection conn) {
       conn
-        ..query(sqlSelect)..toList().then((List rows) {
+        ..query(sqlSelect).toList().then((List rows) {
           if(rows.length > 0) {
             request.response
               ..write(JSON.encode(
@@ -248,7 +235,7 @@ Function modifyAddressJson(Pool pool) {
       var jsonStrData = body.body.toString();
       try {
         Map jsonData = JSON.decode(jsonStrData);
-        List<String> keyVals = jsonData.map((key, val) => '$key="$val"');
+        List<String> keyVals = jsonData.keys.map((key) => '$key="${jsonData[key]}"');
         String updates = keyVals.join(",");
         var sqlUpdate = 'UPDATE address SET $updates WHERE id="$id";';
         pool.connect().then((Connection conn) {

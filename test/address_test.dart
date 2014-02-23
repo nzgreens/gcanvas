@@ -5,15 +5,15 @@ void address_test() {
       var address;
 
       setUp(() {
-        address = new Address(
-            1,
-            "48 Bignell street",
-            "Gonville",
-            "Wanganui",
-            "4501",
-            169.201928,
-            49.21112,
-            false);
+        address = new Address.create(
+            id: 1,
+            street: "48 Bignell street",
+            suburb: "Gonville",
+            city: "Wanganui",
+            postcode: "4501",
+            latitude: 169.201928,
+            longitude: 49.21112,
+            visited: false);
 
       });
 
@@ -63,6 +63,8 @@ void address_test() {
           "suburb": "Gonville",
           "city": "Wanganui",
           "postcode": "4501",
+          'meshblock': -1,
+          'electorate': -1,
           "latitude": 169.201928,
           "longitude": 49.21112,
           "visited": false

@@ -6,35 +6,35 @@ class HttpMock extends Mock implements DelayedHttp {}
 
 void addresslistctrl_test() {
   group("[Address List Ctrl]", () {
-    var address = new Address(
-        1,
-        "48 Bignell street",
-        "Gonville",
-        "Wanganui",
-        "4501",
-        169.201928,
-        49.21112,
-        false);
+    var address = new Address.create(
+        id: 1,
+        street: "48 Bignell street",
+        suburb: "Gonville",
+        city: "Wanganui",
+        postcode: "4501",
+        latitude: 169.201928,
+        longitude: 49.21112,
+        visited: false);
 
-    var address2 = new Address(
-        2,
-        "50 Bignell street",
-        "Gonville",
-        "Wanganui",
-        "4501",
-        169.201928,
-        49.21112,
-        false);
+    var address2 = new Address.create(
+        id: 2,
+        street: "50 Bignell street",
+        suburb: "Gonville",
+        city: "Wanganui",
+        postcode: "4501",
+        latitude: 169.201928,
+        longitude: 49.21112,
+        visited: false);
 
-    var address3 = new Address(
-        3,
-        "52 Bignell street",
-        "Gonville",
-        "Wanganui",
-        "4501",
-        169.201928,
-        49.21112,
-        false);
+    var address3 = new Address.create(
+        id: 3,
+        street: "52 Bignell street",
+        suburb: "Gonville",
+        city: "Wanganui",
+        postcode: "4501",
+        latitude: 169.201928,
+        longitude: 49.21112,
+        visited: false);
 
     var store = new StoreCtrlMock();
     var addressList = [address, address2];

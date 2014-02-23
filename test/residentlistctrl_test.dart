@@ -3,57 +3,57 @@ part of gcanvas_test;
 
 void residentlistctrl_test() {
   group("[ResidentListCtrl]", () {
-    var address = new Address(
-        1,
-        "48 Bignell street",
-        "Gonville",
-        "Wanganui",
-        "4501",
-        169.201928,
-        49.21112,
-        false);
+    var address = new Address.create(
+        id: 1,
+        street: "48 Bignell street",
+        suburb: "Gonville",
+        city: "Wanganui",
+        postcode: "4501",
+        latitude: 169.201928,
+        longitude: 49.21112,
+        visited: false);
 
-    var address2 = new Address(
-        2,
-        "50 Bignell street",
-        "Gonville",
-        "Wanganui",
-        "4501",
-        169.201928,
-        49.21112,
-        false);
+    var address2 = new Address.create(
+        id: 2,
+        street: "50 Bignell street",
+        suburb: "Gonville",
+        city: "Wanganui",
+        postcode: "4501",
+        latitude: 169.201928,
+        longitude: 49.21112,
+        visited: false);
 
-    var address3 = new Address(
-        3,
-        "52 Bignell street",
-        "Gonville",
-        "Wanganui",
-        "4501",
-        169.201928,
-        49.21112,
-        false);
+    var address3 = new Address.create(
+        id: 3,
+        street: "52 Bignell street",
+        suburb: "Gonville",
+        city: "Wanganui",
+        postcode: "4501",
+        latitude: 169.201928,
+        longitude: 49.21112,
+        visited: false);
 
 
-    var voter = new Resident(
-        1,
-        "Bob",
-        "Kate",
-        new DateTime(1973, 4, 10),
-        address);
+    var voter = new Resident.create(
+        id: 1,
+        firstname: "Bob",
+        lastname: "Kate",
+        //new DateTime(1973, 4, 10),
+        address: address);
 
-    var voter2 = new Resident(
-        2,
-        "Bobby",
-        "Kate",
-        new DateTime(1973, 4, 10),
-        address2);
+    var voter2 = new Resident.create(
+        id: 2,
+        firstname: "Bobby",
+        lastname: "Kate",
+        //new DateTime(1973, 4, 10),
+        address: address2);
 
-    var voter3 = new Resident(
-        3,
-        "Bobby3",
-        "Kate",
-        new DateTime(1973, 4, 10),
-        address2);
+    var voter3 = new Resident.create(
+        id: 3,
+        firstname: "Bobby3",
+        lastname: "Kate",
+        //new DateTime(1973, 4, 10),
+        address: address2);
 
     var residentList = [voter2, voter3];
     var store = new StoreCtrlMock();
