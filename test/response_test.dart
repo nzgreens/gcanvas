@@ -56,12 +56,12 @@ void response_test() {
         address: address2);
 
     setUp(() {
-      resResponse = new ResidentResponse(address);
+      resResponse = new ResidentResponse.create(address: address);
     });
 
 
     test("response from address", () {
-      var response = new ResidentResponse(address2);
+      var response = new ResidentResponse.create(address: address2);
       expect(response, isNotNull);
     });
 

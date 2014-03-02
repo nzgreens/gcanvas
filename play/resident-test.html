@@ -19,8 +19,8 @@
     @CustomTag('resident-test')
     class ResidentTestElement extends PolymerElement {
       
-      Resident resident = new Resident(0, "Jim", "Masters", null, null);
-      Resident resident2 = new Resident(0, "Tina", "Masters", null, null);
+      Resident resident = new Resident.create(id: 0, firstname: "Jim", lastname: "Masters");
+      Resident resident2 = new Resident.create(id: 1, firstname: "Tina", lastname: "Masters");
       
       String script = '<select name="sel"><option>val1</option><option>val2</option></select><br><textarea name="area"></textarea><br><input type="radio" name="test" value="1"><input type="radio" name="test" value="2"><br><input type="text" name="text">';
       

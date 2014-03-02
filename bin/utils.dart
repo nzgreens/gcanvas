@@ -27,7 +27,7 @@ Function serveFile(String filename) {
 }
 
 
-Function serveAddresses(Pool pool) {
+Function serveAddresses(DBConnection conn) {
   var type = "application";
   var subType = "json";
   return (HttpRequest request) {
@@ -40,25 +40,24 @@ Function serveAddresses(Pool pool) {
 
       print("serveAddresses");
       var sql = "SELECT * FROM address WHERE latitude < ${lat+oneKmOfLatOrLng} AND latitude > ${lat-oneKmOfLatOrLng} AND longitude < ${lng+oneKmOfLatOrLng} AND longitude > ${lng-oneKmOfLatOrLng} AND visited=false;";
-      pool.connect().then((Connection conn) {
-        conn
-          ..query(sql).toList().then((List rows) {
-            request.response
-              ..write(JSON.encode(
-                      rows.map((row) => new Address(
-                              row.id,
-                              row.street,
-                              row.suburb,
-                              row.city,
-                              row.postcode,
-                              row.latitude,
-                              row.longitude,
-                              row.visited
-                                                    )).toList()))
-              ..close();
-          })
-          ..close();
-      });
+      conn
+        ..query(sql).then((List rows) {
+          request.response
+            ..write(JSON.encode(
+                    rows.map((row) => new Address.create(
+                            id: row.id,
+                            street: row.street,
+                            suburb: row.suburb,
+                            city: row.city,
+                            postcode: row.postcode,
+                            meshblock: row.meshblock,
+                            electorate: row.electorate,
+                            latitude: row.latitude,
+                            longitude: row.longitude,
+                            visited: row.visited
+                                                         )).toList()))
+            ..close();
+        });
     } on FormatException catch(e) {
       print("wrong :-) $e");
       request.response.close();
@@ -71,7 +70,7 @@ Function serveAddresses(Pool pool) {
 }
 
 
-Function uploadAddressesCsv(Pool pool) {
+Function uploadAddressesCsv(DBConnection conn) {
   var type = "application";
   var subType = "json";
   return (HttpRequest request) {
@@ -100,24 +99,21 @@ Function uploadAddressesCsv(Pool pool) {
       var sqlInsert = "INSERT INTO address (street,suburb,city,postcode,latitude,longitude,visited) VALUES ${massInsertData.join(",")};";
 
       //wait till we have the data in the format we want before opening a connection
-      pool.connect().then((Connection conn) {
-        conn
-          ..execute(sqlInsert).then((int rowsAdded){
-            var result = {'rows': rowsAdded, 'errors': errors.toString()};
-            request.response
-              ..write(JSON.encode(result))
-              ..close()
-              ;
-          })
-          ..close();
-      });
+      conn
+        ..execute(sqlInsert).then((int rowsAdded){
+          var result = {'rows': rowsAdded, 'errors': errors.toString()};
+          request.response
+            ..write(JSON.encode(result))
+            ..close()
+            ;
+        });
     });
   };
 }
 
 
 
-Function uploadAddressesJson(Pool pool) {
+Function uploadAddressesJson(DBConnection conn) {
   var type = "application";
   var subType = "json";
   return (HttpRequest request) {
@@ -130,7 +126,7 @@ Function uploadAddressesJson(Pool pool) {
         List<Map> jsonData = JSON.decode(jsonStrData);
 
 
-        massInsertOfAddresses(pool, jsonData).then((rowsAdded) {
+        insertAddresses(conn, jsonData).then((rowsAdded) {
           var result = {'rows': rowsAdded};
           request.response
             ..write(JSON.encode(result))
@@ -150,39 +146,38 @@ Function uploadAddressesJson(Pool pool) {
 
 
 
-Function getAddressesJson(Pool pool) {
+Function getAddressesJson(DBConnection conn) {
   var type = "application";
   var subType = "json";
   return (HttpRequest request) {
     request.response.headers.contentType = new ContentType(type, subType);
     var sqlSelect = "SELECT * from address";
     print ("getAddressesJson");
-    pool.connect().then((Connection conn) {
       conn
-        ..query(sqlSelect).toList().then((List rows) {
+        ..query(sqlSelect).then((List rows) {
           request.response
             ..write(JSON.encode(
-                    rows.map((row) => new Address(
-                            row.id,
-                            row.street,
-                            row.suburb,
-                            row.city,
-                            row.postcode,
-                            row.latitude,
-                            row.longitude,
-                            row.visited
+                    rows.map((row) => new Address.create(
+                            id: row.id,
+                            street: row.street,
+                            suburb: row.suburb,
+                            city: row.city,
+                            postcode: row.postcode,
+                            meshblock: row.meshblock,
+                            electorate: row.electorate,
+                            latitude: row.latitude,
+                            longitude: row.longitude,
+                            visited: row.visited
                                                   )).toList()
                                 ))
             ..close();
-        })
-        ..close();
-    });
+        });
   };
 }
 
 
 
-Function getAddressJson(Pool pool) {
+Function getAddressJson(DBConnection conn) {
   var type = "application";
   var subType = "json";
   return (HttpRequest request) {
@@ -193,40 +188,38 @@ Function getAddressJson(Pool pool) {
     var id = int.parse(path[1]);
     var sqlSelect = "SELECT * from address WHERE id=$id";
     //
-    pool.connect().then((Connection conn) {
-      conn
-        ..query(sqlSelect).toList().then((List rows) {
-          if(rows.length > 0) {
-            request.response
-              ..write(JSON.encode(
-                      rows.map((row) => new Address(
-                              row.id,
-                              row.street,
-                              row.suburb,
-                              row.city,
-                              row.postcode,
-                              row.latitude,
-                              row.longitude,
-                              row.visited
-                                                    )).toList()
-                                  ))
-              ..close();
-          } else {
-            send404(request);
-          }
-        })
-        ..close();
-    });
+    conn
+      ..query(sqlSelect).then((List rows) {
+        if(rows.length > 0) {
+          request.response
+            ..write(JSON.encode(
+                    rows.map((row) => new Address.create(
+                            id: row.id,
+                            street: row.street,
+                            suburb: row.suburb,
+                            city: row.city,
+                            postcode: row.postcode,
+                            electorate: row.electorate,
+                            meshblock: row.meshblock,
+                            latitude: row.latitude,
+                            longitude: row.longitude,
+                            visited: row.visited
+                                                         )).toList()
+                                ))
+            ..close();
+        } else {
+          send404(request);
+        }
+      });
   };
 }
 
 
 
-Function modifyAddressJson(Pool pool) {
+Function modifyAddressJson(DBConnection conn) {
   var type = "application";
   var subType = "json";
   return (HttpRequest request) {
-    print("modifyAddressJson");
     request.response.headers.contentType = new ContentType(type, subType);
     HttpBodyHandler.processRequest(request).then((HttpBody body) {
       var path = request.requestedUri.path.split("/")
@@ -238,17 +231,14 @@ Function modifyAddressJson(Pool pool) {
         List<String> keyVals = jsonData.keys.map((key) => '$key="${jsonData[key]}"');
         String updates = keyVals.join(",");
         var sqlUpdate = 'UPDATE address SET $updates WHERE id="$id";';
-        pool.connect().then((Connection conn) {
-          conn
-            ..execute(sqlUpdate).then((int rowsUpdated){
-              var result = {'success': true, 'rowsUpdated': rowsUpdated};
-              request.response
-                ..write(JSON.encode(result))
-                ..close()
-                ;
-            })
-            ..close();
-        });
+        conn
+          ..execute(sqlUpdate).then((int rowsUpdated){
+            var result = {'success': true, 'rowsUpdated': rowsUpdated};
+            request.response
+              ..write(JSON.encode(result))
+              ..close()
+              ;
+          });
       } catch(all) {
 
       }
@@ -258,7 +248,7 @@ Function modifyAddressJson(Pool pool) {
 
 
 
-Function deleteAddressJson(Pool pool) {
+Function deleteAddressJson(DBConnection conn) {
   var type = "application";
   var subType = "json";
   return (HttpRequest request) {
@@ -269,17 +259,14 @@ Function deleteAddressJson(Pool pool) {
     var id = int.parse(path[1]);
 
     var sqlDelete = "DELETE FROM address where id=$id;";
-    pool.connect().then((Connection conn) {
-      conn
-        ..execute(sqlDelete).then((int rowsDeleted){
-          var result = {'success': true, 'rowsDeleted': rowsDeleted};
-          request.response
-            ..write(JSON.encode(result))
-            ..close()
-            ;
-        })
-        ..close();
-    });
+    conn
+      ..execute(sqlDelete).then((int rowsDeleted){
+        var result = {'success': true, 'rowsDeleted': rowsDeleted};
+        request.response
+          ..write(JSON.encode(result))
+          ..close()
+          ;
+      });
   };
 }
 
@@ -300,7 +287,8 @@ num radiansToDegrees(num rad) {
 
 //I think this is wrong somehow, but I'm keeping it for reference
 //since, I was able to figure out the number of degrees 1 km is by reversing it
-//using a math technique I learnt at school and Uni
+//using a math technique I learnt at school and Uni which seems to agree with
+//figures I see elsewhere
 num distance(double lat1, double lon1, double lat2, double lon2) {
   lat1 = degreesToRadians(lat1);
   lat2 = degreesToRadians(lat2);

@@ -2,6 +2,7 @@ library gcanvas.address;
 
 import 'package:observe/observe.dart' show reflectable, Reflectable;
 
+
 class Address extends Reflectable {
   @reflectable int id;
   @reflectable String street;
@@ -29,7 +30,12 @@ class Address extends Reflectable {
   );
 
 
-  /* allow for flexibility in what an address type is,
+
+  /*
+   * Factory constructor to help future proof this, and minimise refactoring
+   * problems
+   *
+   * Allow for flexibility in what an address type is,
    * ie it can return anything, being a factory method
    */
   factory Address.create({
@@ -58,6 +64,13 @@ class Address extends Reflectable {
   }
 
 
+  /* For converting to an address after fetching data from the local browser
+   * Store.
+   *
+   * It's no good having a factory create method if the fromMap isn't also a
+   * factory method.  All it does is create an address using the create method
+   * after extracting the fields from the map.
+   */
   factory Address.fromMap(Map map) {
     if(map != null) {
       var id = map['id'];
@@ -86,6 +99,9 @@ class Address extends Reflectable {
   }
 
 
+  /*
+   * For use in storing the data in the browser Store.
+   */
   Map toMap() {
     return {
       "id": id,

@@ -1,4 +1,4 @@
-part of gcanvas.test;
+part of gcanvas_test;
 
 void appstatectrl_test() {
   group("[AppStateCtrl]", () {
@@ -44,6 +44,6 @@ void appstatectrl_test() {
       });
       expect(future, completes);
       store.getLogs(callsTo('saveState')).verify(happenedAtLeastOnce);
-    });
+      });
   });
 }

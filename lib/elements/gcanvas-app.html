@@ -1,5 +1,6 @@
 <link rel="import" href="address-list.html">
 <link rel="import" href="address-view.html">
+<link rel="import" href="area-selector.html">
 <polymer-element name="gcanvas-app">
   <template>
     <style>
@@ -46,7 +47,7 @@
         <button id="back" on-click="{{navBack}}">&nbsp;</button>
       </template>
     </div>
-    <h1>gCanvas</h1>
+    <h1 id="title">gCanvas</h1>
     <div class="button_box">
       <button id="refresh" on-click="{{refresh}}">&nbsp;</button>
     </div>
@@ -57,6 +58,9 @@
     </template>
     <template if="{{appState.addressView}}">
       <address-view address="{{appState.address}}" residents="{{residentsAtAddress}}"></address-view>
+    </template>
+    <template if="{{appState.addressSelector && location != null}}">
+      <area-selector location="{{location}}" availableAddresses="{{availableAddresses}}" on-added-marker="{{setupMarker}}"><content></content></area-selector>
     </template>
   </template>
   <script type="application/dart" src="gcanvas_app.dart"></script>

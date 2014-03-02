@@ -1,12 +1,13 @@
 name: gcanvas
 version: 0.0.1
 author: James Hurford <terrasea@gmail.com>
-description: Canvasing App for doorknocking campaigns.
+description: Canvasing App for doorknocking campaigns. '>=0.10.0-pre.0 <0.11.0'
 environment:
   sdk: '>=1.0.0 <2.0.0'
 dependencies:
   browser: any
   csvparser: any
+  google_maps: any
   http_server: any
   image: any
   lawndart: any
@@ -16,10 +17,11 @@ dependencies:
   route: any
   uuid: any
 dev_dependencies:
-  unittest: any
   hop: any
+  unittest: any
 transformers:
 - polymer:
     entry_points:
-      - web/index.html
-      - web/add_address.html
+    - web/index.html
+    - web/add_address.html
+    

@@ -73,7 +73,7 @@ void storectrl_test() {
         return completer.future;
       });
 
-
+      
       test("adds an address", () {
 
         Future future = storeCtrl.addAddress(address);
@@ -89,7 +89,7 @@ void storectrl_test() {
 
         expect(future, completes);
       });
-
+      
 
       test("retreives an address", () {
         Future future = storeCtrl.getAddressById(2);
@@ -125,7 +125,7 @@ void storectrl_test() {
       });
 
 
-
+      
       test("adds a resident", () {
         Future future = storeCtrl.addResident(voter);
         future.then((id) {
@@ -138,7 +138,7 @@ void storectrl_test() {
         });
         expect(future, completes);
       });
-
+      
 
       test("gets a list of residents at address", () {
           var nullResident = new Resident.create(
@@ -161,7 +161,7 @@ void storectrl_test() {
           expect(future, completes);
       });
 
-
+      
       test("retreives a resident", () {
         Future<Resident> future = storeCtrl.getResidentById(2);
 
@@ -210,40 +210,44 @@ void storectrl_test() {
       });
 
 
-
+      
       test("gets current null state", () {
-        Future<State> future = storeCtrl.getState();
-        future.then((state) {
-          expect(state, isNull);
+        Future future = storeCtrl.appstateStore.nuke().then((_) {
+          Future<State> future = storeCtrl.getState();
+          future.then((state) {
+            expect(state, isNull);
+          });
         });
         expect(future, completes);
       });
 
 
-
+      
       test("saves app state", () {
-        State state = new State(false, true, address);
+        State state = new State.create();
         Future<bool> future = storeCtrl.saveState(state);
         future.then((success) {
           expect(success, isTrue);
         });
         expect(future, completes);
       });
-
-
+      
+      
       test("gets a saved state", () {
-        State state = new State(false, true, address);
+        State state = new State.create();
         Future<State> future = storeCtrl.saveState(state).then((_) {
           return storeCtrl.getState();
         });
 
         future.then((state) {
           expect(state, isNotNull);
-          expect(state.address.id, equals(address.id));
+          expect(state.address.id, equals(-1));
+          expect(state.addressSelector, isTrue);
           expect(state.addressListView, isFalse);
-          expect(state.addressView, isTrue);
+          expect(state.addressView, isFalse);
         });
         expect(future, completes);
       });
+           
   });
 }

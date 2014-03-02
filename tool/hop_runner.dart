@@ -7,9 +7,11 @@ import 'package:hop/src/tasks_shared.dart';
 
 import '../bin/dbconnection.dart';
 
+
 void main(List<String> args) {
   addTask('build', createBuildTask());
-  addTask('reset-db', createResetDBTask());
+  addTask('resetdb', createResetDBTask());
+  addTask('populatedb', createPopulateAddressesTask());
   runHop(args);
 }
 
@@ -40,8 +42,17 @@ Task createBuildTask() {
 
 Task createResetDBTask() {
   return new Task((TaskContext ctx) {
-    DBConnection conn = new DBConnection();
-    
+    DBConnection conn = new DBConnection.create();
+
     resetDB(conn);
+  });
+}
+
+
+Task createPopulateAddressesTask() {
+  return new Task((TaskContext ctx) {
+    DBConnection conn = new DBConnection.create();
+
+    populateTables(conn);
   });
 }

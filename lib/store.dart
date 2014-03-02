@@ -9,11 +9,12 @@ class StoreCtrl {
   const StoreCtrl(this.addressStore, this.residentsStore, this.appstateStore);
 
 
-  factory StoreCtrl.create() {
+  factory StoreCtrl.create({addressStore, residentsStore, appstateStore}) {
+    addressStore = addressStore == null ? new Store("gcanvas", "addresses") : addressStore;
+    residentsStore = residentsStore == null ? new Store("gcanvas", "residents") : residentsStore;
+    appstateStore = appstateStore == null ? new Store('gcanvas', 'app-state') : residentsStore;
     return new StoreCtrl(
-        new Store("gcanvas", "addresses"),
-        new Store("gcanvas", "residents"),
-        new Store('gcanvas', 'app-state')
+        addressStore, residentsStore, appstateStore
     );
   }
 

@@ -3,16 +3,21 @@
 <html>
   <head>
   	<meta charset="utf-8">
-  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title>index</title>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+    <!-- <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script> -->
     <!-- import the elements -->
     <link rel="import" href="packages/gcanvas/elements/gcanvas-app.html">
     <link rel="import" href="packages/gcanvas/elements/address-list.html">
-    <script type="application/dart">export 'package:polymer/init.dart';</script>
+    <!-- <script type="application/dart">export 'package:polymer/init.dart';</script> -->
+    <script type="application/dart" src="main.dart"></script>
     <script src="packages/browser/dart.js"></script>    
   </head>
  
   <body>
+    
     <gcanvas-app>
     </gcanvas-app>
   </body>

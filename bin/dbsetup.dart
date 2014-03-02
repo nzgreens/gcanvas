@@ -1,4 +1,4 @@
-part of gcanvas.server;
+part of gcanvas.server.db;
 
 // library gcanvas.server.db;
 
@@ -6,14 +6,14 @@ part of gcanvas.server;
 // import 'package:postgresql/postgresql.dart';
 // import 'package:postgresql/postgresql_pool.dart';
 
-Map<String, Function> _tables => {
-  "address": createAddressTable,
-  "resident": createResidentTable,
-  "resident_response": createResidentResponseTable,
-  "resident_response_proxy": createResidentResponseProxyTable,
-  "question_script": createQuestionScriptTable,
-  "question_script_response": createQuestionScriptResponseTable
-
+Map<String, Function> get
+  _tables => {
+    "address": createAddressTable,
+    "resident": createResidentTable,
+    "resident_response": createResidentResponseTable,
+    "resident_response_proxy": createResidentResponseProxyTable,
+    "question_script": createQuestionScriptTable,
+    "question_script_response": createQuestionScriptResponseTable
 };
 
 String get
@@ -57,6 +57,9 @@ Future<bool> _tableExists(DBConnection conn, String dbName, String tablename) {
 
   conn.query(sql).then((rows) {
     completer.complete(rows.length == 1 && rows[0][0] == true);
+  }, onError: (error) {
+    completer.complete(false);
+    print ("Error determining if TABLE EXISTS: $error");
   });
 
   return completer.future;
@@ -74,7 +77,7 @@ Future<bool> createAddressTable(DBConnection conn, String dbName) {
     addressTableExists(conn, dbName).then((exists) {
       completer.complete(exists);
     });
-  }, onError: () => print("table address exists"));
+  }, onError: (_) => print("table address exists"));
 
   return completer.future;
 }
@@ -91,7 +94,7 @@ Future<bool> createResidentTable(DBConnection conn, String dbName) {
     addressTableExists(conn, dbName).then((exists) {
       completer.complete(exists);
     });
-  }, onError: () => print("table resident exists"));
+  }, onError: (_) => print("table resident exists"));
 
   return completer.future;
 }
@@ -108,7 +111,7 @@ Future<bool> createResidentResponseTable(DBConnection conn, String dbName) {
     addressTableExists(conn, dbName).then((exists) {
       completer.complete(exists);
     });
-  }, onError: () => print("table resident_response exists"));
+  }, onError: (_) => print("table resident_response exists"));
 
   return completer.future;
 }
@@ -125,7 +128,7 @@ Future<bool> createResidentResponseProxyTable(DBConnection conn, String dbName) 
     addressTableExists(conn, dbName).then((exists) {
       completer.complete(exists);
     });
-  }, onError: () => print("table resident_response_proxy exists"));
+  }, onError: (_) => print("table resident_response_proxy exists"));
 
   return completer.future;
 }
@@ -142,7 +145,7 @@ Future<bool> createQuestionScriptTable(DBConnection conn, String dbName) {
     addressTableExists(conn, dbName).then((exists) {
       completer.complete(exists);
     });
-  }, onError: () => print("table question_script exists"));
+  }, onError: (_) => print("table question_script exists"));
 
   return completer.future;
 }
@@ -159,7 +162,7 @@ Future<bool> createQuestionScriptResponseTable(DBConnection conn, String dbName)
     addressTableExists(conn, dbName).then((exists) {
       completer.complete(exists);
     });
-  }, onError: () => print("table question_script_response exists"));
+  }, onError: (_) => print("table question_script_response exists"));
 
   return completer.future;
 }
@@ -168,27 +171,83 @@ Future<bool> createQuestionScriptResponseTable(DBConnection conn, String dbName)
 
 
 
-Future<int> massInsertOfAddresses(DBConnection conn, List<Map> addresses) {
-  Completer<int> completer = new Completer<int>();
+Future<bool> insertAddresses(DBConnection conn, List<Map> addresses) {
+  String insertAddrSQL = "INSERT INTO address (id, street, suburb, city,"
+      "postcode, meshblock, electorate, latitude, longitude, visited) "
+      "VALUES (DEFAULT, @street, @suburb, @city, "
+      "@postcode, @meshblock, @electorate, @latitude, @longitude, @visited) "
+      "RETURNING id;";
+  String insertResidentSQL = "INSERT INTO resident VALUES (@id, @title,"
+      "@firstname, @middlenames, @lastname, @occupation, @gender,"
+      "@address_id);";
 
-  var massInsertData = addresses.map((Map addressMap) {
-    return '("${addressMap['street']}","${addressMap['suburb']}","${addressMap['city']}","${addressMap['postcode']}","${addressMap['latitude']}","${addressMap['longitude']}","${addressMap['visited']}")';
-  }).toList();
-
-  //prepare the statement
-  var sqlInsert = "INSERT INTO address (street,suburb,city,postcode,latitude,longitude,visited) VALUES ${massInsertData.join(",")};";
-
-  //wait till we have the data in the format we want before opening a connection
-    conn
-      ..execute(sqlInsert).then((int rowsAdded){
-        completer.complete(rowsAdded);
+  addresses.forEach((address) {
+    var addrMap = {
+                   'street': address['street'],
+                   'suburb': address['suburb'],
+                   'city': address['city'],
+                   'postcode': "",
+                   'meshblock': address['meshblock'],
+                   'electorate': address['electorate'],
+                   'latitude': address['latitude'],
+                   'longitude': address['longitude'],
+                   'visited': false
+                   };
+    conn.execute(insertAddrSQL, addrMap).then((id) {
+      //latitude and longitude are not quiet unique, but add street and it will be
+      conn.query(
+          "SELECT id FROM address WHERE "
+          "street=@street AND "
+          "latitude=@latitude AND "
+          "longitude=@longitude",
+          {
+            'street': address['street'],
+            'latitude': address['latitude'],
+            'longitude': address['longitude']
+            }
+        ).then((val) {
+        address['residents'].forEach((Map resident) {
+          var resMap = {
+                        'id': resident['id'],
+                        'title': resident['title'],
+                        'firstname': resident['firstname'],
+                        'middlenames': resident['middlenames'],
+                        'lastname': resident['lastname'],
+                        'occupation': resident['occupation'],
+                        'gender': resident['gender'],
+                        'address_id': val[0][0]
+                        };
+          conn.execute(insertResidentSQL, resMap);
+        });
       });
+    });
+  });
+
+  return new Future<bool>.value(true);
+}
+
+
+Future<Map> fetchJson() {
+  Completer<Map> completer = new Completer<Map>();
+
+  print("fetch");
+
+  var systemTempDir = Directory.current.path;
+
+
+  File file = new File('$systemTempDir/tool/addresses.json');
+  file.readAsString().then((String data) {
+      //print(data);
+      completer.complete(JSON.decode(data));
+    });
+
+  print(file);
 
   return completer.future;
 }
 
 
-Future<Map> fetchAddresses() {
+Future<Map> fetchExternalJson() {
   Completer<Map> completer = new Completer<Map>();
 
   HttpClient client = new HttpClient();
@@ -215,8 +274,8 @@ Future<Map> fetchAddresses() {
 Future<int> populateTables(
     DBConnection conn,
     {
-      Future<Map> fetchCallback(): fetchAddresses,
-      Future<int> insertCallback(DBConnection conn, List<Map> addresses): massInsertOfAddresses
+      Future<Map> fetchCallback(): fetchJson,
+      Future<bool> insertCallback(DBConnection conn, List<Map> addresses): insertAddresses
     }
     ) {
   Completer<int> completer = new Completer<int>();
@@ -235,6 +294,7 @@ void resetDB(DBConnection conn) {
   _tables.forEach((table, createTable) {
     String sql = "DROP TABLE $table;";
     conn.execute(sql).then((_) {
+      print("$sql");
       createTable(conn, conn.dbName);
     });
   });
