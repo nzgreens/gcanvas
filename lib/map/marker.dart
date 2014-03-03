@@ -27,6 +27,7 @@ class GMapMarker implements MapMarker {
         ..title = label
         ..flat = true
         ..clickable = true
+        ..zIndex = 11
     );
 
 

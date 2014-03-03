@@ -64,7 +64,7 @@ class AreaSelectorElement extends PolymerElement {
 
   void initMap() {
     if(map == null) {
-      map = new GCanvasMap.create($['map']);
+      map = new GCanvasMap.create($['map'], proxy: $['overlay']);
     }
   }
 }
