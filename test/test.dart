@@ -24,7 +24,6 @@ part 'appstatectrl_test.dart';
 part 'script_test.dart';
 part 'script_response_test.dart';
 part 'state_test.dart';
-part 'config_test.dart';
 part 'configctrl_test.dart';
 part 'geocoordinates_test.dart';
 
@@ -43,7 +42,6 @@ main() {
   appstatectrl_test();
   question_script_test();
   geocoordinates_test();
-  config_test();
   //pollForDone(testCases);
 }
 

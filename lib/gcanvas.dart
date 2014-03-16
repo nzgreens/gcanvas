@@ -6,10 +6,8 @@ import 'dart:html';
 import 'dart:async';
 import 'package:observe/observe.dart';
 import 'package:lawndart/lawndart.dart';
-import 'package:uuid/uuid.dart';
 
 import 'address.dart';
-import 'response.dart';
 import 'resident.dart';
 import 'map/map.dart';
 

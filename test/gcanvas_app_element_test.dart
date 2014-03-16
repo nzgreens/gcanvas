@@ -17,8 +17,9 @@ void gcanvas_app_element_test() {
       test("gCanvas Title is present", () {
         var content = querySelector("gcanvas-app").shadowRoot.text;
         expect(
-            content,
-            contains("gCanvas"));
+              content,
+              contains("gCanvas")
+            );
       });
 
 
@@ -38,12 +39,15 @@ void gcanvas_app_element_test() {
         );
         });*/
 
-      /*test("start screen back button is hidden", () {
-        ButtonElement back = querySelector("gcanvas-app").shadowRoot.querySelector("#back");
+      test("start screen back button is hidden", () {
+        ButtonElement back = querySelector("gcanvas-app").shadowRoot.querySelector("#back_button");
         expect(
-          back.hidden,
-          isTrue
+          back,
+          isNull
         );
-      });*/
+      });
+
+
+      //@TODO: make refresh, and show map, only usable when device is connected to the internet
     });
 }
