@@ -5,6 +5,8 @@ import 'package:gcanvas/address.dart';
 
 import 'dart:html';
 
+//@TODO create menas to manually set location in case maps takes them somewhere other than where they are or want to be on maps
+
 @CustomTag('area-selector')
 class AreaSelectorElement extends PolymerElement {
 
@@ -39,8 +41,8 @@ class AreaSelectorElement extends PolymerElement {
           address.longitude = 175.02295019999997;
         }
         MapMarker marker = map.addMarker(new GeoCoordinates.create(address.latitude, address.longitude), label: address.street);
+        //marker.setIcon('/assets/gcanvas/images/user.png');
         mapMarkers[address.id] = marker;
-        print(marker);
         fireAddMarkerEvent(address, marker);
         //map.centre(new GeoCoordinates.create(address.latitude, address.longitude));
       }

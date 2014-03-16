@@ -5,9 +5,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>index</title>
+    <link rel="import" href="packages/polymer/polymer.html">
     <!-- import the elements -->
     <link rel="import" href="resident-test.html">
-    <script type="application/dart">
+    <link rel="import" href="bar-chart.html">
+    <script type="application/dart">export 'package:polymer/init.dart';</script>
+    <!-- <script type="application/dart">
       import 'package:polymer/polymer.dart';
       import 'package:gcanvas/resident.dart';
 
@@ -15,11 +18,16 @@
         initPolymer().run((){
         });
       }
-    </script>
+    </script> -->
     <script src="packages/browser/dart.js"></script>
   </head>
 
   <body>
-    <resident-test></resident-test>
+    <div>
+      <bar-chart width="20%" height="20%" dataUrl="bars.json"></bar-chart>
+    </div>
+    <div>
+      <!-- <bar-chart width="20%" height="20%" dataUrl="bars2.json"></bar-chart> -->
+    </div>
   </body>
 </html>

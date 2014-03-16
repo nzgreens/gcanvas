@@ -22,14 +22,20 @@ class GMapMarker implements MapMarker {
   String _defaultIconURL;
 
   GMapMarker(GeoCoordinates coords, {label: ""}) {
+    var shape = new GoogleMaps.MarkerShape()
+      ..type = GoogleMaps.MarkerShapeType.RECT
+      //..coords = [80, 80, 80, 80]
+      ;
+
     _marker = new Marker(new MarkerOptions()
         ..position = new LatLng(coords.latitude, coords.longitude)
         ..title = label
         ..flat = true
         ..clickable = true
         ..zIndex = 11
+        ..shape = shape
+        //..shadow = "/assets/gcanvas/images/rotate2.png"
     );
-
 
     /*_marker.onClick.listen((data) {
       _marker.map = null;
@@ -43,7 +49,6 @@ class GMapMarker implements MapMarker {
 
 
   Stream get onClick => _marker.onClick;
-
 
   void setIcon(String url) {
     _marker.icon = url;

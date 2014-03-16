@@ -17,24 +17,42 @@ class GCanvasApp extends PolymerElement {
   @observable State appState;
   AppStateCtrl _appStateCtrl;
   AddressListCtrl _addressListCtrl;
+  @observable final List<Element> xnodes = toObservable([]);
+  @observable List<int> layout = toObservable([
+    [ 1, 2, 3, 4 ],
+    [ 5, 5, 5, 5 ]
+  ]);
+
 
   GCanvasApp.created() : super.created() {
     _addressListCtrl = new AddressListCtrl.create();
     _appStateCtrl = new AppStateCtrl.create();
+
+    _loadAppState();
+
+    xnodes.add($['back_button_box']);
+    xnodes.add($['title_element']);
+    xnodes.add($['show_map_button_box']);
+    xnodes.add($['refresh_button_box']);
+    xnodes.add($['content']);
+  }
+
+
+  void _loadAppState() {
     _addressListCtrl.getList().then((addrList) {
       addresses.addAll(addrList);
       availableAddresses.addAll(addresses);
       _appStateCtrl.get().then((state) {
         appState = state;
+        _appStateCtrl.save(appState); //@TODO: make sure this is only done when no state is stored in browser DB
       });
     });
-
   }
 
 
   void navBack() {
-    appState.addressView = false;
-    appState.addressListView = true;
+    appState.selectAddressListView();
+
     _addressListCtrl.getList().then((addrList) {
       addresses.clear();
       addresses.addAll(addrList.where((address) => !address.visited));
@@ -45,39 +63,25 @@ class GCanvasApp extends PolymerElement {
 
 
   void refresh() {
-    try {
-      new GeoLocation.create().getCurrent().then((position) {
-        var latitude = position.latitude;
-        var longitude = position.longitude;
-        location = position;
-        /*DelayedHttp http = new DelayedHttp.create();
-        http.get("/address/${latitude}/${longitude}").then((request) {
-          List addressList = JSON.decode(request.response);
-          //addresses.clear();
-          addressList.forEach((map) {
-            Address addr = new Address.fromMap(map);
-            _addressListCtrl.add(addr);
-            addresses.add(addr);
-          });
-        });*/
-      });
-    } on PositionError catch(e) {
-      print(e);
-    }
+    DelayedHttp http = new DelayedHttp.create();
+    var url =
+    _addressListCtrl.getList().then((addresses) {
+      var visitedAddrs = addresses.where((address) => address.visited);
+      //http.post(url)
+    });
   }
 
 
-  void showAddress(Event event) {
-    appState.address = event.detail as Address;
-    appState.addressView = true;
-    appState.addressListView = false;
+  void showAddress(event) {
+    var address = event.detail as Address;
+    appState.selectAddressView(address);
 
     _appStateCtrl.save(appState);
   }
 
 
 
-  void setupMarker(Event event) {
+  void setupMarker(event) {
     MapMarker marker = event.detail['marker'] as MapMarker;
     Address address = event.detail['address'] as Address;
     /*marker.onClick.listen((MouseEvent event) {
@@ -90,5 +94,21 @@ class GCanvasApp extends PolymerElement {
         marker.selected = false;
       }
     });*/
+  }
+
+
+
+  void showMap(event) {
+    try {
+      new GeoLocation.create().getCurrent().then((position) {
+        location = position;
+
+        appState.selectAddressSelector();
+
+        _appStateCtrl.save(appState);
+      });
+    } on PositionError catch(e) {
+      print(e);
+    }
   }
 }

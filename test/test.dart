@@ -11,6 +11,7 @@ import 'package:gcanvas/address.dart';
 import 'package:gcanvas/resident.dart';
 import 'package:gcanvas/response.dart';
 import 'package:gcanvas/questionscript.dart';
+import 'package:gcanvas/map/map.dart';
 
 part 'storectrl_test.dart';
 part 'address_test.dart';
@@ -22,20 +23,27 @@ part 'residentlistctrl_test.dart';
 part 'appstatectrl_test.dart';
 part 'script_test.dart';
 part 'script_response_test.dart';
+part 'state_test.dart';
+part 'config_test.dart';
+part 'configctrl_test.dart';
+part 'geocoordinates_test.dart';
 
 main() {
   useHtmlConfiguration(true);
   initPolymer();
 
   storectrl_test();
-  //address_test();
-  //resident_test();
-  //gcanvas_app_element_test();
-  //response_test();
-  //addresslistctrl_test();
-  //residentlistctrl_test();
-  //appstatectrl_test();
-  //question_script_test();
+  address_test();
+  resident_test();
+  state_test();
+  gcanvas_app_element_test();
+  response_test();
+  addresslistctrl_test();
+  residentlistctrl_test();
+  appstatectrl_test();
+  question_script_test();
+  geocoordinates_test();
+  config_test();
   //pollForDone(testCases);
 }
 

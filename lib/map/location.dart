@@ -19,11 +19,12 @@ abstract class GeoLocation {
 }
 
 
-
+/*
+ * @TODO: Find a way to overcome the Goelocation API not working in Firefox,
+ * maybe create a Google App for this with Geolocation API enabled
+ * @TODO: create toMap method and fromMap factory for serialisation purposes.
+ */
 class BrowserLocation extends GeoLocation {
-  BrowserLocation() {
-
-  }
 
   Future<GeoCoordinates> getCurrent() {
     Completer<GeoCoordinates> completer = new Completer<GeoCoordinates>();
@@ -49,9 +50,6 @@ class BrowserLocation extends GeoLocation {
  */
 class DartiumLocation extends GeoLocation {
 
-  DartiumLocation() {
-
-  }
 
   Future<GeoCoordinates> getCurrent() {
     return new Future.value(new GeoCoordinates.create(-39.94622585, 175.02286207));
@@ -68,8 +66,30 @@ abstract class GeoCoordinates {
 
   const GeoCoordinates();
 
-  factory GeoCoordinates.create(double latitude, double longitude) {
+  factory GeoCoordinates.create([double latitude, double longitude]) {
+    latitude = latitude != null ? latitude : -1.0;
+    longitude = longitude != null ? longitude : -1.0;
+
     return new CoordinatesImpl(latitude, longitude);
+  }
+
+
+  factory GeoCoordinates.fromMap(Map map) {
+    var latitude =
+        map.containsKey('latitude') && map['latitude'] != null ?
+            double.parse(map['latitude'].toString()) : -1.0;
+    var longitude = map.containsKey('longitude') && map['longitude'] != null ?
+        double.parse(map['longitude'].toString()) : -1.0;
+
+    return new GeoCoordinates.create(latitude, longitude);
+  }
+
+
+  Map toMap() {
+    return {
+      'latitude': latitude,
+      'longitude': longitude
+    };
   }
 }
 

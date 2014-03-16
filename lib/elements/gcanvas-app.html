@@ -1,3 +1,5 @@
+<link rel="import"
+      href="../../../packages/polymer_elements/polymer_grid_layout/polymer_grid_layout.html">
 <link rel="import" href="address-list.html">
 <link rel="import" href="address-view.html">
 <link rel="import" href="area-selector.html">
@@ -20,7 +22,7 @@
       width: 50%;
     }
 
-    #refresh {
+    #refresh_button {
       width: 62px;
       height: 62px;
       background-image: url(/assets/gcanvas/images/rotate2.png);
@@ -28,7 +30,14 @@
       background-repeat: no-repeat;
     }
 
-    #back {
+    #back_button {
+      width: 62px;
+      height: 62px;
+      background-image: url(/assets/gcanvas/images/controls1.png);
+      background-repeat: no-repeat;
+    }
+
+    #show_map_button {
       width: 62px;
       height: 62px;
       background-image: url(/assets/gcanvas/images/controls1.png);
@@ -41,27 +50,39 @@
       display: inline-block;
     }
     </style>
-
-    <div class="button_box">
-      <template if="{{appState.addressView}}">
-        <button id="back" on-click="{{navBack}}">&nbsp;</button>
+    <polymer-grid-layout xnodes="{{xnodes}}"
+                         layout="{{layout}}">
+    </polymer-grid-layout>
+    <div id="back_button_box" class="button_box">
+      <template if="{{appState.addressView || (appState.addressSelector && location != null)}}">
+        <button id="back_button" on-click="{{navBack}}">&nbsp;</button>
       </template>
     </div>
-    <h1 id="title">gCanvas</h1>
-    <div class="button_box">
-      <button id="refresh" on-click="{{refresh}}">&nbsp;</button>
+    <h1 id="title_element" h-flex>gCanvas</h1>
+    <div id="show_map_button_box" class="button_box">
+      <button id="show_map_button" on-click="{{showMap}}">&nbsp;</button>
     </div>
-
-
-    <template if="{{appState.addressListView}}">
-      <address-list addresses="{{addresses}}" on-address-clicked="{{showAddress}}"></address-list>
-    </template>
-    <template if="{{appState.addressView}}">
-      <address-view address="{{appState.address}}" residents="{{residentsAtAddress}}"></address-view>
-    </template>
-    <template if="{{appState.addressSelector && location != null}}">
-      <area-selector location="{{location}}" availableAddresses="{{availableAddresses}}" on-added-marker="{{setupMarker}}"><content></content></area-selector>
-    </template>
+    <div id="refresh_button_box" class="button_box">
+      <button id="refresh_button" on-click="{{refresh}}">&nbsp;</button>
+    </div>
+    <div id="content" flex>
+      <template if="{{appState.addressListView}}">
+        <address-list addresses="{{addresses}}"
+                      on-address-clicked="{{showAddress}}">
+        </address-list>
+      </template>
+      <template if="{{appState.addressView}}">
+        <address-view address="{{appState.address}}"
+                      residents="{{residentsAtAddress}}">
+        </address-view>
+      </template>
+      <template if="{{appState.addressSelector && location != null}}">
+        <area-selector location="{{location}}"
+                       availableAddresses="{{availableAddresses}}"
+                       on-added-marker="{{setupMarker}}">
+        </area-selector>
+      </template>
+    </div>
   </template>
   <script type="application/dart" src="gcanvas_app.dart"></script>
 </polymer-element>

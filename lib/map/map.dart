@@ -3,7 +3,10 @@ library gcanvas.map;
 import 'package:google_maps/google_maps.dart'
         show LatLng, GMap, MapOptions, MapTypeId, ImageMapTypeOptions, Size,
              ImageMapType, Marker, MarkerOptions, Geocoder, GeocoderRequest,
-             GeocoderStatus, OverlayView, MapCanvasProjection, Point;
+             GeocoderStatus, OverlayView;
+
+import 'package:google_maps/google_maps.dart' as GoogleMaps;
+//import 'package:google_maps/google_maps_geometry.dart';
 
 import 'dart:js';
 
@@ -45,11 +48,11 @@ abstract class GCanvasMap {
 
 
 
-class GoogleMaps extends GCanvasMap {
+class GoogleMapsImpl extends GCanvasMap {
   GMap _map;
   Stream get onDblClick => _map.onDblClick;
 
-  GoogleMaps(Element container) {
+  GoogleMapsImpl(Element container) {
     final mapOptions = new MapOptions()
     ..zoom = 12
     //..center = new LatLng(coords.latitude, coords.longitude)
@@ -78,38 +81,36 @@ class GoogleMaps extends GCanvasMap {
 }
 
 
-class Overlay extends OverlayView {
+class GCanvasOverlay extends OverlayView {
   DivElement _div;
   var _map;
   bool projectionSet = false;
 
-  Overlay(this._map) : super() {
+  GCanvasOverlay(this._map) : super() {
     map = _map;
+
     set_draw(() {
-      var p = projection.fromLatLngToDivPixel(new LatLng(-39.946269, 175.02295019999997));
-      print("DivPixel: ${p.x}, ${p.y}");
-      p = projection.fromLatLngToContainerPixel(new LatLng(-39.946269, 175.02295019999997));
-      print("ContainerPixel: ${p.x}, ${p.y}");
       projectionSet = true;
     });
+
     set_onAdd(() {
       _div = new DivElement();
       (panes.overlayImage as Element).children.add(_div);
     });
   }
 
-  Point getPixelPointFromLatLng(GeoCoordinates coords) {
+  GoogleMaps.Point getPixelPointFromLatLng(GeoCoordinates coords) {
     if(projectionSet) {
-      return projection.fromLatLngToDivPixel(new LatLng(coords.latitude, coords.longitude));
+      return projection.fromLatLngToContainerPixel(new LatLng(coords.latitude, coords.longitude));
     }
 
-    return new Point(-1, -1);
+    return new GoogleMaps.Point(-1, -1);
   }
 
 
-  GeoCoordinates getCoordsFromPoint(Point point) {
+  GeoCoordinates getCoordsFromPoint(GoogleMaps.Point point) {
     if(projectionSet) {
-      var latlng = projection.fromDivPixelToLatLng(point);
+      var latlng = projection.fromContainerPixelToLatLng(point);
 
       return new GeoCoordinates.create(latlng.lat, latlng.lng);
     }
@@ -152,12 +153,10 @@ class GoogleOpenStreetMaps extends GCanvasMap {
 
 
     ImageMapTypeOptions mapTypeOptions = new ImageMapTypeOptions()
-    ..getTileUrl = (coord, zoom) {
-      return "http://tile.openstreetmap.org/${zoom}/${coord.x}/${coord.y}.png";
-    }
-    ..tileSize =  new Size(256, 256)
-    ..name = "OpenStreetMap"
-    ..maxZoom = 18;
+      ..tileSize =  new Size(256, 256)
+      ..name = "OpenStreetMap"
+      ..maxZoom = 18
+      ..getTileUrl = (coord, zoom) => "http://tile.openstreetmap.org/${zoom}/${coord.x}/${coord.y}.png";
 
     try {
       _map.mapTypes.set("OSM", new ImageMapType(mapTypeOptions));
@@ -181,14 +180,17 @@ class GoogleOpenStreetMaps extends GCanvasMap {
     GMapMarker marker = new GMapMarker(coords, label: label);
     marker.applyToMap(_map);
 
-
+    _proxy.addMarker(marker);
+    marker.onClick.listen((_) {
+      print('clicked');
+    });
 
     return marker;
   }
 
 
   void addProxy(DivElement proxy) {
-    _overlay = new Overlay(_map);
+    _overlay = new GCanvasOverlay(_map);
     _proxy = new MapClickProxy(_map, proxy, _overlay);
   }
 }
@@ -234,6 +236,6 @@ class LeafletOpenStreetMaps extends GCanvasMap {
 
 
   void addProxy(Element proxy) {
-    _proxy = new MapClickProxy(element, proxy);
+    //_proxy = new MapClickProxy(element, proxy);
   }
 }

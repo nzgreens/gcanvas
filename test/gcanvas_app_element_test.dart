@@ -23,7 +23,7 @@ void gcanvas_app_element_test() {
 
 
       test("Has refresh button", () {
-        ButtonElement refresh = querySelector("gcanvas-app").shadowRoot.querySelector("#refresh");
+        ButtonElement refresh = querySelector("gcanvas-app").shadowRoot.querySelector("#refresh_button");
         expect(
           refresh,
           isNotNull

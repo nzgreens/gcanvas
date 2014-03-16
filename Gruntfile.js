@@ -11,7 +11,7 @@ module.exports = function(grunt) {
                     'lib/**/*.dart',
                     'lib/**/*.html'
                 ],
-                tasks: ['shell:test'],
+                tasks: ['shell:test', 'shell:build'],
                 options: {atBegin: true}
             }
         },
@@ -22,7 +22,14 @@ module.exports = function(grunt) {
                     stdout: true,
                     failOnError: true
                 }
-            }
+            },
+            build: {
+                command: 'pub build',
+                options: {
+                    stdout: true,
+                    failOnError: true
+                }
+            } 
         }
     });
 };

@@ -13,7 +13,7 @@ void appstatectrl_test() {
         visited: false);
     var store = new StoreCtrlMock();
 
-    var state = new State(false, true, address3);
+    var state = new State.create(addressListView: false, addressView: true, addressSelector: false, address: address3);
     var appstatectrl = new AppStateCtrl(store);
 
 

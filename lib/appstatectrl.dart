@@ -16,7 +16,7 @@ class AppStateCtrl {
   Future<State> get() {
     return _store.getState().then((state) {
       State appState = state != null ? state : new State.create();
-      
+
       appState.address = appState.address != null ? appState.address : new Address.create();
 
       return new Future<State>.value(appState);
@@ -25,7 +25,7 @@ class AppStateCtrl {
 
 
   Future<bool> save(State state) {
-    
+
     return _store.saveState(state);
   }
 }
