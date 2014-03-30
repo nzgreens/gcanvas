@@ -58,89 +58,107 @@ void storectrl_test() {
 
 
       setUp(() {
-        Completer completer = new Completer();
-        var batched = {"2": address2.toMap(), "3": address3.toMap()};
-        var batched2 = {"2": voter2.toMap(), "3": voter3.toMap()};
-        storeCtrl.addressStore.open()
-          ..then((_) => storeCtrl.addressStore.nuke())
-          ..then((_) => storeCtrl.addressStore.batch(batched).then((_) =>
-              storeCtrl.residentsStore.open()
-                ..then((_) => storeCtrl.residentsStore.nuke())
-                ..then((_) => storeCtrl.residentsStore.batch(batched2).then((_) => completer.complete()))
-          ));
+        schedule(() {
+          Completer completer = new Completer();
+          var batched = {"2": address2.toMap(), "3": address3.toMap()};
+          var batched2 = {"2": voter2.toMap(), "3": voter3.toMap()};
+          storeCtrl.addressStore.open()
+            ..then((_) => storeCtrl.addressStore.nuke())
+            ..then((_) => storeCtrl.addressStore.batch(batched).then((_) =>
+                storeCtrl.residentsStore.open()
+                  ..then((_) => storeCtrl.residentsStore.nuke())
+                  ..then((_) => storeCtrl.residentsStore.batch(batched2).then((_) => completer.complete()))
+            ));
 
 
-        return completer.future;
+          return completer.future;
+        });
       });
 
 
       test("adds an address", () {
+        schedule(() {
+          Future future = storeCtrl.addAddress(address);
 
-        Future future = storeCtrl.addAddress(address);
-
-        future.then((id) {
-          expect(id, equals(address.id));
-          var check = storeCtrl.addressStore.getByKey("${address.id}");
-          check.then((addr) {
-            expect(address.toMap(), equals(addr));
+          future.then((id) {
+            expect(id, equals(address.id));
+            var check = storeCtrl.addressStore.getByKey("${address.id}");
+            check.then((addr) {
+              expect(address.toMap(), equals(addr));
+            });
+            expect(check, completes);
           });
-          expect(check, completes);
-        });
 
-        expect(future, completes);
+          expect(future, completes);
+
+          return future;
+        });
       });
 
 
       test("retreives an address", () {
-        Future future = storeCtrl.getAddressById(2);
-        future.then((address) {
-          expect(address.id, equals(address2.id));
-          expect(address.street, equals(address2.street));
-          expect(address.suburb, equals(address2.suburb));
-          expect(address.city, equals(address2.city));
-          expect(address.postcode, equals(address2.postcode));
+        schedule(() {
+          Future future = storeCtrl.getAddressById(2);
+          future.then((address) {
+            expect(address.id, equals(address2.id));
+            expect(address.street, equals(address2.street));
+            expect(address.suburb, equals(address2.suburb));
+            expect(address.city, equals(address2.city));
+            expect(address.postcode, equals(address2.postcode));
+          });
+          expect(future, completes);
+
+          return future;
         });
-        expect(future, completes);
       });
 
 
 
       test("gets a list of all addresses", () {
-        var nullAddress = new Address.create();
+        schedule(() {
+          var nullAddress = new Address.create();
 
-        var batched = {"2": address2.toMap(), "3": address3.toMap()};
-        Future future = storeCtrl.addressStore.batch(batched).then((_) {
-          Future future = storeCtrl.getAddressList();
-          future.then((addresses) {
-            expect(addresses.length, equals(2));
-            expect(addresses.firstWhere((item) => item.id == 2), isNotNull);
-            expect(addresses.firstWhere((item) => item.id == 3), isNotNull);
-            expect(addresses.firstWhere((item) => item.id == 2).id, equals(address2.id));
-            expect(addresses.firstWhere((item) => item.id == 3).id, equals(address3.id));
-            expect(addresses.firstWhere((item) => item.id == 1, orElse: () => nullAddress).id, equals(nullAddress.id));
+          var batched = {"2": address2.toMap(), "3": address3.toMap()};
+          Future future = storeCtrl.addressStore.batch(batched).then((_) {
+            Future future = storeCtrl.getAddressList();
+            future.then((addresses) {
+              expect(addresses.length, equals(2));
+              expect(addresses.firstWhere((item) => item.id == 2), isNotNull);
+              expect(addresses.firstWhere((item) => item.id == 3), isNotNull);
+              expect(addresses.firstWhere((item) => item.id == 2).id, equals(address2.id));
+              expect(addresses.firstWhere((item) => item.id == 3).id, equals(address3.id));
+              expect(addresses.firstWhere((item) => item.id == 1, orElse: () => nullAddress).id, equals(nullAddress.id));
+            });
+
           });
+          expect(future, completes);
 
+          return future;
         });
-        expect(future, completes);
       });
 
 
 
       test("adds a resident", () {
-        Future future = storeCtrl.addResident(voter);
-        future.then((id) {
-          expect(id, equals(voter.id));
-          var check = storeCtrl.residentsStore.getByKey("${voter.id}");
-          check.then((resident) {
-            expect(voter.toMap(), equals(resident));
+        schedule(() {
+          Future future = storeCtrl.addResident(voter);
+          future.then((id) {
+            expect(id, equals(voter.id));
+            var check = storeCtrl.residentsStore.getByKey("${voter.id}");
+            check.then((resident) {
+              expect(voter.toMap(), equals(resident));
+            });
+            expect(check, completes);
           });
-          expect(check, completes);
+          expect(future, completes);
+
+          return future;
         });
-        expect(future, completes);
       });
 
 
       test("gets a list of residents at address", () {
+        schedule(() {
           var nullResident = new Resident.create(
               id: -1,
               firstname: "",
@@ -159,94 +177,121 @@ void storectrl_test() {
             expect(residents.firstWhere((resident) => resident.id == 1, orElse: () => nullResident).id, equals(nullResident.id));
           });
           expect(future, completes);
+
+          return future;
+        });
       });
 
 
       test("retreives a resident", () {
-        Future<Resident> future = storeCtrl.getResidentById(2);
+        schedule(() {
+          Future<Resident> future = storeCtrl.getResidentById(2);
 
-        future.then((copy) {
-          expect(copy.id, equals(voter2.id));
-          expect(copy.firstname, equals(voter2.firstname));
-          expect(copy.lastname, equals(voter2.lastname));
-          //expect(copy.dob, equals(voter2.dob));
-          expect(copy.address.id, equals(voter2.address.id));
+          future.then((copy) {
+            expect(copy.id, equals(voter2.id));
+            expect(copy.firstname, equals(voter2.firstname));
+            expect(copy.lastname, equals(voter2.lastname));
+            //expect(copy.dob, equals(voter2.dob));
+            expect(copy.address.id, equals(voter2.address.id));
+          });
+
+          expect(future, completes);
+
+          return future;
         });
-
-        expect(future, completes);
       });
 
 
       test("removes an address", () {
-        Future<bool> future = storeCtrl.removeAddress(address2);
+        schedule(() {
+          Future<bool> future = storeCtrl.removeAddress(address2);
 
-        future.then((success) {
-          expect(success, isTrue);
-          Future<bool> check = storeCtrl.addressStore.exists("${address2.id}");
-          check.then((exists) {
-            expect(exists, isFalse);
+          future.then((success) {
+            expect(success, isTrue);
+            Future<bool> check = storeCtrl.addressStore.exists("${address2.id}");
+            check.then((exists) {
+              expect(exists, isFalse);
+            });
+            expect(check, completes);
           });
-          expect(check, completes);
-        });
 
-        expect(future, completes);
+          expect(future, completes);
+
+          return future;
+        });
       });
 
 
 
       test("remove a resident", () {
-        Future<bool> future = storeCtrl.removeResident(voter2);
+        schedule(() {
+          Future<bool> future = storeCtrl.removeResident(voter2);
 
-        future.then((success) {
-          expect(success, isTrue);
-          Future<bool> check = storeCtrl.residentsStore.exists("${voter2.id}");
-          check.then((exists) {
-            expect(exists, isFalse);
+          future.then((success) {
+            expect(success, isTrue);
+            Future<bool> check = storeCtrl.residentsStore.exists("${voter2.id}");
+            check.then((exists) {
+              expect(exists, isFalse);
+            });
+            expect(check, completes);
           });
-          expect(check, completes);
-        });
 
-        expect(future, completes);
+          expect(future, completes);
+
+          return future;
+        });
       });
 
 
 
       test("gets current null state", () {
-        Future future = storeCtrl.appstateStore.nuke().then((_) {
-          Future<State> future = storeCtrl.getState();
-          future.then((state) {
-            expect(state, isNull);
+        schedule(() {
+          Future future = storeCtrl.appstateStore.nuke().then((_) {
+            Future<State> future = storeCtrl.getState();
+            future.then((state) {
+              expect(state, isNull);
+            });
           });
+          expect(future, completes);
+
+          return future;
         });
-        expect(future, completes);
       });
 
 
 
       test("saves app state", () {
-        State state = new State.create();
-        Future<bool> future = storeCtrl.saveState(state);
-        future.then((success) {
-          expect(success, isTrue);
+        schedule(() {
+          State state = new State.create();
+          Future<bool> future = storeCtrl.saveState(state);
+          future.then((success) {
+            expect(success, isTrue);
+          });
+          expect(future, completes);
+
+          return future;
         });
-        expect(future, completes);
       });
 
 
       test("gets a saved state", () {
-        State state = new State.create();
-        Future<State> future = storeCtrl.saveState(state).then((_) {
-          return storeCtrl.getState();
-        });
+        schedule(() {
+          State state = new State.create();
+          Future<State> future = storeCtrl.saveState(state).then((_) {
+            return storeCtrl.getState();
+          });
 
-        future.then((state) {
-          expect(state, isNotNull);
-          expect(state.address.id, equals(-1.0));
-          expect(state.addressSelector, isFalse);
-          expect(state.addressListView, isTrue);
-          expect(state.addressView, isFalse);
+          future.then((state) {
+            expect(state, isNotNull);
+            expect(state.address.id, equals(-1.0));
+            expect(state.addressSelector, isFalse);
+            expect(state.addressListView, isTrue);
+            expect(state.addressView, isFalse);
+          });
+          expect(future, completes);
+
+          return future;
         });
-        expect(future, completes);
       });
 
   });

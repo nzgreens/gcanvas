@@ -6,6 +6,7 @@ import 'dart:html';
 import 'dart:async';
 import 'package:observe/observe.dart';
 import 'package:lawndart/lawndart.dart';
+import 'package:uuid/uuid_client.dart';
 
 import 'address.dart';
 import 'resident.dart';

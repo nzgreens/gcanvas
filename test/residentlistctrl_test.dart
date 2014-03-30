@@ -71,36 +71,48 @@ void residentlistctrl_test() {
 
 
     test("resident list at address2", () {
-      Future future = residentCtrl.getResidentsAtAddress(address2);
-      future.then((residents){
-        expect(residents, hasLength(2));
-        expect(residents, equals(residentList));
+      schedule(() {
+        Future future = residentCtrl.getResidentsAtAddress(address2);
+        future.then((residents){
+          expect(residents, hasLength(2));
+          expect(residents, equals(residentList));
+        });
+        expect(future, completes);
+        store.getLogs(callsTo('getResidentsAtAddress')).verify(happenedOnce);
+
+        return future;
       });
-      expect(future, completes);
-      store.getLogs(callsTo('getResidentsAtAddress')).verify(happenedOnce);
     });
 
 
 
     test("add a resident", () {
-      var expectedId = voter3.id;
-      Future<int> future = residentCtrl.add(voter3);
-      future.then((id) {
-        expect(id, equals(expectedId));
+      schedule(() {
+        var expectedId = voter3.id;
+        Future<int> future = residentCtrl.add(voter3);
+        future.then((id) {
+          expect(id, equals(expectedId));
+        });
+        expect(future, completes);
+        store.getLogs(callsTo('addResident')).verify(happenedOnce);
+
+        return future;
       });
-      expect(future, completes);
-      store.getLogs(callsTo('addResident')).verify(happenedOnce);
     });
 
 
 
     test("remove a resident", () {
-      Future<bool> future = residentCtrl.remove(voter2);
-      future.then((success) {
-        expect(success, isTrue);
+      schedule(() {
+        Future<bool> future = residentCtrl.remove(voter2);
+        future.then((success) {
+          expect(success, isTrue);
+        });
+        expect(future, completes);
+        store.getLogs(callsTo('removeResident')).verify(happenedOnce);
+
+        return future;
       });
-      expect(future, completes);
-      store.getLogs(callsTo('removeResident')).verify(happenedOnce);
     });
   });
 }

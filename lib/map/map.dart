@@ -54,13 +54,13 @@ class GoogleMapsImpl extends GCanvasMap {
 
   GoogleMapsImpl(Element container) {
     final mapOptions = new MapOptions()
-    ..zoom = 12
-    //..center = new LatLng(coords.latitude, coords.longitude)
-    //..mapTypeId = MapTypeId.ROADMAP
-    ..mapTypeId = "OSM"
-    ..mapTypeControl = false
-    ..streetViewControl = false
-    ;
+      ..zoom = 12
+      //..center = new LatLng(coords.latitude, coords.longitude)
+      //..mapTypeId = MapTypeId.ROADMAP
+      ..mapTypeId = "OSM"
+      ..mapTypeControl = false
+      ..streetViewControl = false
+      ;
 
     _map = new GMap(container, mapOptions);
 

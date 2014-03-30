@@ -22,17 +22,17 @@ void resident_test() {
 
 
       test("id is 1", () {
-        expect(voter.id, equals(1));
+        schedule(() {expect(voter.id, equals(1));});
       });
 
 
       test("firstname is Bob", () {
-        expect(voter.firstname, equals("Bob"));
+        schedule(() {expect(voter.firstname, equals("Bob"));});
       });
 
 
       test("lastname is Kate", () {
-        expect(voter.lastname, equals("Kate"));
+        schedule(() {expect(voter.lastname, equals("Kate"));});
       });
 
 
@@ -42,42 +42,46 @@ void resident_test() {
 
 
       test("address is address", () {
-        expect(voter.address.id, equals(address.id));
+        schedule(() {expect(voter.address.id, equals(address.id));});
       });
 
 
       test("toMap works", () {
-        var expected = {
-          'id': 1,
-          'title': '',
-          'firstname': 'Bob',
-          'middlenames': '',
-          'lastname': 'Kate',
-          'occupation': '',
-          'gender': '',
-            //'dob': new DateTime(1973, 4, 10).toString(),
-          'address': address.toMap()
-        };
+        schedule(() {
+          var expected = {
+            'id': 1,
+            'title': '',
+            'firstname': 'Bob',
+            'middlenames': '',
+            'lastname': 'Kate',
+            'occupation': '',
+            'gender': '',
+              //'dob': new DateTime(1973, 4, 10).toString(),
+            'address': address.toMap()
+          };
 
-        expect(voter.toMap(), equals(expected));
+          expect(voter.toMap(), equals(expected));
+        });
       });
 
 
       test("fromMap works", () {
-        var map = {
-          'id': 1,
-          'firstname': 'Bob',
-          'lastname': 'Kate',
-            //'dob': new DateTime(1973, 4, 10).toString(),
-          'address': address.toMap()
-        };
+        schedule(() {
+          var map = {
+            'id': 1,
+            'firstname': 'Bob',
+            'lastname': 'Kate',
+              //'dob': new DateTime(1973, 4, 10).toString(),
+            'address': address.toMap()
+          };
 
-        var copy = new Resident.fromMap(map);
-        expect(copy.id, equals(1));
-        expect(copy.firstname, equals("Bob"));
-        expect(copy.lastname, equals("Kate"));
-        //expect(copy.dob, equals(new DateTime(1973, 4, 10)));
-        expect(copy.address.id, equals(1));
+          var copy = new Resident.fromMap(map);
+          expect(copy.id, equals(1));
+          expect(copy.firstname, equals("Bob"));
+          expect(copy.lastname, equals("Kate"));
+          //expect(copy.dob, equals(new DateTime(1973, 4, 10)));
+          expect(copy.address.id, equals(1));
+        });
       });
     });
 }

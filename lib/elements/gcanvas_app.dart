@@ -14,6 +14,7 @@ class GCanvasApp extends PolymerElement {
   @observable final List<Resident> residentsAtAddress = toObservable([]);
   @observable GeoCoordinates location;
 
+
   @observable State appState;
   AppStateCtrl _appStateCtrl;
   AddressListCtrl _addressListCtrl;
@@ -25,6 +26,13 @@ class GCanvasApp extends PolymerElement {
 
 
   GCanvasApp.created() : super.created() {
+
+  }
+
+
+  void enteredView() {
+    super.enteredView();
+
     _addressListCtrl = new AddressListCtrl.create();
     _appStateCtrl = new AppStateCtrl.create();
 
@@ -39,13 +47,16 @@ class GCanvasApp extends PolymerElement {
 
 
   void _loadAppState() {
+    appState = new State.create();
+
     _addressListCtrl.getList().then((addrList) {
       addresses.addAll(addrList);
       availableAddresses.addAll(addresses);
       _appStateCtrl.get().then((state) {
         appState = state;
         _appStateCtrl.save(appState); //@TODO: make sure this is only done when no state is stored in browser DB
-      });
+      },
+      onError: () => appState = new State.create());
     });
   }
 

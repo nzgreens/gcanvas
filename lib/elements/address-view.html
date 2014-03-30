@@ -19,10 +19,10 @@
     }
     </style>
     <template if="{{showAddress}}">
-      <div>{{address.street}}</div>
-      <div>{{address.suburb}}</div>
-      <div>{{address.city}}</div>
-      <div>{{address.postcode}}</div>
+      <div id="street">{{address.street}}</div>
+      <div id="suburb">{{address.suburb}}</div>
+      <div id="city">{{address.city}}</div>
+      <div id="postcode">{{address.postcode}}</div>
       <response-view on-reasponse-selected="{{reasonSelected}}" on-reason-selected="{{reasonSelected}}"></response-view>
       <template repeat="{{resident in residents}}">
         <div>

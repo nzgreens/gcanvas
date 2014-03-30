@@ -29,8 +29,6 @@ class AreaSelectorElement extends PolymerElement {
 
   void enteredView() {
     super.enteredView();
-    print("enteredView: location is: $location");
-    print(availableAddresses);
     availableAddresses.forEach((Address address) {
       if(!mapMarkers.containsKey(address.id)) {
         if(address.street == "50 Bignell street") {
@@ -48,8 +46,6 @@ class AreaSelectorElement extends PolymerElement {
       }
 
     });
-    print(mapMarkers);
-
   }
 
   locationChanged() {
@@ -66,7 +62,10 @@ class AreaSelectorElement extends PolymerElement {
 
   void initMap() {
     if(map == null) {
-      map = new GCanvasMap.create($['map'], proxy: $['overlay']);
+      var mapEl = shadowRoot.querySelector('div');//$['map'];
+      //print($);
+      var overlayEl = $['overlay'];
+      map = new GCanvasMap.create(mapEl, proxy: overlayEl);
     }
   }
 }

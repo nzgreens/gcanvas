@@ -6,7 +6,7 @@
       height: 100px;
       /* cherry juice and ginger ale*/
       display: inline-block;
-      border: solid 1px blue;
+      border: 1px solid blue;
     }
 
     @host {
@@ -26,7 +26,7 @@
     }
     </style>
     <img id="icon">
-    <div><span>{{resident.firstname}}</span> <span>{{resident.lastname}}</span></div>
+    <div><span id="firstname">{{resident.firstname}}</span> <span id="lastname">{{resident.lastname}}</span></div>
   </template>
   <script type="application/dart" src="resident_view.dart"></script>
 </polymer-element>

@@ -5,15 +5,21 @@ import 'package:gcanvas/resident.dart';
 class ResidentViewElement extends PolymerElement {
   @published Resident resident;
 
-  @published String styleSelected = "solid 5px green";
-  @published String styleDeselected = "solid 1px blue";
+  @published String styleSelected = "5px solid green";
+  @published String styleDeselected = "1px solid blue";
 
   bool selected = false;
 
-  ResidentViewElement.created() : super.created() {
+  ResidentViewElement.created() : super.created();
+
+  void enteredView() {
+    super.enteredView();
+
     onClick.listen((event) {
       click();
     });
+
+    style.border = styleDeselected;
   }
 
   void click() {

@@ -26,24 +26,32 @@ void appstatectrl_test() {
 
 
     test("gets state", () {
-      Future<State> future = appstatectrl.get();
-      future.then((retstate) {
-        expect(retstate.addressListView, equals(state.addressListView));
-        expect(retstate.addressView, equals(state.addressView));
-        expect(retstate.address.id, equals(state.address.id));
+      schedule(() {
+        Future<State> future = appstatectrl.get();
+        future.then((retstate) {
+          expect(retstate.addressListView, equals(state.addressListView));
+          expect(retstate.addressView, equals(state.addressView));
+          expect(retstate.address.id, equals(state.address.id));
+        });
+        expect(future, completes);
+        store.getLogs(callsTo('getState')).verify(happenedAtLeastOnce);
+
+        return future;
       });
-      expect(future, completes);
-      store.getLogs(callsTo('getState')).verify(happenedAtLeastOnce);
     });
 
 
     test("save state", () {
-      Future<bool> future = appstatectrl.save(state);
-      future.then((success) {
-        expect(success, isTrue);
+      schedule(() {
+        Future<bool> future = appstatectrl.save(state);
+        future.then((success) {
+          expect(success, isTrue);
+        });
+        expect(future, completes);
+        store.getLogs(callsTo('saveState')).verify(happenedAtLeastOnce);
+
+        return future;
       });
-      expect(future, completes);
-      store.getLogs(callsTo('saveState')).verify(happenedAtLeastOnce);
-      });
+    });
   });
 }

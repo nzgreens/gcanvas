@@ -14,41 +14,41 @@ void question_script_test() {
 
     });
 
-    tearDown(() {
-
-    });
-
 
     test("script contains script text", () {
-      expect(questionScript.script, equals(script));
+      schedule(() {expect(questionScript.script, equals(script));});
     });
 
 
     test("script date is now", () {
-      expect(questionScript.date.day, equals(new DateTime.now().day));
+      schedule(() {expect(questionScript.date.day, equals(new DateTime.now().day));});
     });
 
 
     test("script toMap works", () {
-      var expected = {
-        "script": script,
-        "date": date.toString()
-      };
+      schedule(() {
+        var expected = {
+          "script": script,
+          "date": date.toString()
+        };
 
-      expect(questionScript.toMap(), equals(expected));
+        expect(questionScript.toMap(), equals(expected));
+      });
     });
 
 
     test("script fromMap works", () {
-      var map = {
-        "script": script,
-        "date": date.toString()
-      };
+      schedule(() {
+        var map = {
+          "script": script,
+          "date": date.toString()
+        };
 
-      var quesScript = new QuestionScript.fromMap(map);
+        var quesScript = new QuestionScript.fromMap(map);
 
-      expect(quesScript.script, equals(script));
-      expect(quesScript.date, equals(date));
+        expect(quesScript.script, equals(script));
+        expect(quesScript.date, equals(date));
+      });
     });
   });
 }

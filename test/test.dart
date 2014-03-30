@@ -1,6 +1,7 @@
 library gcanvas_test;
 
-import 'package:unittest/unittest.dart';
+//import 'package:unittest/unittest.dart';
+import 'package:scheduled_test/scheduled_test.dart';
 import 'package:unittest/html_config.dart';
 import 'dart:html';
 import 'dart:async';
@@ -16,7 +17,6 @@ import 'package:gcanvas/map/map.dart';
 part 'storectrl_test.dart';
 part 'address_test.dart';
 part 'resident_test.dart';
-part 'gcanvas_app_element_test.dart';
 part 'response_test.dart';
 part 'addresslistctrl_test.dart';
 part 'residentlistctrl_test.dart';
@@ -27,6 +27,9 @@ part 'state_test.dart';
 part 'configctrl_test.dart';
 part 'geocoordinates_test.dart';
 
+part 'elements/gcanvas_app_element_test.dart';
+part 'elements/address_list_element_test.dart';
+
 main() {
   useHtmlConfiguration(true);
   initPolymer();
@@ -35,13 +38,16 @@ main() {
   address_test();
   resident_test();
   state_test();
-  gcanvas_app_element_test();
   response_test();
   addresslistctrl_test();
   residentlistctrl_test();
   appstatectrl_test();
   question_script_test();
   geocoordinates_test();
+
+  address_list_element_test();
+  gcanvas_app_element_test();
+
   //pollForDone(testCases);
 }
 
@@ -64,3 +70,16 @@ class NullTreeSanitizer implements NodeTreeSanitizer {
   void sanitizeTree(node) {}
 }
 
+
+class PageComponent {
+  final PolymerElement el;
+
+  const PageComponent(this.el);
+
+  Future flush() {
+    Completer completer = new Completer();
+    el.async((_) => completer.complete());
+
+    return completer.future;
+  }
+}

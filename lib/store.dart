@@ -1,5 +1,6 @@
 part of gcanvas.client;
 
+//@TODO: split into separate stores for address, resident, and appstate
 @reflectable
 class StoreCtrl {
   @reflectable final Store addressStore;
@@ -17,6 +18,7 @@ class StoreCtrl {
         addressStore, residentsStore, appstateStore
     );
   }
+
 
 
   Future<bool> _open() {

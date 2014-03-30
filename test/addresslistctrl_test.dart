@@ -54,46 +54,62 @@ void addresslistctrl_test() {
 
 
     test("gets an address list", () {
-      Future future = addressCtrl.getList();
-      future.then((addresses){
-        expect(addresses, hasLength(2));
-        expect(addresses, equals(addressList));
+      schedule(() {
+        Future future = addressCtrl.getList();
+        future.then((addresses){
+          expect(addresses, hasLength(2));
+          expect(addresses, equals(addressList));
+        });
+        expect(future, completes);
+        store.getLogs(callsTo('getAddressList')).verify(happenedOnce);
+
+        return future;
       });
-      expect(future, completes);
-      store.getLogs(callsTo('getAddressList')).verify(happenedOnce);
     });
 
 
     test("adds an address", () {
-      var expectedId = address3.id;
-      Future<int> future = addressCtrl.add(address3);
-      future.then((id) {
-        expect(id, equals(expectedId));
+      schedule(() {
+        var expectedId = address3.id;
+        Future<int> future = addressCtrl.add(address3);
+        future.then((id) {
+          expect(id, equals(expectedId));
+        });
+        expect(future, completes);
+        store.getLogs(callsTo('addAddress')).verify(happenedAtLeastOnce);
+
+        return future;
       });
-      expect(future, completes);
-      store.getLogs(callsTo('addAddress')).verify(happenedAtLeastOnce);
     });
 
 
 
     test("removes an address", () {
-      Future<bool> future = addressCtrl.remove(address2);
-      future.then((success) {
-        expect(success, isTrue);
+      schedule(() {
+        Future<bool> future = addressCtrl.remove(address2);
+        future.then((success) {
+          expect(success, isTrue);
+        });
+        expect(future, completes);
+        store.getLogs(callsTo('removeAddress')).verify(happenedOnce);
+
+        return future;
       });
-      expect(future, completes);
-      store.getLogs(callsTo('removeAddress')).verify(happenedOnce);
     });
 
 
     test("updates an address", () {
-      address3.visited = true;
-      Future<bool> future = addressCtrl.update(address3);
-      future.then((success) {
-        expect(success, isTrue);
+      schedule(() {
+        address3.visited = true;
+        Future<bool> future = addressCtrl.update(address3);
+        future.then((success) {
+          expect(success, isTrue);
+        });
+        expect(future, completes);
+        store.getLogs(callsTo('addAddress')).verify(happenedAtLeastOnce);
+
+        return future;
       });
-      expect(future, completes);
-      store.getLogs(callsTo('addAddress')).verify(happenedAtLeastOnce);
     });
   });
 }
