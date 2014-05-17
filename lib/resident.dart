@@ -3,7 +3,7 @@ library gcanvas.address.resident;
 import 'package:observe/observe.dart' show reflectable;
 
 
-import 'address.dart';
+//import 'address.dart';
 
 @reflectable
 class Resident {
@@ -14,8 +14,8 @@ class Resident {
   @reflectable String lastname;
   @reflectable String occupation;
   @reflectable String gender;
-  //@reflectable DateTime dob;
-  @reflectable Address address;
+  @reflectable DateTime dob;
+  //@reflectable Address address;
 
 
   Resident(
@@ -26,8 +26,9 @@ class Resident {
       this.lastname,
       this.occupation,
       this.gender,
-      //this.dob,
-      this.address);
+      this.dob
+      //this.address
+      );
 
 
   factory Resident.create({
@@ -38,13 +39,13 @@ class Resident {
     String lastname: '',
     String occupation: '',
     String gender: '',
-      //DateTime dob,
-    Address address
+    DateTime dob
+    //Address address
   }) {
-    if (address == null) {
+    //if (address == null) {
       //so deserialising a resident record will work
-      address = new Address.create();
-    }
+    //  address = new Address.create();
+    //}
 
     return new Resident(
         id,
@@ -54,8 +55,9 @@ class Resident {
         lastname,
         occupation,
         gender,
-        //dob,
-        address);
+        dob
+        //address
+        );
   }
 
 
@@ -67,8 +69,8 @@ class Resident {
     var lastname = map['lastname'];
     var occupation = map['occupation'];
     var gender = map['gender'];
-    //var dob = DateTime.parse(map['dob']);
-    var address = new Address.fromMap(map['address']);
+    var dob = DateTime.parse(map['dob']);
+    //var address = new Address.fromMap(map['address']);
 
     return new Resident.create(
         id: id,
@@ -78,7 +80,9 @@ class Resident {
         lastname: lastname,
         occupation: occupation,
         gender: gender,
-        address: address);
+        dob: dob
+        //address: address
+        );
   }
 
 
@@ -91,8 +95,8 @@ class Resident {
       "lastname": lastname,
       "occupation": occupation,
       "gender": gender,
-        //"dob": "$dob",
-      "address": address.toMap()
+      "dob": "$dob",
+      //"address": address.toMap()
     };
   }
 }

@@ -2,7 +2,6 @@
       href="../../../packages/polymer_elements/polymer_grid_layout/polymer_grid_layout.html">
 <link rel="import" href="address-list.html">
 <link rel="import" href="address-view.html">
-<link rel="import" href="area-selector.html">
 <polymer-element name="gcanvas-app">
   <template>
     <style>
@@ -54,14 +53,11 @@
                          layout="{{layout}}">
     </polymer-grid-layout>
     <div id="back_button_box" class="button_box">
-      <template if="{{appState.addressView || (appState.addressSelector && location != null)}}">
+      <template if="{{appState.addressView}}">
         <button id="back_button" on-click="{{navBack}}">&nbsp;</button>
       </template>
     </div>
     <h1 id="title_element" h-flex>gCanvas</h1>
-    <div id="show_map_button_box" class="button_box">
-      <button id="show_map_button" on-click="{{showMap}}">&nbsp;</button>
-    </div>
     <div id="refresh_button_box" class="button_box">
       <button id="refresh_button" on-click="{{refresh}}">&nbsp;</button>
     </div>
@@ -75,12 +71,6 @@
         <address-view address="{{appState.address}}"
                       residents="{{residentsAtAddress}}">
         </address-view>
-      </template>
-      <template if="{{appState.addressSelector && location != null}}">
-        <area-selector location="{{location}}"
-                       availableAddresses="{{availableAddresses}}"
-                       on-added-marker="{{setupMarker}}">
-        </area-selector>
       </template>
     </div>
   </template>

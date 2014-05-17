@@ -11,21 +11,21 @@ void appstatectrl_test() {
         latitude: 169.201928,
         longitude: 49.21112,
         visited: false);
-    var store = new StoreCtrlMock();
+    var store = new Store("test", "app-state");
 
-    var state = new State.create(addressListView: false, addressView: true, addressSelector: false, address: address3);
+    var state = new State.create();
     var appstatectrl = new AppStateCtrl(store);
 
 
     setUp(() {
-      store.when(callsTo('getState'))
-        ..thenReturn(new Future.value(state));
-      store.when(callsTo('saveState'))
-        ..thenReturn(new Future.value(true));
+      schedule(() {
+        return store.open().then((_) => store.nuke());
+      });
+      currentSchedule.onComplete.schedule(() => store.nuke());
     });
 
 
-    test("gets state", () {
+    test("gets initial state", () {
       schedule(() {
         Future<State> future = appstatectrl.get();
         future.then((retstate) {
@@ -34,7 +34,6 @@ void appstatectrl_test() {
           expect(retstate.address.id, equals(state.address.id));
         });
         expect(future, completes);
-        store.getLogs(callsTo('getState')).verify(happenedAtLeastOnce);
 
         return future;
       });
@@ -46,9 +45,12 @@ void appstatectrl_test() {
         Future<bool> future = appstatectrl.save(state);
         future.then((success) {
           expect(success, isTrue);
+          Future future = store.getByKey("state").then((map) {
+            expect(state.toMap(), equals(map));
+          });
+          expect(future, completes);
         });
         expect(future, completes);
-        store.getLogs(callsTo('saveState')).verify(happenedAtLeastOnce);
 
         return future;
       });

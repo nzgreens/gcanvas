@@ -37,23 +37,26 @@ void response_test() {
     var voter = new Resident.create(
         id: 1,
         firstname: "Bob",
-        lastname: "Kate",
+        lastname: "Kate"
         //new DateTime(1973, 4, 10),
-        address: address);
+        //address: address
+        );
 
     var voter2 = new Resident.create(
         id: 2,
         firstname: "Bobby",
-        lastname: "Kate",
+        lastname: "Kate"
         //new DateTime(1973, 4, 10),
-        address: address2);
+        //address: address2
+        );
 
     var voter3 = new Resident.create(
         id: 3,
         firstname: "Bobby3",
-        lastname: "Kate",
+        lastname: "Kate"
         //new DateTime(1973, 4, 10),
-        address: address2);
+        //address: address2
+        );
 
     setUp(() {
       schedule(() {

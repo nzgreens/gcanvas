@@ -5,17 +5,10 @@ description: Canvasing App for doorknocking campaigns.
 environment:
   sdk: '>=1.0.0 <2.0.0'
 dependencies:
-  angular: any
-  browser: any
-  csvparser: any
-  google_maps: any
-  http_server: any
+  http: any
   lawndart: any
-  mime: any
   polymer: any
   polymer_elements: any
-  postgresql: any
-  route: any
   uuid: any
 dev_dependencies:
   scheduled_test: any
@@ -23,6 +16,5 @@ transformers:
 - polymer:
     entry_points:
     - web/index.html
-    - web/add_address.html
 - $dart2js:
     minify: false

@@ -6,9 +6,14 @@ import 'dart:html' show Event, SelectElement;
 class ResponseViewElement extends PolymerElement {
   @published final List<String> responseList = toObservable(['No Answer',
                                                               'Bad Information',
+                                                              'Inaccessible',
+                                                              'Left Message',
+                                                              'Meaningful Interaction',
                                                               'Not Interested',
                                                               'Refused',
-                                                              'Answered']);
+                                                              'Answered',
+                                                              'Send Information'
+                                                              ]);
   @observable final List<String> answeredReason = toObservable(['Not Home',
                                                                  'Busy',
                                                                  'Interested',
@@ -27,7 +32,7 @@ class ResponseViewElement extends PolymerElement {
   @observable final List<String> notInterestedReason = toObservable(['Note Reason',
                                                                        'LOTE']);
 
-  @observable final Map<String, bool> selectionMap = toObservable({'No Answer': true,
+  @observable final Map<String, bool> selectionMap = toObservable({'No Answer': false,
                                                               'Bad Information': false,
                                                               'Not Interested': false,
                                                               'Refused': false,

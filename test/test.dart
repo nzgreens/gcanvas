@@ -6,13 +6,11 @@ import 'package:unittest/html_config.dart';
 import 'dart:html';
 import 'dart:async';
 import 'package:polymer/polymer.dart';
-import 'package:unittest/mock.dart';
 import 'package:gcanvas/gcanvas.dart';
 import 'package:gcanvas/address.dart';
 import 'package:gcanvas/resident.dart';
 import 'package:gcanvas/response.dart';
-import 'package:gcanvas/questionscript.dart';
-import 'package:gcanvas/map/map.dart';
+import 'package:lawndart/lawndart.dart';
 
 part 'storectrl_test.dart';
 part 'address_test.dart';
@@ -21,15 +19,14 @@ part 'response_test.dart';
 part 'addresslistctrl_test.dart';
 part 'residentlistctrl_test.dart';
 part 'appstatectrl_test.dart';
-part 'script_test.dart';
 part 'script_response_test.dart';
 part 'state_test.dart';
 part 'configctrl_test.dart';
-part 'geocoordinates_test.dart';
 
 part 'elements/gcanvas_app_element_test.dart';
 part 'elements/address_list_element_test.dart';
 
+//@initMethod
 main() {
   useHtmlConfiguration(true);
   initPolymer();
@@ -42,8 +39,6 @@ main() {
   addresslistctrl_test();
   residentlistctrl_test();
   appstatectrl_test();
-  question_script_test();
-  geocoordinates_test();
 
   address_list_element_test();
   gcanvas_app_element_test();

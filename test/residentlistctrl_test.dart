@@ -37,64 +37,48 @@ void residentlistctrl_test() {
     var voter = new Resident.create(
         id: 1,
         firstname: "Bob",
-        lastname: "Kate",
+        lastname: "Kate"
         //new DateTime(1973, 4, 10),
-        address: address);
+        //address: address
+        );
 
     var voter2 = new Resident.create(
         id: 2,
         firstname: "Bobby",
-        lastname: "Kate",
+        lastname: "Kate"
         //new DateTime(1973, 4, 10),
-        address: address2);
+        //address: address2
+        );
 
     var voter3 = new Resident.create(
         id: 3,
         firstname: "Bobby3",
-        lastname: "Kate",
+        lastname: "Kate"
         //new DateTime(1973, 4, 10),
-        address: address2);
+        //address: address2
+        );
 
+    var residentMap = {"${voter2.id}": voter2.toMap(), "${voter3.id}": voter3.toMap()};
     var residentList = [voter2, voter3];
-    var store = new StoreCtrlMock();
+    var store = new Store("test", "residents");
     var residentCtrl = new ResidentListCtrl(store);
 
     setUp((){
-      store.when(callsTo('getResidentsAtAddress', address2))
-        ..thenReturn(new Future.value(residentList));
-      store.when(callsTo('addResident', voter3))
-        ..thenReturn(new Future.value(voter3.id));
-      store.when(callsTo('removeResident', voter2))
-        ..thenReturn(new Future.value(true));
-    });
-
-
-
-    test("resident list at address2", () {
       schedule(() {
-        Future future = residentCtrl.getResidentsAtAddress(address2);
-        future.then((residents){
-          expect(residents, hasLength(2));
-          expect(residents, equals(residentList));
-        });
-        expect(future, completes);
-        store.getLogs(callsTo('getResidentsAtAddress')).verify(happenedOnce);
-
-        return future;
+        return store.open().then((_) => store.nuke().then((_) => store.batch(residentMap)));
       });
+      currentSchedule.onComplete.schedule(() => store.nuke());
     });
 
 
 
     test("add a resident", () {
       schedule(() {
-        var expectedId = voter3.id;
-        Future<int> future = residentCtrl.add(voter3);
-        future.then((id) {
-          expect(id, equals(expectedId));
+        Future<bool> future = residentCtrl.add(voter);
+        future.then((success) {
+          expect(success, isTrue);
         });
         expect(future, completes);
-        store.getLogs(callsTo('addResident')).verify(happenedOnce);
 
         return future;
       });
@@ -104,12 +88,24 @@ void residentlistctrl_test() {
 
     test("remove a resident", () {
       schedule(() {
-        Future<bool> future = residentCtrl.remove(voter2);
+        Future<bool> future = residentCtrl.remove(voter);
         future.then((success) {
           expect(success, isTrue);
         });
         expect(future, completes);
-        store.getLogs(callsTo('removeResident')).verify(happenedOnce);
+
+        return future;
+      });
+    });
+
+
+    test("gets resident list", () {
+      schedule(() {
+        Future<List<Resident>> future = residentCtrl.getResidents();
+        future.then((residents) {
+          expect(residents.map((resident) => resident.toMap()).toList(), equals(residentList.map((resident) => resident.toMap()).toList()));
+        });
+        expect(future, completes);
 
         return future;
       });

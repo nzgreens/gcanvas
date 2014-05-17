@@ -5,7 +5,7 @@ import 'dart:html' show Event, window;
 
 @CustomTag('address-edit')
 class AddressEditElement extends PolymerElement {
-  @observable Address addr = new Address.create();
+  @published Address address = new Address.create();
   @observable List<Resident> residents = toObservable([]);
   @observable String latitude;
   @observable String longitude;
@@ -14,7 +14,7 @@ class AddressEditElement extends PolymerElement {
   bool validLongitude = false;
 
   AddressEditElement.created() : super.created() {
-    addr.visited = false;
+    address.visited = false;
   }
 
 
@@ -29,9 +29,9 @@ class AddressEditElement extends PolymerElement {
     }
 
 
-    return addr.city.length > 0 && addr.postcode.length > 0 &&
-        addr.street.length > 0 && addr.suburb.length > 0 &&
-        addr.visited != null;
+    return address.city.length > 0 && address.postcode.length > 0 &&
+        address.address1.length > 0 && address.address2.length > 0 &&
+        address.visited != null;
 
   }
 
@@ -39,7 +39,7 @@ class AddressEditElement extends PolymerElement {
     event.preventDefault();
 
     if(validate()) {
-      fire("address-creation-save", detail: addr);
+      fire("address-creation-save", detail: address);
     } else {
       window.alert("All fields must be filled in and valid values used");
     }
@@ -53,7 +53,7 @@ class AddressEditElement extends PolymerElement {
 
   latitudeChanged() {
     try {
-      addr.latitude = double.parse(latitude);
+      address.latitude = double.parse(latitude);
       validLatitude = true;
     } on FormatException {
       validLatitude = false;
@@ -63,7 +63,7 @@ class AddressEditElement extends PolymerElement {
 
   longitudeChanged() {
     try {
-      addr.longitude = double.parse(longitude);
+      address.longitude = double.parse(longitude);
       validLongitude = true;
     } on FormatException {
       validLongitude = false;

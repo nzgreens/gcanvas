@@ -1,11 +1,32 @@
 part of gcanvas_test;
 
-class StoreCtrlMock extends Mock implements StoreCtrl {}
-
-class HttpMock extends Mock implements DelayedHttp {}
 
 void addresslistctrl_test() {
   group("[Address List Ctrl]", () {
+    var voter = new Resident.create(
+        id: 1,
+        firstname: "Bob",
+        lastname: "Kate"
+        //new DateTime(1973, 4, 10),
+        //address: address
+        );
+
+    var voter2 = new Resident.create(
+        id: 2,
+        firstname: "Bobby",
+        lastname: "Kate"
+        //new DateTime(1973, 4, 10),
+        //address: address2
+        );
+
+    var voter3 = new Resident.create(
+        id: 3,
+        firstname: "Bobby3",
+        lastname: "Kate"
+        //new DateTime(1973, 4, 10),
+        //address: address2
+        );
+
     var address = new Address.create(
         id: 1,
         street: "48 Bignell street",
@@ -14,7 +35,9 @@ void addresslistctrl_test() {
         postcode: "4501",
         latitude: 169.201928,
         longitude: 49.21112,
-        visited: false);
+        visited: false,
+        residents: [voter]
+    );
 
     var address2 = new Address.create(
         id: 2,
@@ -24,7 +47,9 @@ void addresslistctrl_test() {
         postcode: "4501",
         latitude: 169.201928,
         longitude: 49.21112,
-        visited: false);
+        visited: false,
+        residents: [voter2]
+    );
 
     var address3 = new Address.create(
         id: 3,
@@ -34,21 +59,21 @@ void addresslistctrl_test() {
         postcode: "4501",
         latitude: 169.201928,
         longitude: 49.21112,
-        visited: false);
+        visited: false,
+        residents: [voter3]
+    );
 
-    var store = new StoreCtrlMock();
+    var store = new Store('test', 'address');
+    var addressMap = {"${address.id}": address.toMap(), "${address2.id}": address2.toMap()};
     var addressList = [address, address2];
     var addressCtrl = new AddressListCtrl(store);
 
 
     setUp((){
-      store.when(callsTo('getAddressList'))
-        ..thenReturn(new Future.value(addressList));
-      store.when(callsTo('addAddress', address3))
-        ..thenReturn(new Future.value(address3.id));
-      store.when(callsTo('removeAddress', address2))
-              ..thenReturn(new Future.value(true));
-
+      schedule(() {
+        return store.open().then((_) => store.nuke().then((_) => store.batch(addressMap)));
+      });
+      currentSchedule.onComplete.schedule(() => store.nuke());
     });
 
 
@@ -57,11 +82,11 @@ void addresslistctrl_test() {
       schedule(() {
         Future future = addressCtrl.getList();
         future.then((addresses){
+          print(addresses[0].toMap());
           expect(addresses, hasLength(2));
-          expect(addresses, equals(addressList));
+          expect(addresses.map((addr) => addr.toMap()), equals(addressList.map((addr) => addr.toMap())));
         });
         expect(future, completes);
-        store.getLogs(callsTo('getAddressList')).verify(happenedOnce);
 
         return future;
       });
@@ -76,7 +101,6 @@ void addresslistctrl_test() {
           expect(id, equals(expectedId));
         });
         expect(future, completes);
-        store.getLogs(callsTo('addAddress')).verify(happenedAtLeastOnce);
 
         return future;
       });
@@ -91,7 +115,6 @@ void addresslistctrl_test() {
           expect(success, isTrue);
         });
         expect(future, completes);
-        store.getLogs(callsTo('removeAddress')).verify(happenedOnce);
 
         return future;
       });
@@ -106,7 +129,6 @@ void addresslistctrl_test() {
           expect(success, isTrue);
         });
         expect(future, completes);
-        store.getLogs(callsTo('addAddress')).verify(happenedAtLeastOnce);
 
         return future;
       });

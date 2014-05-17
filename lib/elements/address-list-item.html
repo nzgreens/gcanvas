@@ -4,6 +4,7 @@
     :host {
       /*display: none;*/
       cursor: pointer;
+      
     }
 
     @host {
@@ -12,10 +13,16 @@
         cursor: pointer;
       }
     }
+    
+    #address {
+      border-top: 1px solid blue;
+      border-bottom: 1px solid blue;
+    }
     </style>
-    <div>
-      <div id="street">{{address.street}}</div>
-      <div id="suburb">{{address.suburb}}</div>
+    <div id="address">
+      <div id="address1">{{address.address1}}</div>
+      <div id="address2">{{address.address2}}</div>
+      <div id="address3">{{address.address3}}</div>
     </div>
   </template>
   <script type="application/dart" src="address_list_item.dart"></script>

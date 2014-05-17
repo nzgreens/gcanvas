@@ -1,31 +1,52 @@
 part of gcanvas.client;
 
-
+@reflectable
 class AppStateCtrl {
-  StoreCtrl _store;
+  Store _store;
 
-  AppStateCtrl(this._store);
+  AppStateCtrl([this._store]);
 
   factory AppStateCtrl.create() {
     return new AppStateCtrl(
-        new StoreCtrl.create()
+        new Store("gcanvas", "app-state")
     );
   }
 
 
+  Future<bool> _open() {
+    return _store.open();
+  }
+
+
   Future<State> get() {
-    return _store.getState().then((state) {
-      State appState = state != null ? state : new State.create();
+    Completer<State> completer = new Completer<State>();
 
-      appState.address = appState.address != null ? appState.address : new Address.create();
-
-      return new Future<State>.value(appState);
+    _open().then((_) {
+      _store.exists('state').then((exists) {
+        if(exists) {
+          _store.getByKey("state").then((map) {
+            State state = map != null ? new State.fromMap(map) : new State.create();
+            completer.complete(state);
+          });
+        } else {
+          completer.complete(new State.create());
+        }
+      });
     });
+
+    return completer.future;
   }
 
 
   Future<bool> save(State state) {
+    Completer<bool> completer = new Completer<bool>();
 
-    return _store.saveState(state);
+    _open().then((_) {
+      _store.save(state.toMap(), 'state').then((key) {
+        completer.complete(true);
+      });
+    });
+
+    return completer.future;
   }
 }

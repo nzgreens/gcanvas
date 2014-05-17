@@ -15,9 +15,8 @@ void resident_test() {
       var voter = new Resident.create(
           id: 1,
           firstname: "Bob",
-          lastname: "Kate",
+          lastname: "Kate"
           // new DateTime(1973, 4, 10),
-          address: address
       );
 
 
@@ -55,9 +54,9 @@ void resident_test() {
             'middlenames': '',
             'lastname': 'Kate',
             'occupation': '',
-            'gender': '',
+            'gender': ''
               //'dob': new DateTime(1973, 4, 10).toString(),
-            'address': address.toMap()
+            //'address': address.toMap()
           };
 
           expect(voter.toMap(), equals(expected));
@@ -70,9 +69,9 @@ void resident_test() {
           var map = {
             'id': 1,
             'firstname': 'Bob',
-            'lastname': 'Kate',
+            'lastname': 'Kate'
               //'dob': new DateTime(1973, 4, 10).toString(),
-            'address': address.toMap()
+            //'address': address.toMap()
           };
 
           var copy = new Resident.fromMap(map);
@@ -80,7 +79,7 @@ void resident_test() {
           expect(copy.firstname, equals("Bob"));
           expect(copy.lastname, equals("Kate"));
           //expect(copy.dob, equals(new DateTime(1973, 4, 10)));
-          expect(copy.address.id, equals(1));
+          //expect(copy.address.id, equals(1));
         });
       });
     });

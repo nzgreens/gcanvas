@@ -4,17 +4,28 @@ library gcanvas.client;
 
 import 'dart:html';
 import 'dart:async';
+import 'dart:convert' show JSON;
 import 'package:observe/observe.dart';
 import 'package:lawndart/lawndart.dart';
 import 'package:uuid/uuid_client.dart';
+import 'package:http/browser_client.dart';
 
 import 'address.dart';
 import 'resident.dart';
-import 'map/map.dart';
+//import 'map/map.dart';
 
-part 'store.dart';
 part 'addressctrl.dart';
 part 'residentctrl.dart';
 part 'delayedhttp.dart';
 part 'state.dart';
 part 'appstatectrl.dart';
+part 'syncctrl.dart';
+
+
+class Http {// extends BrowserClient {
+  Future<HttpRequest> get(url, {headers, responseType: 'text/html'}) {
+    headers = headers != null ? headers : {};
+
+    return HttpRequest.request(url, method: 'GET', responseType: responseType, requestHeaders: headers);
+  }
+}

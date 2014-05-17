@@ -5,7 +5,7 @@ import 'dart:html' show Event, CustomEvent;
 
 @CustomTag("address-list")
 class AddressList extends PolymerElement {
-  @published List<Address> addresses;
+  @published List<Address> addresses = toObservable([]);
 
   AddressList.created() : super.created();
 

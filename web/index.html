@@ -1,25 +1,24 @@
 <!DOCTYPE html>
 
-<html lang="en" ng-app>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>index</title>
-    <!-- <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
-         <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script> -->
+    <title>gCanvas</title>
+
+    <!-- Setup polymer with the polymer.html -->
+    <!-- <link rel="import" href="packages/polymer/polymer.html"> -->
+    
 
     <!-- import the elements -->
     <link rel="import" href="packages/gcanvas/elements/gcanvas-app.html">
     <link rel="import" href="packages/gcanvas/elements/address-list.html">
-    <!-- <script type="application/dart">export 'package:polymer/init.dart';</script> -->
   </head>
   <body>
-
-    <gcanvas-app>
-    </gcanvas-app>
+    
+    <gcanvas-app></gcanvas-app>
     
     <script type="application/dart" src="main.dart"></script>
     <script src="packages/browser/dart.js"></script>
-    <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
   </body>
 </html>

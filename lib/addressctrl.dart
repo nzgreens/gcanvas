@@ -3,24 +3,28 @@ part of gcanvas.client;
 
 @reflectable
 class AddressListCtrl {
-  @reflectable StoreCtrl _storeCtrl;
+  @reflectable Store _store;
 
-  AddressListCtrl(this._storeCtrl);
+  AddressListCtrl([this._store]);
 
 
   factory AddressListCtrl.create() {
-    return new AddressListCtrl(new StoreCtrl.create());
+    return new AddressListCtrl(new Store("gcanvas", "addresses"));
   }
 
 
-  Future<int> add(Address addr) {
-    Completer<int> completer = new Completer<int>();
+  Future<bool> _open() {
+    return _store.open();
+  }
 
-    _storeCtrl.addAddress(addr).then((val){
-      getList().then((_) {
-        completer.complete(val);
+
+  Future<String> add(Address addr) {
+    Completer<String> completer = new Completer<String>();
+
+    _open().then((_) {
+      _store.save(addr.toMap(), "${addr.id}").then((key) {
+        completer.complete(key);
       });
-
     });
 
     return completer.future;
@@ -29,10 +33,9 @@ class AddressListCtrl {
 
   Future<bool> remove(Address addr) {
     Completer<bool> completer = new Completer<bool>();
-    _storeCtrl.removeAddress(addr).then((result) {
-      getList().then((_) {
-        completer.complete(result);
-      });
+
+    _open().then((_) {
+      _store.removeByKey("${addr.id}").then((_) => completer.complete(true));
     });
 
     return completer.future;
@@ -42,8 +45,14 @@ class AddressListCtrl {
   Future<List<Address>> getList() {
     Completer<List<Address>> completer = new Completer<List<Address>>();
 
-    _storeCtrl.getAddressList().then((addrList) {
-      completer.complete(addrList);
+    _open().then((_) {
+      _store.all().toList().then((values) {
+        List<Address> addresses = new List<Address>();
+        for(var map in values) {
+          addresses.add(new Address.fromMap(map));
+        }
+        completer.complete(addresses);
+      });
     });
 
     return completer.future;
