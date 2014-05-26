@@ -62,8 +62,6 @@ serveDirectory(var virDir) {
 
 run(args) {
   var postgres_uri = Platform.environment['HEROKU_POSTGRESQL_CHARCOAL_URL'] == null ? 'postgres://postgres:gcanvasbkd7ffvf@localhost:5432/gcanvas' : Platform.environment['HEROKU_POSTGRESQL_CHARCOAL_URL'];
-  var portEnv = Platform.environment['PORT'];
-  var port = portEnv == null ? 9999 : int.parse(portEnv);
 
   //seems the max number here will stop some connections altogether rather than just delay, while waiting for a connection, as I expected.
   var conn = new DBConnection();
@@ -127,6 +125,8 @@ run(args) {
   });
 
 
+  var portEnv = Platform.environment['PORT'];
+  var port = portEnv == null ? 9999 : int.parse(portEnv);
 
   HttpServer.bind(InternetAddress.ANY_IP_V4, port).then((HttpServer server) {
     print("Listening on address ${server.address.address}:${port}" );
