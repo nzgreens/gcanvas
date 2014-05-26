@@ -61,11 +61,8 @@ serveDirectory(var virDir) {
 }
 
 run(args) {
-  var postgres_uri = Platform.environment['HEROKU_POSTGRESQL_CHARCOAL_URL'] == null ? 'postgres://postgres:gcanvasbkd7ffvf@localhost:5432/gcanvas' : Platform.environment['HEROKU_POSTGRESQL_CHARCOAL_URL'];
 
-  //seems the max number here will stop some connections altogether rather than just delay, while waiting for a connection, as I expected.
-  var conn = new DBConnection();
-  String dbName = postgres_uri.split('/').last;
+  /*String dbName = postgres_uri.split('/').last;
   addressTableExists(conn, dbName).then((exists) {
     print("address: $exists");
     if (!exists) {
@@ -122,33 +119,40 @@ run(args) {
         print("created resident: $success");
       });
     }
-  });
+  });*/
 
 
   var portEnv = Platform.environment['PORT'];
   var port = portEnv == null ? 9999 : int.parse(portEnv);
+  runZoned(() {
+    HttpServer.bind(InternetAddress.ANY_IP_V4, port).then((HttpServer server) {
+      var postgres_uri = Platform.environment['HEROKU_POSTGRESQL_CHARCOAL_URL'] == null ? 'postgres://postgres:gcanvasbkd7ffvf@localhost:5432/gcanvas' : Platform.environment['HEROKU_POSTGRESQL_CHARCOAL_URL'];
 
-  HttpServer.bind(InternetAddress.ANY_IP_V4, port).then((HttpServer server) {
-    print("Listening on address ${server.address.address}:${port}" );
-    String buildBaseDir = args.length > 0 ? args[0] : "build/web";
-    String packageBaseDir = ".";
-    new Directory(buildBaseDir).exists().then((exists) {
-      if(exists) {
-        Router router = setupRouter(server, conn);
+      //seems the max number here will stop some connections altogether rather than just delay, while waiting for a connection, as I expected.
+      var conn = new DBConnection();
 
-        serveFiles(router.defaultStream, buildBaseDir);
+      print("Listening on address ${server.address.address}:${port}" );
+      String buildBaseDir = args.length > 0 ? args[0] : "build/web";
+      String packageBaseDir = ".";
+      new Directory(buildBaseDir).exists().then((exists) {
+        if(exists) {
+          Router router = setupRouter(server, conn);
+          serveFiles(router.defaultStream, buildBaseDir);
 
 
-      } else {
-        new Router(server)
-        ..serve('/').listen((request) {
-          request.response
-            ..write("Something went wrong, the ${buildBaseDir} directory can't be found")
-            ..close();
-        });
-      }
+        } else {
+          new Router(server)
+          ..serve('/').listen((request) {
+            request.response
+              ..write("Something went wrong, the ${buildBaseDir} directory can't be found")
+              ..close();
+          });
+        }
+      });
     });
-  });
+  },
+  onError: print
+  );
 }
 
 main(List<String> args) {
