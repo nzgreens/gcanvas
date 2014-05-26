@@ -12,67 +12,29 @@
         height: 62px;
       }
     </style>
-    <div>Response</div>
+    <div><span id="firstname">{{resident.firstname}}</span> <span id="lastname">{{resident.lastname}}</span></div>
+    <div>Contact Status</div>
     <div>
       <select id="response" on-change="{{responseSelected}}">
-        <option>Select a response</option>
-        <option template repeat="{{response in responseList}}">
-          {{response}}
+        <option value="-1">Select a response</option>
+        <option template repeat="{{key in responseMap.keys}}" value="{{key}}">
+          {{responseMap[key]}}
         </option>
       </select>
     </div>
-    
-    <div>Reason</div>
-    <template if="{{selectionMap['No Answer']}}">
-      <div>
-        <select id="noanswer" on-change="{{reasonSelected}}">
-          <option>Select reason</option>
-          <option template repeat="{{response in noAnswerReason}}">
-            {{response}}
-          </option>
-        </select>
-      </div>
+
+    <template if="{{supportEntry == true}}">
+      <div>Support Level</div>
+      <select id="support" on-change="{{supportSelected}}">
+        <option value="-1">Select support level</option>
+        <option template repeat="{{key in supportLevelMap.keys}}" value="{{key}}">
+          {{supportLevelMap[key]}}
+        </option>
+      </select>
     </template>
-    <template if="{{selectionMap['Bad Information']}}">
-      <div>
-        <select id="badinformation" on-change="{{reasonSelected}}">
-          <option>Select reason</option>
-          <option template repeat="{{response in badInfoReason}}">
-            {{response}}
-          </option>
-        </select>
-      </div>
-    </template>
-    <template if="{{selectionMap['Not Interested']}}">
-      <div>
-        <select id="notinterested" on-change="{{reasonSelected}}">
-          <option>Select reason</option>
-          <option template repeat="{{response in notInterestedReason}}">
-            {{response}}
-          </option>
-        </select>
-      </div>
-    </template>
-    <template if="{{selectionMap['Refused']}}">
-      <div>
-        <select id="refused" on-change="{{reasonSelected}}">
-          <option>Select reason</option>
-          <option template repeat="{{response in refusedReason}}">
-            {{response}}
-          </option>
-        </select>
-      </div>
-    </template>
-    <template if="{{selectionMap['Answered']}}">
-      <div>
-        <select id="answered" on-change="{{reasonSelected}}">
-          <option>Select reason</option>
-          <option template repeat="{{response in answeredReason}}">
-            {{response}}
-          </option>
-        </select>
-      </div>
-    </template>
+
+    <div><button on-click="{{submit}}">OK</button></div>
+    <div><button on-click="{{cancel}}">Cancel</button></div>
   </template>
   <script type="application/dart" src="response_view.dart"></script>  
 </polymer-element>

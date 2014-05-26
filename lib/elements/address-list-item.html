@@ -15,11 +15,17 @@
     }
     
     #address {
-      border-top: 1px solid blue;
       border-bottom: 1px solid blue;
     }
+    
+    #address.visited {
+      border-top: 1px solid red;
+      border-bottom: 1px solid red;
+      background-color: lightGray;
+    }
+    
     </style>
-    <div id="address">
+    <div id="address" class="{{visited}}">
       <div id="address1">{{address.address1}}</div>
       <div id="address2">{{address.address2}}</div>
       <div id="address3">{{address.address3}}</div>

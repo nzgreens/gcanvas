@@ -1,78 +1,113 @@
 <link rel="import"
-      href="../../../packages/polymer_elements/polymer_grid_layout/polymer_grid_layout.html">
+      href="../../../packages/polymer_ui_elements/polymer_ui_scaffold/polymer_ui_scaffold.html">
+<link rel="import"
+      href="../../../packages/polymer_ui_elements/polymer_ui_card/polymer_ui_card.html">
+<link rel="import"
+      href="../../../packages/polymer_ui_elements/polymer_ui_icon_button/polymer_ui_icon_button.html">
+<link rel="import"
+      href="../bower_components/x-tag-imports/x-tag-flipbox.html">
 <link rel="import" href="address-list.html">
 <link rel="import" href="address-view.html">
 <polymer-element name="gcanvas-app">
   <template>
+    <link rel="stylesheet" href="../bower_components/x-tag-flipbox/src/flipbox.css">
     <style>
-    :host {
-      /*display: none;*/
-    }
-
-    @host {
-      * {
-        /*display: none;*/
+      polymer-ui-scaffold {
+        display: block;
+        position: fixed;
+        width: 100%;
+        height: 100%;
       }
-    }
-
-    h1 {
-      display: inline-block;
-      text-align: center;
-      width: 50%;
-    }
-
-    #refresh_button {
-      width: 62px;
-      height: 62px;
-      background-image: url(/assets/gcanvas/images/rotate2.png);
-      background-size: 50px 50px;
-      background-repeat: no-repeat;
-    }
-
-    #back_button {
-      width: 62px;
-      height: 62px;
-      background-image: url(/assets/gcanvas/images/controls1.png);
-      background-repeat: no-repeat;
-    }
-
-    #show_map_button {
-      width: 62px;
-      height: 62px;
-      background-image: url(/assets/gcanvas/images/controls1.png);
-      background-repeat: no-repeat;
-    }
-
-    .button_box {
-      width: 63px;
-      height: 63px;
-      display: inline-block;
-    }
+      
+      polymer-ui-scaffold2 {
+        display: block;
+        height: 100%;
+      }
+      
+      polymer-ui-scaffold3 {
+        display: block;
+        height: 100%;
+      }
+      
+      polymer-ui-card {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      x-flipbox {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        /*position: absolute !important;*/
+        position: block !important;
+        /*left: 15px !important;
+        bottom: 65px !important;*/
+      }
+      x-flipbox > * {
+        -webkit-transform-style: flat !important;
+        transform-style: flat !important;
+      }
+      h1 {
+        display: inline-block;
+        text-align: center;
+        width: 50%;
+      }
+      
+      #refresh_button {
+        width: 62px;
+        height: 62px;
+        background-image: url(/assets/gcanvas/images/rotate2.png);
+        background-size: 50px 50px;
+        background-repeat: no-repeat;
+      }
+      
+      #back_button {
+        width: 62px;
+        height: 62px;
+        background-image: url(/assets/gcanvas/images/controls1.png);
+        background-repeat: no-repeat;
+      }
+      
+      #show_map_button {
+        width: 62px;
+        height: 62px;
+        background-image: url(/assets/gcanvas/images/controls1.png);
+        background-repeat: no-repeat;
+      }
+      
+      .button_box {
+        width: 63px;
+        height: 63px;
+        display: inline-block;
+      }
+      button {
+        width: 62px;
+        height: 62px;
+      }
     </style>
-    <polymer-grid-layout xnodes="{{xnodes}}"
-                         layout="{{layout}}">
-    </polymer-grid-layout>
-    <div id="back_button_box" class="button_box">
-      <template if="{{appState.addressView}}">
-        <button id="back_button" on-click="{{navBack}}">&nbsp;</button>
-      </template>
-    </div>
-    <h1 id="title_element" h-flex>gCanvas</h1>
-    <div id="refresh_button_box" class="button_box">
-      <button id="refresh_button" on-click="{{refresh}}">&nbsp;</button>
-    </div>
-    <div id="content" flex>
-      <template if="{{appState.addressListView}}">
-        <address-list addresses="{{addresses}}"
-                      on-address-clicked="{{showAddress}}">
-        </address-list>
-      </template>
-      <template if="{{appState.addressView}}">
-        <address-view address="{{appState.address}}"
-                      residents="{{residentsAtAddress}}">
-        </address-view>
-      </template>
-    </div>
+    <polymer-ui-scaffold hideMenuButton>
+      <div tool flex>gCanvas</div>
+      <polymer-ui-icon-button tool id="refresh" icon="{{refreshIcon}}" on-click="{{refresh}}"></polymer-ui-icon-button>
+      <polymer-ui-icon-button tool id="account" icon="{{accountIcon}}" on-click="{{setUpAccount}}"></polymer-ui-icon-button>
+      <div main>
+        <x-flipbox id="flipbox">
+          <polymer-ui-card>
+            <address-list addresses="{{addresses}}"
+                          on-address-clicked="{{showAddress}}">
+            </address-list>
+          </polymer-ui-card>
+          <polymer-ui-card>
+            <div>
+              <address-view address="{{appState.address}}"
+                            on-response-submit="{{submitResponse}}"
+                            on-address-done="{{hideAddress}}"
+                            on-address-next="{{nextAddress}}">
+              </address-view>
+            </div>
+          </polymer-ui-card>
+        </x-flipbox>
+      </div>
+    </polymer-ui-scaffold>
   </template>
   <script type="application/dart" src="gcanvas_app.dart"></script>
 </polymer-element>

@@ -9,33 +9,29 @@ import 'address.dart';
 @reflectable
 class ResidentResponse {
   @reflectable int id;
-  @reflectable String response = "";
-  @reflectable String reason = "";
-  @reflectable Address address;
-  @reflectable List<Resident> presentResidents;
+  @reflectable int response = -1;
+  @reflectable int support = -1;
+  @reflectable Resident resident;
 
 
 
-  ResidentResponse(this.id, this.response, this.reason, this.address, this.presentResidents);
+  ResidentResponse(this.id, this.response, this.support, this.resident);
 
 
-  factory ResidentResponse.create({id: -1, response: '', reason: '', address, presentResidents}) {
-    address = address != null ? address : new Address.create();
-    presentResidents = presentResidents != null ? presentResidents : [];
+  factory ResidentResponse.create({id: -1, response: -1, support: -1, resident}) {
+    resident = resident != null ? resident : new Resident.create();
 
-    return new ResidentResponse(id, response, reason, address, presentResidents);
+    return new ResidentResponse(id, response, support, resident);
   }
 
 
   factory ResidentResponse.fromMap(Map map) {
     var id = map['id'];
     var response = map['response'];
-    var reason = map['reason'];
-    var address = new Address.fromMap(map['address']);
-    var residents = [];
-    residents.addAll(map['presentResidents'].map((residentMap) => new Resident.fromMap(residentMap)));
+    var support = map['support'];
+    var resident = new Resident.fromMap(map['resident']);
 
-    return new ResidentResponse.create(id: id, response: response, reason: reason, address: address, presentResidents: residents);
+    return new ResidentResponse.create(id: id, response: response, support: support, resident: resident);
   }
 
 
@@ -43,9 +39,8 @@ class ResidentResponse {
     return {
       'id': id,
       'response': response,
-      'reason': reason,
-      'address': address.toMap(),
-      'presentResidents': presentResidents.map((resident) => resident.toMap())
+      'support': support,
+      'resident': resident.toMap()
     };
   }
 }

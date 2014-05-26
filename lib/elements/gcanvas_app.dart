@@ -7,50 +7,36 @@ import 'package:gcanvas/gcanvas.dart';
 
 import 'dart:html';
 
+import 'dart:js';
+
 @CustomTag("gcanvas-app")
 class GCanvasApp extends PolymerElement {
   @observable final List<Address> addresses = toObservable([]);
-  @observable final List<Address> availableAddresses = toObservable([]);
-  @observable Address address;
-  @observable final List<Resident> residentsAtAddress = toObservable([]);
-  //@observable GeoCoordinates location;
 
+  @observable var refreshIcon = 'refresh';
+  @observable var accountIcon = 'account';
 
+  @published ResidentResponseCtrl responseCtrl = new ResidentResponseCtrl.create();
   @published SyncCtrl syncCtrl = new SyncCtrl.create();
   @published State appState = new State.create();
   @published AppStateCtrl appStateCtrl = new AppStateCtrl.create();
   @published AddressListCtrl addressListCtrl = new AddressListCtrl.create();
-  @observable final List<Element> xnodes = toObservable([]);
-  @observable List<int> layout = toObservable([
-    [ 1, 2, 3 ],
-    [ 4, 4, 4 ]
-  ]);
+
+  GCanvasApp.created() : super.created();
 
 
-  GCanvasApp.created() : super.created() {
-
-  }
-
-
-  void enteredView() {
-    super.enteredView();
-
+  void attached() {
+    super.attached();
 
     _loadAppState();
-
-    xnodes.add($['back_button_box']);
-    xnodes.add($['title_element']);
-    xnodes.add($['refresh_button_box']);
-    xnodes.add($['content']);
   }
 
 
   void _loadAppState() {
     addressListCtrl.getList().then((addrList) {
-      print(addrList);
       addresses
-      ..clear()
-      ..addAll(addrList);
+        ..clear()
+        ..addAll(addrList);
       //availableAddresses.addAll(addresses);
       appStateCtrl.get().then((state) {
         appState = state;
@@ -75,16 +61,9 @@ class GCanvasApp extends PolymerElement {
 
 
   void refresh() {
-    //var syncCtrl = SyncCtrl(new Http(), _addressListCtrl);
     syncCtrl.sync().then((_) {
       _loadAppState();
     });
-    /*DelayedHttp http = new DelayedHttp.create();
-    var url =
-    _addressListCtrl.getList().then((addresses) {
-      var visitedAddrs = addresses.where((address) => address.visited);
-      //http.post(url)
-    });*/
   }
 
 
@@ -93,38 +72,65 @@ class GCanvasApp extends PolymerElement {
     appState.selectAddressView(address);
 
     appStateCtrl.save(appState);
+
+    doFlip();
+
+    hideMenuItems();
+  }
+
+  void hideMenuItems() {
+    $['refresh'].style.display = 'none';
+    $['account'].style.display = 'none';
   }
 
 
+  nextAddress(event) {
+    _setVisited();
 
-  /*void setupMarker(event) {
-    MapMarker marker = event.detail['marker'] as MapMarker;
-    Address address = event.detail['address'] as Address;
-    /*marker.onClick.listen((MouseEvent event) {
-      if(!marker.selected) {
-        marker.setIcon("/assets/gcanvas/images/selected_address.png");
-        marker.selected = true;
-        print("selected");
-      } else {
-        marker.resetIcon();
-        marker.selected = false;
-      }
-    });*/
-  }*/
-
-
-
-  /*void showMap(event) {
-    try {
-      new GeoLocation.create().getCurrent().then((position) {
-        location = position;
-
-        appState.selectAddressSelector();
-
-        _appStateCtrl.save(appState);
-      });
-    } on PositionError catch(e) {
-      print(e);
+    if(addresses.last.id != appState.address.id) {
+      int pos = addresses.indexOf(appState.address);
+      appState.address = addresses[pos+1];
+      appStateCtrl.save(appState);
+      print(appState.address);
+    } else {
+      doFlip();
+      showMenuIcons();
     }
-  }*/
+
+  }
+
+
+  hideAddress(event) {
+    _setVisited();
+
+    doFlip();
+
+    showMenuIcons();
+  }
+
+  void showMenuIcons() {
+    $['refresh'].style.display = 'inline-block';
+    $['account'].style.display = 'inline-block';
+  }
+
+  void _setVisited() {
+    appState.address.visited = true;
+    addressListCtrl.update(appState.address);
+  }
+
+
+  doFlip() {
+    var flipbox = new JsObject.fromBrowserObject($['flipbox']);
+    flipbox.callMethod('toggle');
+  }
+
+
+  setUpAccount([e]) {
+
+  }
+
+
+  submitResponse(e) {
+    responseCtrl.add(e.detail);
+  }
 }

@@ -1,42 +1,39 @@
+<link rel="import"
+      href="../../../packages/polymer_ui_elements/polymer_ui_card/polymer_ui_card.html">
+<link rel="import"
+      href="../bower_components/x-tag-imports/x-tag-flipbox.html">
+
 <link rel="import" href="resident-view.html">
 <link rel="import" href="response-view.html">
 <link rel="import" href="question-script.html">
 <polymer-element name="address-view">
   <template>
-    <style>
-    :host {
-      /*display: none;*/
-    }
-
-    @host {
-      * {
-        /*display: none;*/
-      }
-    }
-    button {
-      width: 62px;
-      height: 62px;
-    }
-    </style>
-    <template if="{{showAddress}}">
-      <div id="address1">{{address.address1}}</div>
-      <div id="address2">{{address.address2}}</div>
-      <div id="address3">{{address.address3}}</div>
-      <div id="city">{{address.city}}</div>
-      <div id="postcode">{{address.postcode}}</div>
-      <response-view on-reasponse-selected="{{reasonSelected}}" on-reason-selected="{{reasonSelected}}"></response-view>
-      <template repeat="{{resident in residents}}">
+    <link rel="stylesheet" href="../bower_components/x-tag-flipbox/src/flipbox.css">
+    <link rel="stylesheet" href="gcanvas-app-style.css">
+    <x-flipbox id="address-flipbox">
+      <polymer-ui-card>
+        <div id="address1">{{address.address1}}</div>
+        <div id="address2">{{address.address2}}</div>
+        <div id="address3">{{address.address3}}</div>
+        <div id="city">{{address.city}}</div>
+        <div id="postcode">{{address.postcode}}</div>
+        <template repeat="{{resident in address.residents}}">
+          <div>
+            <resident-view on-resident-selected="{{residentSelected}}" on-resident-deselected="{{residentDeselected}}" resident="{{resident}}"></resident-view>
+          </div>
+        </template>
+        <button on-click="{{emitDone}}">Done</button>
+        <button on-click="{{emitNextAddress}}">Next</button>
+      </polymer-ui-card>
+      <polymer-ui-card>
         <div>
-          <resident-view on-resident-selected="{{residentSelected}}" on-resident-deselected="{{residentDeselected}}" resident="{{resident}}"></resident-view>
+          <response-view resident="{{selectedResident}}"
+                          on-response-submit="{{submitResponse}}"
+                          on-response-canceled="{{responseCanceled}}">
+          </response-view>
         </div>
-      </template>
-    </template>
-    <template if="{{showScript == false}}">
-      <button on-click="{{askQuestions}}">Ok</button>
-    </template>
-    <template if="{{showScript}}">
-      <question-script script="{{script}}" on-save="{{saveScriptResults}}" on-cancel="{{cancelScriptResults}}"></question-script>
-    </template>
+      </polymer-ui-card>
+    </x-flipbox>
   </template>
   <script type="application/dart" src="address_view.dart"></script>
 </polymer-element>

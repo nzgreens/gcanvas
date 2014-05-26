@@ -15,7 +15,9 @@ class Resident {
   @reflectable String occupation;
   @reflectable String gender;
   @reflectable DateTime dob;
-  //@reflectable Address address;
+  @reflectable String email;
+  @reflectable String phone;
+  @reflectable String notes;
 
 
   Resident(
@@ -26,9 +28,13 @@ class Resident {
       this.lastname,
       this.occupation,
       this.gender,
-      this.dob
-      //this.address
-      );
+      this.dob,
+      {
+       this.email,
+       this.phone,
+       this.notes
+      }
+  );
 
 
   factory Resident.create({
@@ -39,13 +45,11 @@ class Resident {
     String lastname: '',
     String occupation: '',
     String gender: '',
-    DateTime dob
-    //Address address
+    DateTime dob,
+    String email,
+    String phone,
+    String notes
   }) {
-    //if (address == null) {
-      //so deserialising a resident record will work
-    //  address = new Address.create();
-    //}
 
     return new Resident(
         id,
@@ -55,8 +59,10 @@ class Resident {
         lastname,
         occupation,
         gender,
-        dob
-        //address
+        dob,
+        email: email,
+        phone: phone,
+        notes: notes
         );
   }
 
@@ -70,7 +76,9 @@ class Resident {
     var occupation = map['occupation'];
     var gender = map['gender'];
     var dob = DateTime.parse(map['dob']);
-    //var address = new Address.fromMap(map['address']);
+    var email = map['email'];
+    var phone = map['phone'];
+    var notes = map['notes'];
 
     return new Resident.create(
         id: id,
@@ -80,8 +88,10 @@ class Resident {
         lastname: lastname,
         occupation: occupation,
         gender: gender,
-        dob: dob
-        //address: address
+        dob: dob,
+        email: email,
+        phone: phone,
+        notes: notes
         );
   }
 
@@ -96,7 +106,9 @@ class Resident {
       "occupation": occupation,
       "gender": gender,
       "dob": "$dob",
-      //"address": address.toMap()
+      "email": email,
+      "phone": phone,
+      "notes": notes
     };
   }
 }

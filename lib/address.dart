@@ -1,10 +1,11 @@
 library gcanvas.address;
 
-import 'package:observe/observe.dart' show reflectable, Reflectable;
+import 'package:observe/observe.dart' show reflectable, observable, Observable, ChangeNotifier;
 
 import 'package:gcanvas/resident.dart';
 
-class Address extends Reflectable {
+@reflectable
+class Address extends Observable {
   @reflectable String id;
   @reflectable String address1;
   @reflectable String address2;
@@ -15,7 +16,7 @@ class Address extends Reflectable {
   @reflectable int electorate;
   @reflectable num latitude;
   @reflectable num longitude;
-  @reflectable bool visited = false;
+  @observable bool visited = false;
   @reflectable List<Resident> residents = [];
 
 

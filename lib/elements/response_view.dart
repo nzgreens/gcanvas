@@ -1,83 +1,109 @@
 import 'package:polymer/polymer.dart';
+import 'package:gcanvas/response.dart';
+import 'package:gcanvas/resident.dart';
 
 import 'dart:html' show Event, SelectElement;
 
 @CustomTag('response-view')
 class ResponseViewElement extends PolymerElement {
-  @published final List<String> responseList = toObservable(['No Answer',
-                                                              'Bad Information',
-                                                              'Inaccessible',
-                                                              'Left Message',
-                                                              'Meaningful Interaction',
-                                                              'Not Interested',
-                                                              'Refused',
-                                                              'Answered',
-                                                              'Send Information'
-                                                              ]);
-  @observable final List<String> answeredReason = toObservable(['Not Home',
-                                                                 'Busy',
-                                                                 'Interested',
-                                                                 'Call Again']);
-  @observable final List<String> refusedReason = toObservable(['Abusive',
-                                                                'Shuts Door',
-                                                                'Polite']);
-  //bad info
-  @observable final List<String> badInfoReason = toObservable(['No Voters',
-                                                                 'Wrong House',
-                                                                 'Deceased',
-                                                                 'Moved']);
+  @published final Map<int, String> responseMap = toObservable({
+    1:'Answered',
+    2:'Bad Information',
+    9:'Inaccessible',
+    6:'Not Interested',
+    7:'No Answer',
+    0:'Other'
+  });
+//    3:'Left Message',
+//    4:'Meaningful Interaction',
+//    8:'Refused',
+//    5:'Send Information',
 
-  @observable final List<String> noAnswerReason = toObservable(['No Answer']);
+  @published final Map<int, String> supportLevelMap = toObservable({
+    1:'Strong support',
+    2:'Weak support',
+    3:'Undecided',
+    4:'Weak oppose',
+    5:'Strong oppose'
+  });
 
-  @observable final List<String> notInterestedReason = toObservable(['Note Reason',
-                                                                       'LOTE']);
 
-  @observable final Map<String, bool> selectionMap = toObservable({'No Answer': false,
-                                                              'Bad Information': false,
-                                                              'Not Interested': false,
-                                                              'Refused': false,
-                                                              'Answered': false});
+  @published final Map<int, String> involvementMap = toObservable({
+    0: 'Volunteer',
+    1: 'Host a Billboard'
+  });
+
+  @published Resident resident = new Resident.create();
+
+  @observable bool supportEntry = false;
+
+  int response = -1;
+  int support = -1;
 
   String responseSelection = "No Answer";
 
+
   ResponseViewElement.created() : super.created() {
-    fireResponse(responseList[0]);
+    //fireResponse(responseMap[0]);
     /*var reason = ($[responseList[0].toLowerCase().replaceAll(" ", "")] as SelectElement).value;
     fireReason(reason);*/
-    changes.listen((data) {
-      print(data);
-    });
   }
 
 
   void enteredView() {
     super.enteredView();
 
-    fireResponse(responseList[0]);
-    fireReason(noAnswerReason[0]);
+    //fireResponse(responseMap[0]);
   }
 
 
   void responseSelected(Event event) {
-    var selection = (event.target as SelectElement).value;
-    selectionMap[responseSelection] = false;
-    responseSelection = selection;
-    selectionMap[responseSelection] = true;
-    fireResponse(selection);
+    var selection = int.parse((event.target as SelectElement).value);
+    if(selection >= 0) {
+      supportEntry = true;
+    } else {
+      supportEntry = false;
+    }
+    response = selection;
   }
 
-  void fireResponse(var selection) {
-    fire('response-selected', detail: selection);
+  void fireResponse() {
+    ResidentResponse residentResponse = new ResidentResponse.create(id: resident.id, response: response, support: support, resident: resident);
+    fire('response-submit', detail: residentResponse);
   }
 
-  void reasonSelected(Event event) {
-    var selection = (event.target as SelectElement).value;
+  void supportSelected(Event event) {
+    var selection = int.parse((event.target as SelectElement).value);
 
-    fireReason(selection);
+    support = selection;
   }
 
 
-  void fireReason(var selection) {
-    fire('reason-selected', detail: selection);
+
+  fireCanceled() {
+    fire('response-canceled');
+  }
+
+
+  submit([e]) {
+    fireResponse();
+    reset();
+  }
+
+
+  cancel([e]) {
+    fireCanceled();
+    reset();
+  }
+
+
+  reset() {
+    SelectElement response = shadowRoot.querySelector("#response");
+    response.value = "-1";
+    SelectElement support = shadowRoot.querySelector("#support");
+    if(support != null) {
+      support.value = "-1";
+    }
+    supportEntry = false;
   }
 }

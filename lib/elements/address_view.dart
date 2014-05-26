@@ -3,58 +3,64 @@ import 'package:gcanvas/address.dart';
 import 'package:gcanvas/resident.dart';
 
 import 'dart:html' show Event;
+import 'dart:js' show JsObject;
 
 @CustomTag('address-view')
 class AddressViewElement extends PolymerElement {
   @published Address address;
-  @published List<Resident> residents;
   @published String script;
 
-  @observable bool showAddress = true;
-  @observable bool showScript = false;
 
-  @observable List<Resident> presentResidentsList = toObservable([]);
   @observable String response = "";
   @observable String reason = "";
+
+  @observable Resident selectedResident = new Resident.create();
 
   AddressViewElement.created() : super.created();
 
 
-  void reasonSelected(Event event) {
-
-  }
-
   void residentSelected(Event event, var detail) {
-    presentResidentsList.add(detail);
+    selectedResident = detail;
+    toggleFlip();
   }
 
 
   void residentDeselected(Event event, var detail) {
-    presentResidentsList.remove(detail);
   }
 
 
-  void responseEvent(Event event, var detail) {
-    response = detail;
+  submitResponse(e) {
+    toggleFlip();
   }
 
 
-  void reasonEvent(Event event, var detail) {
-    reason = detail;
-  }
-
-  void saveScriptResults(Event event, var detail) {
-
+  responseCanceled(e) {
+    toggleFlip();
   }
 
 
-  void cancelScriptResults(Event event, var detail) {
+  showResident(e) {
+    toggleFlip();
+  }
 
+  toggleFlip([e]) {
+    print('address flip');
+    var flipbox = new JsObject.fromBrowserObject($['address-flipbox']);
+    flipbox.callMethod('toggle');
+    if(e != null) {
+      e.preventDefault();
+    }
   }
 
 
-  void askQuestions() {
-    showScript = true;
-    showAddress = false;
+  emitDone(Event e) {
+    fire('address-done');
+    e.preventDefault();
+  }
+
+
+  emitNextAddress(Event e) {
+    fire('address-next');
+    e.preventDefault();
   }
 }

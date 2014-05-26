@@ -8,14 +8,14 @@ import 'dart:convert' show JSON;
 import 'package:observe/observe.dart';
 import 'package:lawndart/lawndart.dart';
 import 'package:uuid/uuid_client.dart';
-import 'package:http/browser_client.dart';
 
 import 'address.dart';
 import 'resident.dart';
-//import 'map/map.dart';
+import 'response.dart';
 
 part 'addressctrl.dart';
 part 'residentctrl.dart';
+part 'responsectrl.dart';
 part 'delayedhttp.dart';
 part 'state.dart';
 part 'appstatectrl.dart';

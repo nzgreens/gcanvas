@@ -2,8 +2,8 @@
   <template>
     <style>
     :host {
-      width: 100px;
-      height: 100px;
+      /*width: 100px;
+      height: 100px;*/
       /* cherry juice and ginger ale*/
       display: inline-block;
       border: 1px solid blue;
@@ -11,8 +11,8 @@
 
     @host {
       * {
-        width: 100px;
-        height: 100px;
+        /*width: 100px;
+        height: 100px;*/
         display: inline-block;
         border: {{styleDeselected}};
       }
@@ -25,7 +25,7 @@
       border: none;
     }
     </style>
-    <img id="icon">
+    <img id="icon" src="../../../packages/gcanvas/elements/images/user.png">
     <div><span id="firstname">{{resident.firstname}}</span> <span id="lastname">{{resident.lastname}}</span></div>
   </template>
   <script type="application/dart" src="resident_view.dart"></script>

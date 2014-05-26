@@ -23,16 +23,6 @@ class ResidentViewElement extends PolymerElement {
   }
 
   void click() {
-    if(!selected) {
-      fire("resident-selected", detail: resident);
-      //$['icon'].style.border = "solid 5px green";
-      style.border = styleSelected;
-      selected = true;
-    } else {
-      fire("resident-deselected", detail: resident);
-      //$['icon'].style.border = "solid 1px blue";
-      style.border = styleDeselected;
-      selected = false;
-    }
+    fire("resident-selected", detail: resident);
   }
 }

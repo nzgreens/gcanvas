@@ -7,8 +7,9 @@ environment:
 dependencies:
   http: any
   lawndart: any
-  polymer: any
-  polymer_elements: any
+  polymer: '>=0.10.0-pre.13 <0.11.0'
+  polymer_ui_elements:
+    path: /home/terrasea/Projects/dart/polymer_ui_elements
   uuid: any
 dev_dependencies:
   scheduled_test: any
@@ -16,5 +17,3 @@ transformers:
 - polymer:
     entry_points:
     - web/index.html
-- $dart2js:
-    minify: false
