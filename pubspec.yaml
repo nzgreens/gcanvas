@@ -12,7 +12,8 @@ dependencies:
   mime: any
   polymer: '>=0.10.0-pre.13 <0.11.0'
   polymer_ui_elements:
-    path: /home/terrasea/Projects/dart/polymer_ui_elements
+    git: https://github.com/terrasea/polymer_ui_elements.git
+    version: 0.2.0-pre.8.terrasea.1
   postgresql: any
   route: any
   uuid: any
