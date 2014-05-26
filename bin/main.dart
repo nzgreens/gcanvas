@@ -1,6 +1,6 @@
 library gcanvas.server;
 
-//import 'dart:async';
+import 'dart:async';
 import 'dart:io';
 import 'package:route/server.dart';
 import 'package:mime/mime.dart';

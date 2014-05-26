@@ -1,7 +1,6 @@
 import 'package:polymer/polymer.dart';
 
 import 'package:gcanvas/address.dart';
-import 'package:gcanvas/resident.dart';
 import 'package:gcanvas/gcanvas.dart';
 //import 'package:gcanvas/map/map.dart';
 

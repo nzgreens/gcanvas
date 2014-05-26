@@ -5,11 +5,16 @@ description: Canvasing App for doorknocking campaigns.
 environment:
   sdk: '>=1.0.0 <2.0.0'
 dependencies:
+  csvparser: any
   http: any
+  http_server: any
   lawndart: any
+  mime: any
   polymer: '>=0.10.0-pre.13 <0.11.0'
   polymer_ui_elements:
     path: /home/terrasea/Projects/dart/polymer_ui_elements
+  postgresql: any
+  route: any
   uuid: any
 dev_dependencies:
   scheduled_test: any
