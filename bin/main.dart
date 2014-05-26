@@ -60,7 +60,7 @@ serveDirectory(var virDir) {
   };
 }
 
-run() {
+run(args) {
   var postgres_uri = Platform.environment['HEROKU_POSTGRESQL_CHARCOAL_URL'] == null ? 'postgres://postgres:gcanvasbkd7ffvf@localhost:5432/gcanvas' : Platform.environment['HEROKU_POSTGRESQL_CHARCOAL_URL'];
   var portEnv = Platform.environment['PORT'];
   var port = portEnv == null ? 9999 : int.parse(portEnv);
@@ -152,5 +152,5 @@ run() {
 }
 
 main(List<String> args) {
-  new Timer(new Duration(seconds: 10), run);
+  new Timer(new Duration(seconds: 10), () => run(args));
 }
