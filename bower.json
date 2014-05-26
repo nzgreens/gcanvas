@@ -1,0 +1,22 @@
+{
+  "name": "polymer_speak",
+  "version": "0.0.0",
+  "authors": [
+    "James Hurford <terrasea@gmail.com>"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "google-map": "Polymer/google-map#~0.2.4",
+    "x-tag-imports": "x-tag/x-tag-imports"
+  },
+  "resolutions": {
+    "platform": "0.2.4"
+  }
+}

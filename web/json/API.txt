@@ -1,0 +1,14 @@
+//gets a list of available lists
+GET https://foobar.nationbuilder.com/api/v1/lists
+
+//gets page 2 of list
+GET https://foobar.nationbuilder.com/api/v1/people?page=2
+
+//max per_page=100 defaults to 10 and page is the page to get
+GET https://foobar.nationbuilder.com/api/v1/lists/11/people?per_page=100&page=1
+
+//Update with JSON data
+//lists
+PUT /api/v1/lists/:id
+//person
+PUT /api/v1/people/54
