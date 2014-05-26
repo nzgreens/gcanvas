@@ -131,7 +131,7 @@ run(args) {
       //seems the max number here will stop some connections altogether rather than just delay, while waiting for a connection, as I expected.
       var conn = new DBConnection();
 
-      print("Listening on address ${server.address.address}:${port}" );
+      print("Listening on address ${server.address.address}:${port} which env says is ${Platform.environment['PORT']}" );
       String buildBaseDir = args.length > 0 ? args[0] : "build/web";
       String packageBaseDir = ".";
       new Directory(buildBaseDir).exists().then((exists) {
