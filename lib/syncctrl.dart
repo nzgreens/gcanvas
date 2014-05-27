@@ -25,7 +25,7 @@ class SyncCtrl {
     if(!detect.browser.isSafari) {
       responseType = "";
     }
-    _http.get('json/people.json', headers: headers, responseType: responseType).then((HttpRequest request) {
+    _http.get('json/people.json').then((HttpRequest request) {
       safariPrint("SyncCtrl.sync: is safari in http request");
       var people = JSON.decode(request.response);
       people['results'].forEach((Map item) {

@@ -31,7 +31,7 @@ void safariPrint(String msg) {
 }
 
 class Http {// extends BrowserClient {
-  Future<HttpRequest> get(url, {headers, responseType: 'text/html'}) {
+  Future<HttpRequest> get(url, {headers, responseType: ''}) {
     headers = headers != null ? headers : {};
 
     return HttpRequest.request(url, method: 'GET', responseType: responseType, requestHeaders: headers);
