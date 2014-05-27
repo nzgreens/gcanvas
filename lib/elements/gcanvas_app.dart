@@ -20,33 +20,23 @@ class GCanvasApp extends PolymerElement {
   @published AppStateCtrl appStateCtrl = new AppStateCtrl.create();
   @published AddressListCtrl addressListCtrl = new AddressListCtrl.create();
 
-  get isNotSafari => !detect.browser.isSafari;
 
-  GCanvasApp.created() : super.created() {
-    safariPrint("created: is safari");
-  }
 
-  void safariPrint(String msg) {
-    if(!isNotSafari) {
-      print(msg);
-    }
-  }
+  GCanvasApp.created() : super.created();
 
 
   void attached() {
     super.attached();
-    safariPrint("attached: is safari");
+
     _loadAppState();
   }
 
 
   void _loadAppState() {
     addressListCtrl.getList().then((addrList) {
-      safariPrint("_loadAppState: is safari");
       addresses
         ..clear()
         ..addAll(addrList);
-      safariPrint("_loadAppState: is safari");
       //availableAddresses.addAll(addresses);
       appStateCtrl.get().then((state) {
         appState = state;
@@ -71,10 +61,8 @@ class GCanvasApp extends PolymerElement {
 
 
   void refresh() {
-    safariPrint("refresh: is safari");
     syncCtrl.sync().then((_) {
       _loadAppState();
-      safariPrint("refresh: is safari");
     });
 
   }
@@ -104,7 +92,6 @@ class GCanvasApp extends PolymerElement {
       int pos = addresses.indexOf(appState.address);
       appState.address = addresses[pos+1];
       appStateCtrl.save(appState);
-      print(appState.address);
     } else {
       doFlip();
       showMenuIcons();

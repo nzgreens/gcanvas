@@ -92,11 +92,9 @@
       <div main>
         <x-flipbox id="flipbox">
           <polymer-ui-card>
-            <template if="{{isNotSafari}}">
-              <address-list addresses="{{addresses}}"
-                            on-address-clicked="{{showAddress}}">
-              </address-list>
-            </template>
+            <address-list addresses="{{addresses}}"
+                          on-address-clicked="{{showAddress}}">
+            </address-list>
           </polymer-ui-card>
           <polymer-ui-card>
             <div>
