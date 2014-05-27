@@ -22,7 +22,13 @@ class AddressListCtrl {
     Completer<String> completer = new Completer<String>();
 
     _open().then((_) {
-      _store.save(addr.toMap(), "${addr.id}").then((key) {
+      var data;
+      if(!detect.browser.isSafari) {
+        data = addr.toMap();
+      } else {
+        data = JSON.encode(addr.toMap());
+      }
+      _store.save(data, "${addr.id}").then((key) {
         completer.complete(key);
       });
     });
@@ -51,9 +57,15 @@ class AddressListCtrl {
         safariPrint("AddressListCtrl.getList3");
         List<Address> addresses = new List<Address>();
         for(var map in values) {
+          var data;
+          if(!detect.browser.isSafari) {
+            data = map;
+          } else {
+            data = JSON.decode(map);
+          }
           safariPrint("AddressListCtrl.getList3b: ${map == null}");
           safariPrint("AddressListCtrl.getList3b: $map");
-          addresses.add(new Address.fromMap(map));
+          addresses.add(new Address.fromMap(data));
         }
         safariPrint("AddressListCtrl.getList4");
         completer.complete(addresses);
