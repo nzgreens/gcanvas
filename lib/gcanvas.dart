@@ -24,11 +24,7 @@ part 'appstatectrl.dart';
 part 'syncctrl.dart';
 
 
-void safariPrint(String msg) {
-  if(detect.browser.isSafari) {
-    print(msg);
-  }
-}
+
 
 class Http {// extends BrowserClient {
   Future<HttpRequest> get(url, {headers, responseType: ''}) {
