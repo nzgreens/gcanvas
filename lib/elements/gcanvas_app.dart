@@ -2,9 +2,8 @@ import 'package:polymer/polymer.dart';
 
 import 'package:gcanvas/address.dart';
 import 'package:gcanvas/gcanvas.dart';
-//import 'package:gcanvas/map/map.dart';
+import 'package:browser_detect/browser_detect.dart' as detect;
 
-import 'dart:html';
 
 import 'dart:js';
 
@@ -21,21 +20,33 @@ class GCanvasApp extends PolymerElement {
   @published AppStateCtrl appStateCtrl = new AppStateCtrl.create();
   @published AddressListCtrl addressListCtrl = new AddressListCtrl.create();
 
-  GCanvasApp.created() : super.created();
+  get isNotSafari => !detect.browser.isSafari;
+
+  GCanvasApp.created() : super.created() {
+    safariPrint("created: is safari");
+  }
+
+  void safariPrint(String msg) {
+    if(!isNotSafari) {
+      print(msg);
+    }
+  }
 
 
   void attached() {
     super.attached();
-
+    safariPrint("attached: is safari");
     _loadAppState();
   }
 
 
   void _loadAppState() {
     addressListCtrl.getList().then((addrList) {
+      safariPrint("_loadAppState: is safari");
       addresses
         ..clear()
         ..addAll(addrList);
+      safariPrint("_loadAppState: is safari");
       //availableAddresses.addAll(addresses);
       appStateCtrl.get().then((state) {
         appState = state;
@@ -60,9 +71,12 @@ class GCanvasApp extends PolymerElement {
 
 
   void refresh() {
+    safariPrint("refresh: is safari");
     syncCtrl.sync().then((_) {
       _loadAppState();
+      safariPrint("refresh: is safari");
     });
+
   }
 
 

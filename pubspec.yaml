@@ -5,6 +5,7 @@ description: Canvasing App for doorknocking campaigns.
 environment:
   sdk: '>=1.0.0 <2.0.0'
 dependencies:
+  browser_detect: any
   csvparser: any
   http: any
   http_server: any
