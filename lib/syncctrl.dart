@@ -21,7 +21,11 @@ class SyncCtrl {
     var addresses = {};
 
     safariPrint("SyncCtrl.sync: is safari");
-    _http.get('json/people.json', headers: headers, responseType: 'application/json').then((HttpRequest request) {
+    var responseType = 'application/json';
+    if(!detect.browser.isSafari) {
+      responseType = "";
+    }
+    _http.get('json/people.json', headers: headers, responseType: responseType).then((HttpRequest request) {
       safariPrint("SyncCtrl.sync: is safari in http request");
       var people = JSON.decode(request.response);
       people['results'].forEach((Map item) {
