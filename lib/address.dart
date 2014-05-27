@@ -4,12 +4,9 @@ import 'package:observe/observe.dart' show reflectable, observable, Observable, 
 
 import 'package:gcanvas/resident.dart';
 
-import 'package:browser_detect/browser_detect.dart' as detect;
 
 void safariPrint(String msg) {
-  if(detect.browser.isSafari) {
-    print(msg);
-  }
+  print(msg);
 }
 
 @reflectable
