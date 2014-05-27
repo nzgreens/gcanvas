@@ -2,7 +2,7 @@ library gcanvas.address;
 
 import 'package:observe/observe.dart' show reflectable, observable, Observable, ChangeNotifier;
 
-import 'package:gcanvas/debug.dart';
+import 'debug.dart';
 import 'package:gcanvas/resident.dart';
 
 @reflectable
@@ -87,17 +87,29 @@ class Address extends Observable {
     if(map != null) {
       safariPrint("Address.fromMap");
       var id = map['id'];
+      safariPrint("Address.fromMap2");
       var address1 = map['address1'];
+      safariPrint("Address.fromMap3");
       var address2 = map['address2'];
+      safariPrint("Address.fromMap4");
       var address3 = map['address3'];
+      safariPrint("Address.fromMap5");
       var city = map['city'];
+      safariPrint("Address.fromMap6");
       var postcode = map['postcode'];
+      safariPrint("Address.fromMap7");
       var meshblock = map['meshblock'];
+      safariPrint("Address.fromMap8");
       var electorate = map['electorate'];
+      safariPrint("Address.fromMap9");
       var latitude = map['latitude'];
+      safariPrint("Address.fromMap10");
       var longitude = map['longitude'];
+      safariPrint("Address.fromMap11");
       var visited = map['visited'];
+      safariPrint("Address.fromMap12");
       var residents = map['residents'].map((mapped) => new Resident.fromMap(mapped)).toList();
+      safariPrint("Address.fromMap13");
 
       return new Address.create(
                             id: id,
