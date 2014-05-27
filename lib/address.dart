@@ -2,6 +2,7 @@ library gcanvas.address;
 
 import 'package:observe/observe.dart' show reflectable, observable, Observable, ChangeNotifier;
 
+import 'package:gcanvas/debug.dart';
 import 'package:gcanvas/resident.dart';
 
 @reflectable
@@ -84,6 +85,7 @@ class Address extends Observable {
    */
   factory Address.fromMap(Map map) {
     if(map != null) {
+      safariPrint("Address.fromMap");
       var id = map['id'];
       var address1 = map['address1'];
       var address2 = map['address2'];
