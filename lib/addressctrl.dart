@@ -52,6 +52,7 @@ class AddressListCtrl {
         List<Address> addresses = new List<Address>();
         for(var map in values) {
           safariPrint("AddressListCtrl.getList3b: ${map == null}");
+          safariPrint("AddressListCtrl.getList3b: $map");
           addresses.add(new Address.fromMap(map));
         }
         safariPrint("AddressListCtrl.getList4");
