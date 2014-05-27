@@ -14,6 +14,7 @@ import 'package:uuid/uuid_client.dart';
 import 'address.dart';
 import 'resident.dart';
 import 'response.dart';
+import 'debug.dart';
 
 part 'addressctrl.dart';
 part 'residentctrl.dart';
@@ -22,7 +23,6 @@ part 'delayedhttp.dart';
 part 'state.dart';
 part 'appstatectrl.dart';
 part 'syncctrl.dart';
-
 
 
 

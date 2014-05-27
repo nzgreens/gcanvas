@@ -2,8 +2,7 @@ import 'package:polymer/polymer.dart';
 
 import 'package:gcanvas/address.dart';
 import 'package:gcanvas/gcanvas.dart';
-import 'package:browser_detect/browser_detect.dart' as detect;
-
+import '../debug.dart';
 
 import 'dart:js';
 
