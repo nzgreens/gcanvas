@@ -44,13 +44,16 @@ class AddressListCtrl {
 
   Future<List<Address>> getList() {
     Completer<List<Address>> completer = new Completer<List<Address>>();
-
+    safariPrint("AddressListCtrl.getList");
     _open().then((_) {
+      safariPrint("AddressListCtrl.getList2");
       _store.all().toList().then((values) {
+        safariPrint("AddressListCtrl.getList3");
         List<Address> addresses = new List<Address>();
         for(var map in values) {
           addresses.add(new Address.fromMap(map));
         }
+        safariPrint("AddressListCtrl.getList4");
         completer.complete(addresses);
       });
     });
