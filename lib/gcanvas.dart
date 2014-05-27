@@ -10,11 +10,11 @@ import 'package:browser_detect/browser_detect.dart' as detect;
 import 'package:observe/observe.dart';
 import 'package:lawndart/lawndart.dart';
 import 'package:uuid/uuid_client.dart';
+import 'package:browser_detect/browser_detect.dart' as detect;
 
 import 'address.dart';
 import 'resident.dart';
 import 'response.dart';
-import 'debug.dart';
 
 part 'addressctrl.dart';
 part 'residentctrl.dart';
@@ -24,7 +24,11 @@ part 'state.dart';
 part 'appstatectrl.dart';
 part 'syncctrl.dart';
 
-
+void safariPrint(String msg) {
+  if(detect.browser.isSafari) {
+    print(msg);
+  }
+}
 
 class Http {// extends BrowserClient {
   Future<HttpRequest> get(url, {headers, responseType: ''}) {

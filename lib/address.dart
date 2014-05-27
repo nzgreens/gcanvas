@@ -2,8 +2,15 @@ library gcanvas.address;
 
 import 'package:observe/observe.dart' show reflectable, observable, Observable, ChangeNotifier;
 
-import 'debug.dart';
 import 'package:gcanvas/resident.dart';
+
+import 'package:browser_detect/browser_detect.dart' as detect;
+
+void safariPrint(String msg) {
+  if(detect.browser.isSafari) {
+    print(msg);
+  }
+}
 
 @reflectable
 class Address extends Observable {

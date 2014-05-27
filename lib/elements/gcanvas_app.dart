@@ -2,9 +2,16 @@ import 'package:polymer/polymer.dart';
 
 import 'package:gcanvas/address.dart';
 import 'package:gcanvas/gcanvas.dart';
-import '../debug.dart';
+import 'package:browser_detect/browser_detect.dart' as detect;
 
 import 'dart:js';
+
+void safariPrint(String msg) {
+  if(detect.browser.isSafari) {
+    print(msg);
+  }
+}
+
 
 @CustomTag("gcanvas-app")
 class GCanvasApp extends PolymerElement {
