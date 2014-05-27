@@ -25,7 +25,7 @@ part 'syncctrl.dart';
 
 
 void safariPrint(String msg) {
-  if(!detect.browser.isSafari) {
+  if(detect.browser.isSafari) {
     print(msg);
   }
 }

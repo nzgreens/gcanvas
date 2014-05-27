@@ -22,7 +22,7 @@ class SyncCtrl {
 
     safariPrint("SyncCtrl.sync: is safari");
     var responseType = 'application/json';
-    if(!detect.browser.isSafari) {
+    if(detect.browser.isSafari) {
       responseType = "";
     }
     _http.get('json/people.json').then((HttpRequest request) {
