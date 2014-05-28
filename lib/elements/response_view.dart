@@ -49,10 +49,10 @@ class ResponseViewElement extends PolymerElement {
 
   void attached() {
     super.attached();
-    $['details-tab'].style.display = "none";
-    $['tab-selector'].selected = 0;
-    $['status-tab'].style.display = 'block';
-    $['details-tab'].style.display = 'none';
+    //$['details-tab'].style.display = "none";
+    //$['tab-selector'].selected = 0;
+    //$['status-tab'].style.display = 'block';
+    //$['details-tab'].style.display = 'none';
   }
 
 

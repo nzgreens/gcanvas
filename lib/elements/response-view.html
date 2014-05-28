@@ -59,11 +59,11 @@
       
     </style>
     <div><span id="firstname">{{resident.firstname}}</span> <span id="lastname">{{resident.lastname}}</span></div>
-    <polymer-ui-tabs id="tab-selector" on-polymer-select="{{selectPage}}">
+    <polymer-ui-tabs id="tab-selector" selected="0" on-polymer-select="{{selectPage}}">
       <span id="status-selector">Status</span>
       <span id="details-selector">Details</span>
     </polymer-ui-tabs>
-    <div id="status-tab">
+    <div id="status-tab" style="display:block;">
       <select id="response" on-change="{{responseSelected}}">
         <option value="-1">Select a response</option>
         <option template repeat="{{key in responseMap.keys}}" value="{{key}}">
@@ -83,7 +83,7 @@
         </div>
       </template>
     </div>
-    <div id="details-tab">
+    <div id="details-tab" style="display:none;">
       <div>
         <input type="email" placeholder="Email" id="email" name="email" value="{{resident.email}}">
       </div>
