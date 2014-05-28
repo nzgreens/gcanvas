@@ -51,6 +51,8 @@ class ResponseViewElement extends PolymerElement {
     super.attached();
     $['details-tab'].style.display = "none";
     $['tab-selector'].selected = 0;
+    $['status-tab'].style.display = 'block';
+    $['details-tab'].style.display = 'none';
   }
 
 
