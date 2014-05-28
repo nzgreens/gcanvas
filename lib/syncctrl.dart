@@ -16,17 +16,13 @@ class SyncCtrl {
   Future<bool> sync() {
     Completer<bool> completer = new Completer<bool>();
 
-    var headers = {};//{'Content-Type': 'application/json'};
-
     var addresses = {};
 
-    safariPrint("SyncCtrl.sync: is safari");
     var responseType = 'application/json';
     if(detect.browser.isSafari) {
       responseType = "";
     }
     _http.get('json/people.json').then((HttpRequest request) {
-      safariPrint("SyncCtrl.sync: is safari in http request");
       var people = JSON.decode(request.response);
       people['results'].forEach((Map item) {
         var id = item['id'];
@@ -56,19 +52,14 @@ class SyncCtrl {
         }
       });
 
-      safariPrint("SyncCtrl.sync: is safari in http request");
-
       int count = 0;
       addresses.values.forEach((address) => _addrListCtrl.add(address).then((_) => count++));
 
       Timer timer = new Timer.periodic(new Duration(milliseconds: 100), (timer) {
-        safariPrint("SyncCtrl.sync: is safari in http request in timer");
         if(count == addresses.length) {
           completer.complete(request.readyState == 200);
           timer.cancel();
         } });
-
-      safariPrint("SyncCtrl.sync: is safari in http request end");
     });
 
     return completer.future;

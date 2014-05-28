@@ -25,7 +25,13 @@ class AppStateCtrl {
       _store.exists('state').then((exists) {
         if(exists) {
           _store.getByKey("state").then((map) {
-            State state = map != null ? new State.fromMap(map) : new State.create();
+            State state;
+            if(!detect.browser.isSafari) {
+              state = map != null ? new State.fromMap(map) : new State.create();
+            } else {
+              state = map != null ? new State.fromMap(JSON.decode(map)) : new State.create();
+            }
+
             completer.complete(state);
           });
         } else {
@@ -42,7 +48,13 @@ class AppStateCtrl {
     Completer<bool> completer = new Completer<bool>();
 
     _open().then((_) {
-      _store.save(state.toMap(), 'state').then((key) {
+      var data;
+      if(!detect.browser.isSafari) {
+        data = state.toMap();
+      } else {
+        data = JSON.encode(state.toMap());
+      }
+      _store.save(data, 'state').then((key) {
         completer.complete(true);
       });
     });

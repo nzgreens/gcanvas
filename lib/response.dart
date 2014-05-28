@@ -3,7 +3,6 @@ library gcanvas.address.response;
 import 'package:observe/observe.dart' show reflectable;
 
 import 'resident.dart';
-import 'address.dart';
 
 
 @reflectable
@@ -12,16 +11,17 @@ class ResidentResponse {
   @reflectable int response = -1;
   @reflectable int support = -1;
   @reflectable Resident resident;
+  @reflectable Map<String, bool> involvement;
 
 
+  ResidentResponse(this.id, this.response, this.support, this.resident, this.involvement);
 
-  ResidentResponse(this.id, this.response, this.support, this.resident);
 
-
-  factory ResidentResponse.create({id: -1, response: -1, support: -1, resident}) {
+  factory ResidentResponse.create({id: -1, response: -1, support: -1, resident, involvement}) {
     resident = resident != null ? resident : new Resident.create();
+    involvement = involvement != null ? involvement : new Map<String, bool>();
 
-    return new ResidentResponse(id, response, support, resident);
+    return new ResidentResponse(id, response, support, resident, involvement);
   }
 
 
@@ -30,8 +30,9 @@ class ResidentResponse {
     var response = map['response'];
     var support = map['support'];
     var resident = new Resident.fromMap(map['resident']);
+    var involvement = map['involvement'];
 
-    return new ResidentResponse.create(id: id, response: response, support: support, resident: resident);
+    return new ResidentResponse.create(id: id, response: response, support: support, resident: resident, involvement: involvement);
   }
 
 
@@ -40,7 +41,8 @@ class ResidentResponse {
       'id': id,
       'response': response,
       'support': support,
-      'resident': resident.toMap()
+      'resident': resident.toMap(),
+      'involvement': involvement
     };
   }
 }

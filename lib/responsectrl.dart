@@ -28,7 +28,13 @@ class ResidentResponseCtrl {
     Completer<bool> completer = new Completer<bool>();
 
     _open().then((_) {
-      _storeCtrl.save(response.toMap(), "${response.id}").then((key) => completer.complete(true));
+      var data;
+      if(!detect.browser.isSafari) {
+        data = response.toMap();
+      } else {
+        data = JSON.encode(response.toMap());
+      }
+      _storeCtrl.save(data, "${response.id}").then((_) => completer.complete(true));
     });
 
     return completer.future;
@@ -39,7 +45,11 @@ class ResidentResponseCtrl {
     Completer<List<ResidentResponse>> completer = new Completer<List<ResidentResponse>>();
 
     _open().then((_) {
-      _storeCtrl.all().toList().then((responses) => completer.complete(responses.map((response) => new ResidentResponse.fromMap(response)).toList()));
+      if(!detect.browser.isSafari) {
+        _storeCtrl.all().toList().then((responses) => completer.complete(responses.map((response) => new ResidentResponse.fromMap(response)).toList()));
+      } else {
+        _storeCtrl.all().toList().then((responses) => completer.complete(responses.map((response) => new ResidentResponse.fromMap(JSON.decode(response))).toList()));
+      }
     });
 
     return completer.future;

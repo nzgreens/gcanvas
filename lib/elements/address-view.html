@@ -17,11 +17,11 @@
         <div id="address3">{{address.address3}}</div>
         <div id="city">{{address.city}}</div>
         <div id="postcode">{{address.postcode}}</div>
-        <template repeat="{{resident in address.residents}}">
-          <div>
-            <resident-view on-resident-selected="{{residentSelected}}" on-resident-deselected="{{residentDeselected}}" resident="{{resident}}"></resident-view>
-          </div>
-        </template>
+        <div>
+          <template repeat="{{resident in address.residents}}">
+              <resident-view on-resident-selected="{{residentSelected}}" on-resident-deselected="{{residentDeselected}}" resident="{{resident}}"></resident-view>
+          </template>
+        </div>
         <button on-click="{{emitDone}}">Done</button>
         <button on-click="{{emitNextAddress}}">Next</button>
       </polymer-ui-card>

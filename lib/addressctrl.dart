@@ -50,11 +50,8 @@ class AddressListCtrl {
 
   Future<List<Address>> getList() {
     Completer<List<Address>> completer = new Completer<List<Address>>();
-    safariPrint("AddressListCtrl.getList");
     _open().then((_) {
-      safariPrint("AddressListCtrl.getList2");
       _store.all().toList().then((values) {
-        safariPrint("AddressListCtrl.getList3");
         List<Address> addresses = new List<Address>();
         for(var map in values) {
           var data;
@@ -63,11 +60,8 @@ class AddressListCtrl {
           } else {
             data = JSON.decode(map);
           }
-          safariPrint("AddressListCtrl.getList3b: ${map == null}");
-          safariPrint("AddressListCtrl.getList3b: $map");
           addresses.add(new Address.fromMap(data));
         }
-        safariPrint("AddressListCtrl.getList4");
         completer.complete(addresses);
       });
     });

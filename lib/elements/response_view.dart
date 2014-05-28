@@ -2,7 +2,7 @@ import 'package:polymer/polymer.dart';
 import 'package:gcanvas/response.dart';
 import 'package:gcanvas/resident.dart';
 
-import 'dart:html' show Event, SelectElement;
+import 'dart:html' show Event, SelectElement, CheckboxInputElement;
 
 @CustomTag('response-view')
 class ResponseViewElement extends PolymerElement {
@@ -28,14 +28,15 @@ class ResponseViewElement extends PolymerElement {
   });
 
 
-  @published final Map<int, String> involvementMap = toObservable({
-    0: 'Volunteer',
-    1: 'Host a Billboard'
+  @published final Map<String, bool> involvementMap = toObservable({
+    'Volunteer': false,
+    'Host a Billboard': false
   });
 
   @published Resident resident = new Resident.create();
 
   @observable bool supportEntry = false;
+  @observable bool involvementEntry = false;
 
   int response = -1;
   int support = -1;
@@ -43,17 +44,13 @@ class ResponseViewElement extends PolymerElement {
   String responseSelection = "No Answer";
 
 
-  ResponseViewElement.created() : super.created() {
-    //fireResponse(responseMap[0]);
-    /*var reason = ($[responseList[0].toLowerCase().replaceAll(" ", "")] as SelectElement).value;
-    fireReason(reason);*/
-  }
+  ResponseViewElement.created() : super.created();
 
 
-  void enteredView() {
-    super.enteredView();
-
-    //fireResponse(responseMap[0]);
+  void attached() {
+    super.attached();
+    $['details-tab'].style.display = "none";
+    $['tab-selector'].selected = 0;
   }
 
 
@@ -68,12 +65,18 @@ class ResponseViewElement extends PolymerElement {
   }
 
   void fireResponse() {
-    ResidentResponse residentResponse = new ResidentResponse.create(id: resident.id, response: response, support: support, resident: resident);
+    ResidentResponse residentResponse = new ResidentResponse.create(id: resident.id, response: response, support: support, resident: resident, involvement: involvementMap);
     fire('response-submit', detail: residentResponse);
   }
 
   void supportSelected(Event event) {
     var selection = int.parse((event.target as SelectElement).value);
+
+    if(selection >= 0) {
+      involvementEntry = true;
+    } else {
+      involvementEntry = false;
+    }
 
     support = selection;
   }
@@ -105,5 +108,35 @@ class ResponseViewElement extends PolymerElement {
       support.value = "-1";
     }
     supportEntry = false;
+    shadowRoot.querySelectorAll("input").forEach((input) {
+      if(input is CheckboxInputElement && involvementMap.containsKey(input.name)) {
+        input.checked = false;
+      }
+    });
+    involvementEntry = false;
+    $['tab-selector'].selected = 0;
+  }
+
+
+  involvementChecked(Event e) {
+    CheckboxInputElement input = e.target;
+
+    involvementMap[input.name] = input.checked;
+  }
+
+
+  selectPage(Event e) {
+    switch(e.target.selected) {
+      case 0:
+        $['status-tab'].style.display = 'block';
+        $['details-tab'].style.display = 'none';
+        break;
+      case 1:
+        $['status-tab'].style.display = 'none';
+        $['details-tab'].style.display = 'block';
+        break;
+      default:
+        break;
+    }
   }
 }

@@ -46,9 +46,9 @@ class Resident {
     String occupation: '',
     String gender: '',
     DateTime dob,
-    String email,
-    String phone,
-    String notes
+    String email : '',
+    String phone: '',
+    String notes: ''
   }) {
 
     return new Resident(
