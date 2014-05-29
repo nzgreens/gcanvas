@@ -2,7 +2,6 @@ import 'package:polymer/polymer.dart';
 
 import 'package:gcanvas/address.dart';
 import 'package:gcanvas/gcanvas.dart';
-import 'package:browser_detect/browser_detect.dart' as detect;
 
 import 'dart:js';
 
@@ -22,19 +21,21 @@ class GCanvasApp extends PolymerElement {
 
 
 
-  GCanvasApp.created() : super.created();
+  GCanvasApp.created() : super.created() {
+    print(addresses);
+    _loadAppState();
+  }
 
 
 
   void enteredView() {
     super.enteredView();
-    attached();
   }
 
   void attached() {
     super.attached();
 
-    _loadAppState();
+
   }
 
 
@@ -138,5 +139,11 @@ class GCanvasApp extends PolymerElement {
 
   submitResponse(e) {
     responseCtrl.add(e.detail);
+  }
+
+
+  addressesChanged() {
+    print("addressesChanged");
+    //_loadAppState();
   }
 }
