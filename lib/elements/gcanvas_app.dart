@@ -6,12 +6,6 @@ import 'package:browser_detect/browser_detect.dart' as detect;
 
 import 'dart:js';
 
-void safariPrint(String msg) {
-  if(detect.browser.isSafari) {
-    print(msg);
-  }
-}
-
 
 @CustomTag("gcanvas-app")
 class GCanvasApp extends PolymerElement {
@@ -31,6 +25,12 @@ class GCanvasApp extends PolymerElement {
   GCanvasApp.created() : super.created();
 
 
+
+  void enteredView() {
+    super.enteredView();
+    attached();
+  }
+
   void attached() {
     super.attached();
 
@@ -39,19 +39,14 @@ class GCanvasApp extends PolymerElement {
 
 
   void _loadAppState() {
-    safariPrint("gCanvasApp._loadAppState");
     addressListCtrl.getList().then((addrList) {
-      safariPrint("gCanvasApp._loadAppState2");
       addresses
         ..clear()
         ..addAll(addrList);
-      safariPrint("gCanvasApp._loadAppState3");
       //availableAddresses.addAll(addresses);
       appStateCtrl.get().then((state) {
-        safariPrint("gCanvasApp._loadAppState 4");
         appState = state;
         appStateCtrl.save(appState); //@TODO: make sure this is only done when no state is stored in browser DB
-        safariPrint("gCanvasApp._loadAppState 5");
       });//,
       //onError: () => appState = new State.create());
     });
@@ -73,9 +68,7 @@ class GCanvasApp extends PolymerElement {
 
   void refresh() {
     syncCtrl.sync().then((_) {
-      safariPrint("gCanvasApp.refresh");
       _loadAppState();
-      safariPrint("gCanvasApp.refresh 2");
     });
 
   }
