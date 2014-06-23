@@ -1,9 +1,8 @@
 part of gcanvas.client;
 
 
-@reflectable
-class AddressListCtrl {
-  @reflectable Store _store;
+class AddressListCtrl extends Observable {
+  Store _store;
 
   AddressListCtrl([this._store]);
 

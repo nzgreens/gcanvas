@@ -1,0 +1,49 @@
+<polymer-element name="gcanvas-signin">
+  <template>
+    <style>
+      :host {
+        display: block;
+        height: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+      }
+      
+      div.centre input[type="email"] {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+      }
+      
+      div.centre input[type="password"] {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+      }
+      
+      div.centre div {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+      }
+      
+      
+      div.centre button {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 60%;
+      }
+    </style>
+    <div class="centre">
+      <input type="email" value="{{email}}" placeholder="Email">
+      <input type="password" value="{{password}}" placeholder="Password">
+      <button id="signin" on-click="{{authenticate}}">Signin with Email</button>
+    </div>
+    
+  </template>
+  <script type="application/dart" src="gcanvas_signin.dart"></script>
+</polymer-element>

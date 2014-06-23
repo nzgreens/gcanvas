@@ -156,5 +156,5 @@ run(args) {
 }
 
 main(List<String> args) {
-  new Timer(new Duration(seconds: 10), () => run(args));
+  run(args);
 }

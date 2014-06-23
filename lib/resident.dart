@@ -1,23 +1,19 @@
 library gcanvas.address.resident;
 
-import 'package:observe/observe.dart' show reflectable;
+import 'package:observe/observe.dart';
 
-
-//import 'address.dart';
-
-@reflectable
-class Resident {
-  @reflectable int id;
-  @reflectable String title;
-  @reflectable String firstname;
-  @reflectable String middlenames;
-  @reflectable String lastname;
-  @reflectable String occupation;
-  @reflectable String gender;
-  @reflectable DateTime dob;
-  @reflectable String email;
-  @reflectable String phone;
-  @reflectable String notes;
+class Resident extends Observable {
+  int id;
+  String title;
+  String firstname;
+  String middlenames;
+  String lastname;
+  String occupation;
+  String gender;
+  DateTime dob;
+  String email;
+  String phone;
+  String notes;
 
 
   Resident(

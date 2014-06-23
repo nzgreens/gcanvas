@@ -1,7 +1,6 @@
 part of gcanvas.client;
 
-@reflectable
-class _Request {
+class _Request extends Observable {
   String id;
   String url;
   String method;
@@ -61,8 +60,8 @@ class _Request {
 }
 
 
-@reflectable final Store _store = new Store("http", "request_queue");
-@reflectable final StreamController<_Request> _controller = new StreamController<_Request>.broadcast();
+final Store _store = new Store("http", "request_queue");
+final StreamController<_Request> _controller = new StreamController<_Request>.broadcast();
 
 /**
  * A way to handle the possibility of being offline, and still treating a
@@ -85,8 +84,7 @@ class _Request {
  * treated like a regular HttpRequest.  This does the notification via a future
  * HttpRequests and a broadcast stream.
  */
-@reflectable
-class DelayedHttp {
+class DelayedHttp extends Observable {
   final Store _httpRequestStore;
   final StreamController<_Request> _pollRequestController;
   //braodcast stream

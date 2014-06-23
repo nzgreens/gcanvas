@@ -3,6 +3,7 @@ import 'package:gcanvas/response.dart';
 import 'package:gcanvas/resident.dart';
 
 import 'dart:html' show Event, SelectElement, CheckboxInputElement;
+import 'dart:js' as js;
 
 @CustomTag('response-view')
 class ResponseViewElement extends PolymerElement {
@@ -37,7 +38,6 @@ class ResponseViewElement extends PolymerElement {
 
   @observable bool supportEntry = false;
   @observable bool involvementEntry = false;
-
   int response = -1;
   int support = -1;
 
@@ -116,7 +116,8 @@ class ResponseViewElement extends PolymerElement {
       }
     });
     involvementEntry = false;
-    $['tab-selector'].selected = 0;
+    var tab_selector = new js.JsObject.fromBrowserObject($['tab-selector']);
+    tab_selector['selected'] = 0;
   }
 
 
@@ -128,7 +129,10 @@ class ResponseViewElement extends PolymerElement {
 
 
   selectPage(Event e) {
-    switch(e.target.selected) {
+    var target = new js.JsObject.fromBrowserObject(e.target);
+    int selected = target['selected'] is int ? target['selected'] : int.parse(target['selected']);
+    print(selected);
+    switch(selected) {
       case 0:
         $['status-tab'].style.display = 'block';
         $['details-tab'].style.display = 'none';

@@ -1,7 +1,6 @@
 part of gcanvas.client;
 
-@reflectable
-class AppStateCtrl {
+class AppStateCtrl extends Observable {
   Store _store;
 
   AppStateCtrl([this._store]);

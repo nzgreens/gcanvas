@@ -8,8 +8,11 @@ class SyncCtrl {
   SyncCtrl(this._http, this._addrListCtrl);
 
 
-  factory SyncCtrl.create() {
-    return new SyncCtrl(new Http(), new AddressListCtrl.create());
+  factory SyncCtrl.create({Http http, AddressListCtrl ctrl}) {
+    http = http != null ? http : new Http();
+    ctrl = ctrl != null ? ctrl : new AddressListCtrl.create();
+
+    return new SyncCtrl(http, ctrl);
   }
 
 
@@ -20,7 +23,7 @@ class SyncCtrl {
 
     var responseType = 'application/json';
     if(detect.browser.isSafari) {
-      responseType = "";
+      responseType = "";  //Only needed for Safari, other browsers are sain
     }
     _http.get('json/people.json').then((HttpRequest request) {
       var people = JSON.decode(request.response);
@@ -31,8 +34,11 @@ class SyncCtrl {
         var occupation = item['occupation'];
         var gender = item['sex'];
         var dob = DateTime.parse(item['birthdate']);
+        var notes = item['note'];
+        var email = item['email'];
+        var phone = item['phone'];
 
-        var resident = new Resident.create(id: id, firstname: firstname, lastname: lastname, occupation: occupation, gender: gender, dob: dob);
+        var resident = new Resident.create(id: id, firstname: firstname, lastname: lastname, occupation: occupation, gender: gender, dob: dob, notes: notes, email: email, phone: phone);
 
         var addr = item['primary_address'];
         var latitude = addr['lat'];

@@ -3,18 +3,18 @@ import 'package:gcanvas/address.dart';
 import 'package:gcanvas/resident.dart';
 
 import 'dart:html' show Event;
-import 'dart:js' show JsObject;
 
 @CustomTag('address-view')
 class AddressViewElement extends PolymerElement {
   @published Address address;
-  @published String script;
-
 
   @observable String response = "";
   @observable String reason = "";
 
   @observable Resident selectedResident = new Resident.create();
+
+
+  @observable bool showAddress = true;
 
   AddressViewElement.created() : super.created();
 
@@ -45,8 +45,13 @@ class AddressViewElement extends PolymerElement {
 
   toggleFlip([e]) {
     print('address flip');
-    var flipbox = new JsObject.fromBrowserObject($['address-flipbox']);
-    flipbox.callMethod('toggle');
+
+    if(showAddress) {
+      showAddress = false;
+    } else {
+      showAddress = true;
+    }
+
     if(e != null) {
       e.preventDefault();
     }

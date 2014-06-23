@@ -10,6 +10,7 @@ class State extends Observable {
   @observable Address address;
   @observable bool addressListView;
   @observable bool addressView;
+  @observable User user;
 
 
   State(

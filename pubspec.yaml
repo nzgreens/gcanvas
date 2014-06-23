@@ -11,13 +11,12 @@ dependencies:
   http_server: any
   lawndart: any
   mime: any
-  polymer: '>=0.10.0-pre.13 <0.11.0'
-  polymer_ui_elements:
-    git: https://github.com/terrasea/polymer_ui_elements.git
-    version: 0.2.0-pre.8.terrasea.1
+  polymer: '>=0.10.0 <0.11.0'
   postgresql: any
   route: any
   uuid: any
+dependency_overrides:
+  polymer_expressions: '>=0.11.0 <0.12.0'
 dev_dependencies:
   scheduled_test: any
 transformers:

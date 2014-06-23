@@ -1,17 +1,15 @@
 library gcanvas.address.response;
 
-import 'package:observe/observe.dart' show reflectable;
+import 'package:observe/observe.dart';
 
 import 'resident.dart';
 
-
-@reflectable
-class ResidentResponse {
-  @reflectable int id;
-  @reflectable int response = -1;
-  @reflectable int support = -1;
-  @reflectable Resident resident;
-  @reflectable Map<String, bool> involvement;
+class ResidentResponse extends Observable {
+  int id;
+  int response = -1;
+  int support = -1;
+  Resident resident;
+  Map<String, bool> involvement;
 
 
   ResidentResponse(this.id, this.response, this.support, this.resident, this.involvement);

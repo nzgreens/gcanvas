@@ -3,67 +3,41 @@ import 'package:polymer/polymer.dart';
 import 'package:gcanvas/address.dart';
 import 'package:gcanvas/gcanvas.dart';
 
-import 'dart:js';
-
 
 @CustomTag("gcanvas-app")
 class GCanvasApp extends PolymerElement {
-  @observable final List<Address> addresses = toObservable([]);
-
-  @observable var refreshIcon = 'refresh';
-  @observable var accountIcon = 'account';
-
   @published ResidentResponseCtrl responseCtrl = new ResidentResponseCtrl.create();
   @published SyncCtrl syncCtrl = new SyncCtrl.create();
   @published State appState = new State.create();
   @published AppStateCtrl appStateCtrl = new AppStateCtrl.create();
   @published AddressListCtrl addressListCtrl = new AddressListCtrl.create();
 
+  @observable final List<Address> addresses = toObservable([]);
+  @observable bool loggedIn = false;
 
+  @observable var refreshIcon = 'refresh';
+  @observable var accountIcon = 'account-box';
+
+  @observable User user = new User.blank();
 
   GCanvasApp.created() : super.created() {
-    print(addresses);
     _loadAppState();
   }
-
-
-
-  void enteredView() {
-    super.enteredView();
-  }
-
-  void attached() {
-    super.attached();
-
-
-  }
-
 
   void _loadAppState() {
     addressListCtrl.getList().then((addrList) {
       addresses
         ..clear()
         ..addAll(addrList);
-      //availableAddresses.addAll(addresses);
       appStateCtrl.get().then((state) {
         appState = state;
+        if(addresses.isNotEmpty) {
+          Address address = addresses.firstWhere((address) => !address.visited, orElse: () {});
+          appState.address = address;
+        }
         appStateCtrl.save(appState); //@TODO: make sure this is only done when no state is stored in browser DB
-      });//,
-      //onError: () => appState = new State.create());
+      });
     });
-  }
-
-
-  void navBack() {
-    appState.selectAddressListView();
-
-    addressListCtrl.getList().then((addrList) {
-      addresses
-      ..clear()
-      ..addAll(addrList);
-    });
-
-    appStateCtrl.save(appState);
   }
 
 
@@ -81,7 +55,6 @@ class GCanvasApp extends PolymerElement {
 
     appStateCtrl.save(appState);
 
-    doFlip();
 
     hideMenuItems();
   }
@@ -100,7 +73,6 @@ class GCanvasApp extends PolymerElement {
       appState.address = addresses[pos+1];
       appStateCtrl.save(appState);
     } else {
-      doFlip();
       showMenuIcons();
     }
 
@@ -109,8 +81,6 @@ class GCanvasApp extends PolymerElement {
 
   hideAddress(event) {
     _setVisited();
-
-    doFlip();
 
     showMenuIcons();
   }
@@ -126,16 +96,22 @@ class GCanvasApp extends PolymerElement {
   }
 
 
-  doFlip() {
-    var flipbox = new JsObject.fromBrowserObject($['flipbox']);
-    flipbox.callMethod('toggle');
-  }
-
 
   setUpAccount([e]) {
 
   }
 
+
+  authenticated(e) {
+    loggedIn = true;
+    user = e.detail;
+  }
+
+
+  notAuthenticated(e) {
+    loggedIn = true;
+    user = e.detail;
+  }
 
   submitResponse(e) {
     responseCtrl.add(e.detail);
@@ -145,5 +121,22 @@ class GCanvasApp extends PolymerElement {
   addressesChanged() {
     print("addressesChanged");
     //_loadAppState();
+  }
+
+
+  setLoggedIn(e) {
+    loggedIn = true;
+    user = e.detail;
+  }
+
+
+  setNotLoggedIn(e) {
+    loggedIn = false;
+    user = new User.blank();
+  }
+
+
+  registerUser(e) {
+
   }
 }

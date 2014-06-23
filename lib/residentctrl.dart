@@ -5,9 +5,8 @@ part of gcanvas.client;
  * Only used to store orphan residents, who are found not to live at an address
  * and it's not known where they live now.
  */
-@reflectable
-class ResidentListCtrl {
-  @reflectable final Store _storeCtrl;
+class ResidentListCtrl extends Observable {
+  final Store _storeCtrl;
 
   ResidentListCtrl([this._storeCtrl]);
 

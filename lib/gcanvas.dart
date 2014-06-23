@@ -22,12 +22,30 @@ part 'delayedhttp.dart';
 part 'state.dart';
 part 'appstatectrl.dart';
 part 'syncctrl.dart';
+part 'user.dart';
+part 'userctrl.dart';
 
 
-class Http {// extends BrowserClient {
-  Future<HttpRequest> get(url, {headers, responseType: ''}) {
+class Http extends Observable {// extends BrowserClient {
+  _safariFix(responseType) {
+    if(detect.browser.isSafari) {
+      return "";  //Only needed for Safari, other browsers are sain
+    }
+
+    return responseType;
+  }
+
+  Future<HttpRequest> get(String url, {Map<String, String> headers, String responseType: 'application/json'}) {
+
     headers = headers != null ? headers : {};
 
-    return HttpRequest.request(url, method: 'GET', responseType: responseType, requestHeaders: headers);
+    return HttpRequest.request(url, method: 'GET', responseType: _safariFix(responseType), requestHeaders: headers);
+  }
+
+
+  Future<HttpRequest> post(String url, Map<String, String> data, {Map<String, String> headers, String responseType: 'application/json'}) {
+    headers = headers != null ? headers : {};
+
+    return HttpRequest.postFormData(url, data, responseType: _safariFix(responseType), requestHeaders: headers);
   }
 }

@@ -1,8 +1,7 @@
 part of gcanvas.client;
 
-@reflectable
-class ResidentResponseCtrl {
-  @reflectable final Store _storeCtrl;
+class ResidentResponseCtrl extends Observable {
+  final Store _storeCtrl;
 
   ResidentResponseCtrl([this._storeCtrl]);
 
