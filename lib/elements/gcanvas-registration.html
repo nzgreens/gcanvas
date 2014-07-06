@@ -1,12 +1,32 @@
+<link rel="import" href="../../../packages/polymer/polymer.html">
+
+<link rel="import" href="../../../packages/paper_elements/paper_button.html">
+<link rel="import" href="../../../packages/paper_elements/paper_input.html">
+<link rel="import" href="../../../packages/paper_elements/paper_toast.html">
+
+<link rel="import" href="fields/password-input.html">
+<link rel="import" href="fields/email-input.html">
+
 <polymer-element name="gcanvas-registration">
   <template>
-    <form>
-      <input type="email" name="email" id="email" value="{{user.email}}"><br>
-      <input type="email" name="email2" id="email2" value="{{email2}}"><br>
-      <input type="password" name="password1" id="password1" value="{{password1}}">
-      <input type="password" name="password2" id="password2" value="{{password2}}">
-      <button on-click="{{doRegistration}}">Register</button>
-    </form>
+    <h1>Register yourself</h1>
+
+    <paper-input label="*Firstname" type="text" name="firstname" id="firstname" value="{{firstname}}"></paper-input><br>
+    <paper-input label="*Lastname" type="text" name="lastname" id="lastname" value="{{lastname}}"></paper-input><br>
+
+    <email-input label="*Email" type="email" name="email" id="email1" value="{{email1}}"></email-input><br>
+    <email-input label="*Verify Email" type="email" name="email2" id="email2" value="{{email2}}"></email-input><br>
+
+    <password-input label="*Password" name="password1" id="password1" value="{{password1}}"></password-input><br>
+    <password-input label="*Verify Password" name="password2" id="password2" value="{{password2}}"></password-input><br>
+
+    <paper-button on-click="{{doRegistration}}" label="Register" raisedButton></paper-button><br>
+
+    <div style="display: block;">
+      <paper-toast text="Passwords don't match" id="passwordMismatched"></paper-toast>
+      <paper-toast text="Emails doesn't match" id="emailMismatched"></paper-toast>
+      <paper-toast text="Please fill in all the fields" id="missing"></paper-toast>
+    </div>
   </template>
   <script type="application/dart" src="gcanvas_registration.dart"></script>
 </polymer-element>

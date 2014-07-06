@@ -1,3 +1,7 @@
+<link rel="import" href="../../../packages/polymer/polymer.html">
+
+<link rel="import" href="../../../packages/core_elements/core_item.html">
+
 <polymer-element name="resident-view">
   <template>
     <style>
@@ -5,28 +9,21 @@
       /*width: 100px;
       height: 100px;*/
       /* cherry juice and ginger ale*/
-      display: inline-block;
-      border: 1px solid blue;
-    }
-
-    @host {
-      * {
-        /*width: 100px;
-        height: 100px;*/
-        display: inline-block;
-        border: {{styleDeselected}};
-      }
+      /*display: inline-block;*/
+      /*border: 1px solid blue;*/
     }
     
     #icon {
       top: 0px;
-      width: 75px;
-      height: 75px;
+      width: 40px;
+      height: 40px;
       border: none;
     }
     </style>
-    <img id="icon" src="../../../packages/gcanvas/elements/images/user.png">
-    <div><span id="firstname">{{resident.firstname}}</span> <span id="lastname">{{resident.lastname}}</span></div>
+    <core-item>
+      <img id="icon" src="../../../packages/gcanvas/elements/images/user.png">
+      <div><span id="firstname">{{resident.firstname}}</span> <span id="lastname">{{resident.lastname}}</span></div>
+    </core-item>
   </template>
   <script type="application/dart" src="resident_view.dart"></script>
 </polymer-element>

@@ -6,16 +6,35 @@
     <meta name="viewport" content="width=device-width">
     <title>gCanvas</title>
 
-    <!-- Setup polymer with the polymer.html -->
-    <link rel="import" href="packages/polymer/polymer.html">
-
+    <!-- Setup polymer -->
+    <script src="packages/web_components/platform.js"></script>
+    <script src="packages/web_components/dart_support.js"></script>
 
     <!-- import the elements -->
+    <link rel="import" href="packages/paper_elements/roboto.html">
     <link rel="import" href="packages/gcanvas/elements/gcanvas-app.html">
+    
+    <style type="text/css" shim-shadowdom>
+      body {
+        font-family: RobotoDraft, Arial;
+        margin: 0;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        -webkit-touch-callout: none;
+      }
+      
+      gcanvas-app /deep/ paper-button::shadow #ripple {
+        color: green;
+      }
+    </style>
+    
+    <script type="application/dart">export 'package:polymer/init.dart';</script>
+    <!-- <script type="application/dart" src="main.dart"></script> -->
   </head>
   <body>
     <gcanvas-app></gcanvas-app>
-    
-    <script type="application/dart" src="main.dart"></script>
   </body>
 </html>

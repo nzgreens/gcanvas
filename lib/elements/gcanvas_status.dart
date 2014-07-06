@@ -2,6 +2,7 @@ import 'package:polymer/polymer.dart';
 
 import 'package:gcanvas/gcanvas.dart' show UserCtrl, User;
 
+import 'dart:html';
 
 @CustomTag('gcanvas-status')
 class GCanvasStatusElement extends PolymerElement {
@@ -22,7 +23,11 @@ class GCanvasStatusElement extends PolymerElement {
         }
       } else {
         var user = new User.blank();
-        fireNotAuthenticated(user);
+        if(status['verified'] == false) {
+          fireNotVerified(user);
+        } else {
+          fireNotAuthenticated(user);
+        }
       }
     });
   }
@@ -30,15 +35,18 @@ class GCanvasStatusElement extends PolymerElement {
 
   fireAuthenticated(user) {
     fire("authenticated", detail: user);
+    window.location.hash = '/home';
   }
 
 
   fireNotAuthenticated(user) {
     fire('not-authenticated', detail: user);
+    window.location.hash = '/signin';
   }
 
 
   fireNotVerified(user) {
     fire("not-verified", detail: user);
+    window.location.hash = '/register';
   }
 }

@@ -23,7 +23,7 @@ class SyncCtrl {
 
     var responseType = 'application/json';
     if(detect.browser.isSafari) {
-      responseType = "";  //Only needed for Safari, other browsers are sain
+      responseType = "";  //Only needed for Safari, other browsers are sane
     }
     _http.get('json/people.json').then((HttpRequest request) {
       var people = JSON.decode(request.response);

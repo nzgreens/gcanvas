@@ -1,5 +1,25 @@
+<link rel="import" href="../../../packages/polymer/polymer.html">
+
 <link rel="import"
-      href="../bower_components/polymer-ui-tabs/polymer-ui-tabs.html">
+      href="../../../packages/paper_elements/paper_tabs.html">
+<link rel="import"
+      href="../../../packages/paper_elements/paper_tab.html">
+<link rel="import"
+      href="../../../packages/paper_elements/paper_button.html">
+<link rel="import"
+      href="../../../packages/paper_elements/paper_input.html">
+<link rel="import"
+      href="../../../packages/paper_elements/paper_toggle_button.html">
+<link rel="import"
+      href="../../../packages/paper_elements/paper_radio_group.html">
+<link rel="import"
+      href="../../../packages/paper_elements/paper_radio_button.html">
+
+<link rel="import"
+      href="fields/email-input.html">
+<link rel="import"
+      href="fields/telephone-input.html">
+
 <polymer-element name="response-view">
   <template>
     <link rel="stylesheet" href="gcanvas-app-style.css">
@@ -27,9 +47,13 @@
         font-size: 150% !important;
       }
       
-      input[type=checkbox] {
-        width: 40px !important;
-        height: 30px;
+      div.toggle {
+        height: 50px;
+      }
+      
+      
+      paper-button {
+        width: 100px;
       }
       
       .button {
@@ -41,44 +65,62 @@
       
     </style>
     <div><span id="firstname">{{resident.firstname}}</span> <span id="lastname">{{resident.lastname}}</span></div>
-    <polymer-ui-tabs id="tab-selector" selected="0" on-polymer-select="{{selectPage}}">
-      <span id="status-selector">Status</span>
-      <span id="details-selector">Details</span>
-    </polymer-ui-tabs>
-    <div id="status-tab" style="display:block;">
-      <select id="response" on-change="{{responseSelected}}">
-        <option value="-1">Select a response</option>
-        <option template repeat="{{key in responseMap.keys}}" value="{{key}}">
-          {{responseMap[key]}}
-        </option>
-      </select>
-      <select id="support" on-change="{{supportSelected}}">
-        <option value="-1">Select support level</option>
-        <option template repeat="{{key in supportLevelMap.keys}}" value="{{key}}">
-          {{supportLevelMap[key]}}
-        </option>
-      </select>
-      <div>Involvement?</div>
-      <template repeat="{{key in involvementMap.keys}}">
+    <paper-tabs id="tab-selector" selected="0" on-core-select="{{selectPage}}">
+      <paper-tab id="response-selector">Response</paper-tab>
+      <paper-tab id="support-selector">Support Level</paper-tab>
+      <paper-tab id="involvement-selector">Involvement</paper-tab>
+      <paper-tab id="details-selector">Details</paper-tab>
+    </paper-tabs>
+    <template if="{{ selectedTab == RESPONSE }}">
+      <div>
+        <paper-radio-group id="response" on-change="{{responseSelected}}" selected="-1">
+          <template repeat="{{ key in responseMap.keys }}">
+            <paper-radio-button name="{{ key }}" label="{{responseMap[key]}}"></paper-radio-button><br>
+          </template>
+        </paper-radio-group>
+      </div>
+    </template>
+    <template if="{{ selectedTab == SUPPORT }}">
+      <div id="support-tab">
+        <paper-radio-group id="support" on-change="{{ supportSelected }}">
+          <template repeat="{{ key in supportLevelMap.keys }}">
+            <paper-radio-button name="{{ key }}" label="{{ supportLevelMap[key] }}"></paper-radio-button><br>
+          </template>
+        </paper-radio-group>
+      </div>
+    </template>
+    <template if="{{ selectedTab == INVOLVEMENT }}">
+      <div id="involvement-tab">
+        <div>Involvement?</div>
+        <template repeat="{{key in involvementMap.keys}}">
+          <div class="toggle" horizontal layout center>
+            <template if="{{ involvementMap[key] == true }}">
+              <paper-toggle-button id="{{key}}" checked on-change="{{involvementChecked}}"></paper-toggle-button>
+            </template>
+            <template if="{{ involvementMap[key] == false }}">
+              <paper-toggle-button id="{{key}}" on-change="{{involvementChecked}}"></paper-toggle-button>
+            </template>
+            <label>{{key}}</label>
+          </div>
+        </template>
+      </div>
+    </template>
+    <template if="{{ selectedTab == DETAILS }}">
+      <div id="details-tab">
         <div>
-          <input type="checkbox" id="{{key}}" name="{{key}}" on-click="{{involvementChecked}}">{{key}}
+          <email-input type="email" placeholder="Email" id="email" name="email" value="{{resident.email}}"></email-input>
         </div>
-      </template>
-    </div>
-    <div id="details-tab" style="display:none;">
-      <div>
-        <input type="email" placeholder="Email" id="email" name="email" value="{{resident.email}}">
+        <div>
+          <telephone-input type="tel" placeholder="Phone" id="phone" name="phone" value="{{resident.phone}}"></telephone-input>
+        </div>
+        <div>
+          <paper-input multiline name="notes" placeholder="Notes" id="notes" value="{{resident.notes}}"></paper-input>
+        </div>
       </div>
-      <div>
-        <input type="tel" placeholder="Phone" id="phone" name="phone" value="{{resident.phone}}">
-      </div>
-      <div>
-        <textarea name="notes" placeholder="Notes" id="notes">{{resident.notes}}</textarea>
-      </div>
-    </div>
+    </template>
     <div id="okcancel">
-      <button on-click="{{submit}}">OK</button>
-      <button on-click="{{cancel}}">Cancel</button>
+      <paper-button on-click="{{submit}}" label="Ok" raisedButton></paper-button>
+      <paper-button on-click="{{cancel}}" label="Cancel" raisedButton></paper-button>
     </div>
   </template>
   <script type="application/dart" src="response_view.dart"></script>  

@@ -1,3 +1,5 @@
+<link rel="import" href="../../../packages/polymer/polymer.html">
+
 <polymer-element name="address-list-item" attributes="address">
   <template>
     <style>
@@ -6,26 +8,19 @@
       cursor: pointer;
       
     }
-
-    @host {
-      * {
-        /*display: none;*/
-        cursor: pointer;
-      }
-    }
     
-    #address {
+    #address_item {
       border-bottom: 1px solid blue;
     }
     
-    #address.visited {
+    #address_item.visited {
       border-top: 1px solid red;
       border-bottom: 1px solid red;
       background-color: lightGray;
     }
     
     </style>
-    <div id="address" class="{{visited}}">
+    <div id="address_item" class="{{visited}}">
       <div id="address1">{{address.address1}}</div>
       <div id="address2">{{address.address2}}</div>
       <div id="address3">{{address.address3}}</div>

@@ -14,7 +14,10 @@ class Resident extends Observable {
   String email;
   String phone;
   String notes;
-
+  int response;
+  int support;
+  bool volunteer;
+  int inferred_support_level;
 
   Resident(
       this.id,
@@ -28,7 +31,11 @@ class Resident extends Observable {
       {
        this.email,
        this.phone,
-       this.notes
+       this.notes,
+       this.response,
+       this.support,
+       this.volunteer,
+       this.inferred_support_level
       }
   );
 
@@ -44,7 +51,11 @@ class Resident extends Observable {
     DateTime dob,
     String email : '',
     String phone: '',
-    String notes: ''
+    String notes: '',
+    int response: -1,
+    int support: -1,
+    bool volunteer: false,
+    int inferred_support_level: -1
   }) {
 
     return new Resident(
@@ -58,7 +69,11 @@ class Resident extends Observable {
         dob,
         email: email,
         phone: phone,
-        notes: notes
+        notes: notes,
+        response: response,
+        support: support,
+        volunteer: volunteer,
+        inferred_support_level: inferred_support_level
         );
   }
 
@@ -75,6 +90,10 @@ class Resident extends Observable {
     var email = map['email'];
     var phone = map['phone'];
     var notes = map['notes'];
+    var response = map['response'];
+    var support = map['support'];
+    var volunteer = map['volunteer'];
+    var inferred_support_level = map['inferred_support_level'];
 
     return new Resident.create(
         id: id,
@@ -87,7 +106,11 @@ class Resident extends Observable {
         dob: dob,
         email: email,
         phone: phone,
-        notes: notes
+        notes: notes,
+        response: response,
+        support: support,
+        volunteer: volunteer,
+        inferred_support_level: inferred_support_level
         );
   }
 
@@ -104,7 +127,11 @@ class Resident extends Observable {
       "dob": "$dob",
       "email": email,
       "phone": phone,
-      "notes": notes
+      "notes": notes,
+      "response": response,
+      "support": support,
+      "volunteer": volunteer,
+      "inferred_support_level": inferred_support_level
     };
   }
 }

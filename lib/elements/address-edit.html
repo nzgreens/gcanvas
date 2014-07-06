@@ -1,17 +1,22 @@
+<link rel="import" href="../../../packages/polymer/polymer.html">
+
+
+<link rel="import" href="../../../packages/paper_elements/paper_checkbox.html">
+<link rel="import" href="../../../packages/paper_elements/paper_input.html">
+<link rel="import" href="../../../packages/paper_elements/paper_button.html">
+
 <link rel="import" href="resident-edit.html">
 <polymer-element name="address-edit">
   <template>
-    <form>
-      <input type="text" name="street" value="{{address.street}}"><label for="street">Street</label><br>
-      <input type="text" name="suburb" value="{{address.suburb}}"><label for="suburb">Suburb</label><br>
-      <input type="text" name="city" value="{{address.city}}"><label for="city">City</label><br>
-      <input type="text" name="postcode" value="{{address.postcode}}"><label for="postcode">Postcode</label><br>
-      <input type="text" name="latitude" value="{{latitude}}"><label for="latitude">Latitude</label><br>
-      <input type="text" name="longitude" value="{{longitude}}"><label for="longitude">Longitude</label><br>
-      <input type="checkbox" name="visited" value="{{visited}}"><label for="visited">Visited</label><br>
+      <paper-input type="text" name="street" value="{{address.street}}" label="Street"></paper-input><label for="street">Street</label><br>
+      <paper-input type="text" name="suburb" value="{{address.suburb}}" label="Suburb"></paper-input><label for="suburb">Suburb</label><br>
+      <paper-input type="text" name="city" value="{{address.city}}" label="City"></paper-input><label for="city">City</label><br>
+      <paper-input type="text" name="postcode" value="{{address.postcode}}" label="Postcode"></paper-input><label for="postcode">Postcode</label><br>
+      <paper-input type="text" name="latitude" value="{{latitude}}" label="Latitude"></paper-input><label for="latitude">Latitude</label><br>
+      <paper-input type="text" name="longitude" value="{{longitude}}" label="Longitude"></paper-input><label for="longitude">Longitude</label><br>
+      <paper-checkbox type="checkbox" name="visited" value="{{visited}}" label="Visited"></paper-checkbox><label for="visited">Visited</label><br>
       
-      <button on-click="{{submit}}">Save</button><button on-click="{{cancel}}">Cancel</button>
-    </form>
+      <paper-button on-click="{{submit}}">Save</paper-button><paper-button on-click="{{cancel}}">Cancel</paper-button>
   </template>
   <script type="application/dart" src="address_edit.dart"></script>
 </polymer-element>

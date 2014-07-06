@@ -1,0 +1,19 @@
+<link rel="import" href="../../../packages/polymer/polymer.html">
+
+<polymer-element name="register-user-button">
+  <template>
+    <style>
+      #register-user {
+        background-image: url(images/sign-up-now-button.jpg);
+        background-repeat: no-repeat;
+        background-size: 160px 32px;
+        width: 160px;
+        height: 32px;
+      }
+    </style>
+    <div>
+      <button id="register-user" on-click="{{registerUser}}"></button>
+    </div>
+  </template>
+  <script type="application/dart" src="register_user.dart"></script>
+</polymer-element>

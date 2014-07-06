@@ -2,6 +2,8 @@ import 'package:polymer/polymer.dart';
 import 'package:gcanvas/response.dart';
 import 'package:gcanvas/resident.dart';
 
+import 'package:core_elements/core_selector.dart';
+
 import 'dart:html' show Event, SelectElement, CheckboxInputElement;
 import 'dart:js' as js;
 
@@ -38,8 +40,14 @@ class ResponseViewElement extends PolymerElement {
 
   @observable bool supportEntry = false;
   @observable bool involvementEntry = false;
+  @observable int selectedTab = 0;
   int response = -1;
   int support = -1;
+
+  final int RESPONSE = 0;
+  final int SUPPORT = 1;
+  final int INVOLVEMENT = 2;
+  final int DETAILS = 3;
 
   String responseSelection = "No Answer";
 
@@ -57,13 +65,8 @@ class ResponseViewElement extends PolymerElement {
 
 
   void responseSelected(Event event) {
-    var selection = int.parse((event.target as SelectElement).value);
-    if(selection >= 0) {
-      supportEntry = true;
-    } else {
-      supportEntry = false;
-    }
-    response = selection;
+    response = int.parse($['response'].selected);
+    supportEntry = response >= 0;
   }
 
   void fireResponse() {
@@ -72,15 +75,8 @@ class ResponseViewElement extends PolymerElement {
   }
 
   void supportSelected(Event event) {
-    var selection = int.parse((event.target as SelectElement).value);
-
-    if(selection >= 0) {
-      involvementEntry = true;
-    } else {
-      involvementEntry = false;
-    }
-
-    support = selection;
+    support = int.parse(shadowRoot.querySelector('#support').selected);
+    involvementEntry = support >= 0;
   }
 
 
@@ -103,11 +99,13 @@ class ResponseViewElement extends PolymerElement {
 
 
   reset() {
-    SelectElement response = shadowRoot.querySelector("#response");
-    response.value = "-1";
-    SelectElement support = shadowRoot.querySelector("#support");
+    var response = shadowRoot.querySelector("#response");
+    if(response != null) {
+      response.selected = "-1";
+    }
+    var support = shadowRoot.querySelector("#support");
     if(support != null) {
-      support.value = "-1";
+      support.selected = "-1";
     }
     supportEntry = false;
     shadowRoot.querySelectorAll("input").forEach((input) {
@@ -116,33 +114,21 @@ class ResponseViewElement extends PolymerElement {
       }
     });
     involvementEntry = false;
-    var tab_selector = new js.JsObject.fromBrowserObject($['tab-selector']);
-    tab_selector['selected'] = 0;
+    $['tab-selector'].selected = 0;
   }
 
 
   involvementChecked(Event e) {
-    CheckboxInputElement input = e.target;
+    //CheckboxInputElement
+    var input = e.target;
 
-    involvementMap[input.name] = input.checked;
+    involvementMap[input.id] = input.checked;
+    print("${input.id}: ${input.checked}");
   }
 
 
   selectPage(Event e) {
-    var target = new js.JsObject.fromBrowserObject(e.target);
-    int selected = target['selected'] is int ? target['selected'] : int.parse(target['selected']);
-    print(selected);
-    switch(selected) {
-      case 0:
-        $['status-tab'].style.display = 'block';
-        $['details-tab'].style.display = 'none';
-        break;
-      case 1:
-        $['status-tab'].style.display = 'none';
-        $['details-tab'].style.display = 'block';
-        break;
-      default:
-        break;
-    }
+    var target = e.target as CoreSelector;
+    selectedTab = target.selected is int ? target.selected : int.parse(target.selected);
   }
 }

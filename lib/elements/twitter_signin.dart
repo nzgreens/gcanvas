@@ -2,7 +2,7 @@ import 'package:polymer/polymer.dart';
 
 import 'dart:html' show window, Event;
 
-@CustomTag('twitter-signin')
+@CustomTag('twitter-signin-button')
 class TwitterSigninElement extends PolymerElement {
   TwitterSigninElement.created() : super.created();
 

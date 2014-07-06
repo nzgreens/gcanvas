@@ -1,8 +1,13 @@
+<link rel="import" href="../../../packages/polymer/polymer.html">
+
+<link rel="import"
+      href="../../../packages/paper_elements/paper_button.html">
+
 <link rel="import" href="resident-view.html">
 <link rel="import" href="response-view.html">
 <polymer-element name="address-view">
   <template>
-    <link rel="stylesheet" href="gcanvas-app-style.css">
+    <!-- <link rel="stylesheet" href="gcanvas-app-style.css"> -->
     <template if="{{showAddress == true}}">
       <div id="address">
         <div id="address1">{{address.address1}}</div>
@@ -15,8 +20,8 @@
               <resident-view on-resident-selected="{{residentSelected}}" on-resident-deselected="{{residentDeselected}}" resident="{{resident}}"></resident-view>
           </template>
         </div>
-        <button on-click="{{emitDone}}">Done</button>
-        <button on-click="{{emitNextAddress}}">Next</button>
+        <paper-button on-click="{{emitDone}}" label="Done" raisedButton></paper-button>
+        <paper-button on-click="{{emitNextAddress}}" label="Next" raisedButton></paper-button>
       </div>
     </template>
     <template if="{{showAddress == false}}">

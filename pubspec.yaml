@@ -5,21 +5,29 @@ description: Canvasing App for doorknocking campaigns.
 environment:
   sdk: '>=1.0.0 <2.0.0'
 dependencies:
+  appengine: any
   browser_detect: any
+  cloud_datastore: any
+  core_elements: any
   csvparser: any
+  google_datastore_v1beta2_api: any
   http: any
   http_server: any
   lawndart: any
   mime: any
-  polymer: '>=0.10.0 <0.11.0'
+  paper_elements: any
+  polymer: '>=0.11.0 <0.12.0'
   postgresql: any
   route: any
+  route_hierarchical: any
+  shelf: any
+  shelf_html: any
+  shelf_route: any
   uuid: any
-dependency_overrides:
-  polymer_expressions: '>=0.11.0 <0.12.0'
 dev_dependencies:
   scheduled_test: any
 transformers:
 - polymer:
     entry_points:
     - web/index.html
+    lint: 'false'

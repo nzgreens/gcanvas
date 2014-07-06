@@ -12,8 +12,8 @@ class ResidentViewElement extends PolymerElement {
 
   ResidentViewElement.created() : super.created();
 
-  void enteredView() {
-    super.enteredView();
+  void attached() {
+    super.attached();
 
     onClick.listen((event) {
       click();

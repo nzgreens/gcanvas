@@ -2,8 +2,11 @@ import 'dart:html' show Event, window;
 
 import 'package:polymer/polymer.dart';// show CustomTag, PolymerElement, published, observable;
 
+import 'package:paper_elements/paper_input.dart';
+
 import 'package:gcanvas/gcanvas.dart' show UserCtrl, User;
-//import
+
+import 'dart:html';
 
 @CustomTag('gcanvas-signin')
 class GCanvasLoggonElement extends PolymerElement {
@@ -14,16 +17,22 @@ class GCanvasLoggonElement extends PolymerElement {
   @observable String email;
   @observable String password;
 
-  GCanvasLoggonElement.created() : super.created();
+  GCanvasLoggonElement.created() : super.created() { print('created signin'); }
+
+
+  void attached() {
+    super.attached();
+  }
 
   authenticate(Event e) {
     userCtrl.userLogin(email, password).then((result) {
+      print(result);
       if(result) {
-        user = new User.blank();
-        fireNotAuthenticated();
-      } else {
         user = new User("James", "Hurford", email);
         fireAuthenticated();
+      } else {
+        user = new User.blank();
+        fireNotAuthenticated();
       }
     });
   }
@@ -32,6 +41,7 @@ class GCanvasLoggonElement extends PolymerElement {
   fireAuthenticated() {
     fire("authenticated", detail: user);
     authenticated = true;
+    print("authenticated");
   }
 
 

@@ -3,6 +3,7 @@ import 'package:polymer/polymer.dart';
 import 'package:gcanvas/address.dart';
 import 'package:gcanvas/gcanvas.dart';
 
+import 'package:core_elements/core_drawer_panel.dart';
 
 @CustomTag("gcanvas-app")
 class GCanvasApp extends PolymerElement {
@@ -13,10 +14,10 @@ class GCanvasApp extends PolymerElement {
   @published AddressListCtrl addressListCtrl = new AddressListCtrl.create();
 
   @observable final List<Address> addresses = toObservable([]);
-  @observable bool loggedIn = false;
 
-  @observable var refreshIcon = 'refresh';
-  @observable var accountIcon = 'account-box';
+  @observable String refreshIcon = 'refresh';
+  @observable String accountIcon = 'account-box';
+  @observable String menuIcon = "menu";
 
   @observable User user = new User.blank();
 
@@ -102,15 +103,8 @@ class GCanvasApp extends PolymerElement {
   }
 
 
-  authenticated(e) {
-    loggedIn = true;
-    user = e.detail;
-  }
-
-
-  notAuthenticated(e) {
-    loggedIn = true;
-    user = e.detail;
+  menu(e) {
+    (shadowRoot.querySelector('#panel') as CoreDrawerPanel).jsElement.callMethod("togglePanel");
   }
 
   submitResponse(e) {
@@ -124,19 +118,13 @@ class GCanvasApp extends PolymerElement {
   }
 
 
-  setLoggedIn(e) {
-    loggedIn = true;
-    user = e.detail;
-  }
+  reverseAddresses(e) {
+    var reversed = addresses.reversed.toList();
+    addresses.clear();
+    addresses.addAll(reversed);
+    var address = addresses.firstWhere((address) => !address.visited, orElse: () {});;
+    appState.selectAddressView(address);
 
-
-  setNotLoggedIn(e) {
-    loggedIn = false;
-    user = new User.blank();
-  }
-
-
-  registerUser(e) {
-
+    appStateCtrl.save(appState);
   }
 }

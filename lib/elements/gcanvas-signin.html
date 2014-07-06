@@ -1,9 +1,17 @@
+<link rel="import" href="../../../packages/polymer/polymer.html">
+
+<link rel="import" href="../../../packages/paper_elements/paper_button.html">
+<link rel="import" href="../../../packages/paper_elements/paper_input.html">
+<link rel="import" href="../../../packages/paper_elements/paper_toast.html">
+
+<link rel="import" href="fields/password-input.html">
+<link rel="import" href="fields/email-input.html">
+
 <polymer-element name="gcanvas-signin">
   <template>
     <style>
       :host {
         display: block;
-        height: 100%;
         margin-left: auto;
         margin-right: auto;
         width: 90%;
@@ -37,11 +45,17 @@
         margin-right: auto;
         width: 60%;
       }
+      
+      input {
+        border-top: none;
+        border-left: none;
+        border-right: none;
+      }
     </style>
     <div class="centre">
-      <input type="email" value="{{email}}" placeholder="Email">
-      <input type="password" value="{{password}}" placeholder="Password">
-      <button id="signin" on-click="{{authenticate}}">Signin with Email</button>
+      <email-input value="{{email}}" label="Email"></email-input><br>
+      <password-input id="password" value="{{password}}" label="Password"></password-input><br>
+      <paper-button  label="Signin with Email" on-click="{{authenticate}}" raisedButton></paper-button>
     </div>
     
   </template>
