@@ -27,6 +27,10 @@ part 'userctrl.dart';
 
 
 class Http extends Observable {// extends BrowserClient {
+  final HttpRequest request = new HttpRequest();
+
+  Http();
+
   _safariFix(responseType) {
     if(detect.browser.isSafari) {
       return "";  //Only needed for Safari, other browsers are sain
@@ -43,9 +47,11 @@ class Http extends Observable {// extends BrowserClient {
   }
 
 
-  Future<HttpRequest> post(String url, Map<String, String> data, {Map<String, String> headers, String responseType: 'application/json'}) {
+  Future<HttpRequest> post(String url, {Map<String, String> data, Map<String, String> headers, String responseType: 'application/json', sendData}) {
     headers = headers != null ? headers : {};
 
-    return HttpRequest.postFormData(url, data, responseType: _safariFix(responseType), requestHeaders: headers);
+    return HttpRequest.request(url, method: 'POST', responseType: _safariFix(responseType), sendData: sendData);
+
+    //return HttpRequest.postFormData(url, data, responseType: _safariFix(responseType), requestHeaders: headers);
   }
 }

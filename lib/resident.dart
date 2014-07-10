@@ -134,4 +134,7 @@ class Resident extends Observable {
       "inferred_support_level": inferred_support_level
     };
   }
+
+
+  String toString() => toMap().toString();
 }

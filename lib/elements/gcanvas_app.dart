@@ -20,6 +20,7 @@ class GCanvasApp extends PolymerElement {
   @observable String menuIcon = "menu";
 
   @observable User user = new User.blank();
+  @observable var phoneScreen;
 
   GCanvasApp.created() : super.created() {
     _loadAppState();
@@ -126,5 +127,9 @@ class GCanvasApp extends PolymerElement {
     appState.selectAddressView(address);
 
     appStateCtrl.save(appState);
+  }
+
+  phoneScreenChanged() {
+    print("phoneScreen: $phoneScreen");
   }
 }

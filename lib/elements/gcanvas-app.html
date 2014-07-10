@@ -5,6 +5,7 @@
 <link rel="import" href="../../../packages/core_elements/core_header_panel.html">
 <link rel="import" href="../../../packages/core_elements/core_menu.html">
 <link rel="import" href="../../../packages/core_elements/core_item.html">
+<link rel="import" href="../../../packages/core_elements/core_media_query.html">
 <link rel="import"
       href="../../../packages/core_elements/core_header_panel.html">
 <link rel="import"
@@ -109,6 +110,7 @@
       }
     </style>
     
+    <core-media-query query="max-width: 800px" queryMatches="{{phoneScreen}}"></core-media-query>
     <gcanvas-status></gcanvas-status>
     
     <app-route route="/signin">

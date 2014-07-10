@@ -16,16 +16,29 @@ class SyncCtrl {
   }
 
 
+  /**
+   * This is about uploading updated voters details, if any exist, and
+   * download a new list of people.  Each persons details downloaded has their
+   * address. Using this address as a key to a dictionary, adds each person to
+   * the dictionary, using the address as the dictionary key.  This way we can
+   * create a list of addresses, which contain a list of it's residents.
+   */
   Future<bool> sync() {
+    return _upload().then((result) {
+      if(result == true) {
+        return _download();
+      }
+
+      return new Future.value(false);
+    });
+  }
+
+  Future<bool> _download() {
     Completer<bool> completer = new Completer<bool>();
 
     var addresses = {};
 
-    var responseType = 'application/json';
-    if(detect.browser.isSafari) {
-      responseType = "";  //Only needed for Safari, other browsers are sane
-    }
-    _http.get('json/people.json').then((HttpRequest request) {
+    _http.get('/json/people.json').then((HttpRequest request) {
       var people = JSON.decode(request.response);
       people['results'].forEach((Map item) {
         var id = item['id'];
@@ -65,7 +78,27 @@ class SyncCtrl {
         if(count == addresses.length) {
           completer.complete(request.readyState == 200);
           timer.cancel();
-        } });
+        }
+      });
+    });
+
+    return completer.future;
+  }
+
+
+  Future<bool> _upload() {
+    Completer<bool> completer = new Completer<bool>();
+
+    _addrListCtrl.getList().then((addresses) {
+      if(addresses.length > 0) {
+        var residents = addresses.map((address) => address.residents.map((resident) => resident.toMap())).expand((resident) => resident).toList();
+        var data = JSON.encode(residents);
+        _http.post('/json/residents', sendData: data).then((request) {
+          completer.complete(request.readyState == 200);
+        });
+      } else {
+        completer.complete(true);
+      }
     });
 
     return completer.future;
