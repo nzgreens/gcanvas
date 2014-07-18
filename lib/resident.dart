@@ -3,21 +3,22 @@ library gcanvas.address.resident;
 import 'package:observe/observe.dart';
 
 class Resident extends Observable {
-  int id;
-  String title;
-  String firstname;
-  String middlenames;
-  String lastname;
-  String occupation;
-  String gender;
-  DateTime dob;
-  String email;
-  String phone;
-  String notes;
-  int response;
-  int support;
-  bool volunteer;
-  int inferred_support_level;
+  final int id;
+  @observable String title;
+  @observable String firstname;
+  @observable String middlenames;
+  @observable String lastname;
+  @observable String occupation;
+  @observable String gender;
+  @observable DateTime dob;
+  @observable String email;
+  @observable String phone;
+  @observable String notes;
+  @observable int response;
+  @observable int support;
+  @observable bool volunteer;
+  @observable bool host_a_billboard;
+  @observable int inferred_support_level;
 
   Resident(
       this.id,
@@ -35,7 +36,9 @@ class Resident extends Observable {
        this.response,
        this.support,
        this.volunteer,
+       this.host_a_billboard,
        this.inferred_support_level
+
       }
   );
 
@@ -55,6 +58,7 @@ class Resident extends Observable {
     int response: -1,
     int support: -1,
     bool volunteer: false,
+    bool host_a_billboard: false,
     int inferred_support_level: -1
   }) {
 
@@ -73,6 +77,7 @@ class Resident extends Observable {
         response: response,
         support: support,
         volunteer: volunteer,
+        host_a_billboard: host_a_billboard,
         inferred_support_level: inferred_support_level
         );
   }
@@ -93,6 +98,7 @@ class Resident extends Observable {
     var response = map['response'];
     var support = map['support'];
     var volunteer = map['volunteer'];
+    var host_a_billboard = map['host_a_billboard'];
     var inferred_support_level = map['inferred_support_level'];
 
     return new Resident.create(
@@ -110,6 +116,7 @@ class Resident extends Observable {
         response: response,
         support: support,
         volunteer: volunteer,
+        host_a_billboard: host_a_billboard,
         inferred_support_level: inferred_support_level
         );
   }
@@ -131,6 +138,7 @@ class Resident extends Observable {
       "response": response,
       "support": support,
       "volunteer": volunteer,
+      "host_a_billboard": host_a_billboard,
       "inferred_support_level": inferred_support_level
     };
   }

@@ -2,7 +2,6 @@ import 'package:polymer/polymer.dart';
 
 import 'package:gcanvas/gcanvas.dart';
 
-@PublishedProperty(reflect: true)
 @CustomTag('gcanvas-registration')
 class GCanvasRegistrationElement extends PolymerElement {
   @published UserCtrl userCtrl = new UserCtrl.create();

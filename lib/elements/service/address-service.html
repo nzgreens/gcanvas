@@ -1,0 +1,16 @@
+<link rel="import" href="../../../../packages/polymer/polymer.html">
+
+<link rel="import" href="../../../../packages/paper_elements/paper_toast.html">
+
+<polymer-element name="address-service">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <paper-toast text="Addresses synced" id="synced"></paper-toast>
+    <paper-toast text="Addresses failed to sync" id="notSynced"></paper-toast>
+  </template>
+  <script type="application/dart" src="address_service.dart"></script>
+</polymer-element>

@@ -1,12 +1,13 @@
 import 'package:polymer/polymer.dart';
 import 'package:gcanvas/address.dart';
 import 'package:gcanvas/resident.dart';
+import 'package:gcanvas/response.dart';
 
 import 'dart:html' show Event;
 
 @CustomTag('address-view')
 class AddressViewElement extends PolymerElement {
-  @published Address address;
+  @PublishedProperty(reflect: true) Address address;
 
   @observable String response = "";
   @observable String reason = "";
@@ -30,6 +31,10 @@ class AddressViewElement extends PolymerElement {
 
 
   submitResponse(e) {
+    address.visited = true;
+    var response = (e.detail as ResidentResponse);
+    Resident resident = address.residents.firstWhere((resident) => resident.id == response.id);
+
     toggleFlip();
   }
 
@@ -58,8 +63,8 @@ class AddressViewElement extends PolymerElement {
   }
 
 
-  emitDone(Event e) {
-    fire('address-done');
+  emitPrevAddress(Event e) {
+    fire('address-prev');
     e.preventDefault();
   }
 

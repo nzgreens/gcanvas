@@ -25,6 +25,7 @@
 <link rel="import" href="route/app-route.html">
 <link rel="import" href="database/user-db.html">
 
+
 <polymer-element name="gcanvas-app">
   <template>
     <style>
@@ -146,7 +147,7 @@
           </core-toolbar>
           <address-view address="{{ appState.address }}"
                         on-response-submit="{{ submitResponse }}"
-                        on-address-done="{{ hideAddress }}"
+                        on-address-prev="{{ prevAddress }}"
                         on-address-next="{{ nextAddress }}">
           </address-view>
         </core-header-panel>

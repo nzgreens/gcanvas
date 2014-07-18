@@ -1,3 +1,5 @@
+import 'dart:mirrors';
+
 import 'package:polymer/polymer.dart';
 import 'package:gcanvas/response.dart';
 import 'package:gcanvas/resident.dart';
@@ -5,7 +7,6 @@ import 'package:gcanvas/resident.dart';
 import 'package:core_elements/core_selector.dart';
 
 import 'dart:html' show Event, SelectElement, CheckboxInputElement;
-import 'dart:js' as js;
 
 @CustomTag('response-view')
 class ResponseViewElement extends PolymerElement {
@@ -17,10 +18,6 @@ class ResponseViewElement extends PolymerElement {
     7:'No Answer',
     0:'Other'
   });
-//    3:'Left Message',
-//    4:'Meaningful Interaction',
-//    8:'Refused',
-//    5:'Send Information',
 
   @published final Map<int, String> supportLevelMap = toObservable({
     1:'Strong support',
@@ -36,7 +33,7 @@ class ResponseViewElement extends PolymerElement {
     'Host a Billboard': false
   });
 
-  @published Resident resident = new Resident.create();
+  @PublishedProperty(reflect: true) Resident resident = new Resident.create();
 
   @observable bool supportEntry = false;
   @observable bool involvementEntry = false;
@@ -57,16 +54,22 @@ class ResponseViewElement extends PolymerElement {
 
   void attached() {
     super.attached();
-    //$['details-tab'].style.display = "none";
-    //$['tab-selector'].selected = 0;
-    //$['status-tab'].style.display = 'block';
-    //$['details-tab'].style.display = 'none';
+    var instanceMirror = reflect(resident);
+    involvementMap.keys.forEach((key) {
+      //keys are just the attribute in a human readable for with spaces and capatals
+      //lowercase and replace spaces with underscores
+      var attrName = key.toLowerCase().replaceAll(' ', '_');
+      var objMirror = instanceMirror.getField(new Symbol(attrName));
+      var attrVal = objMirror.reflectee == null ? false : objMirror.reflectee;
+      print("Name ($attrName): $attrVal");
+      involvementMap[key] = attrVal;
+    });
   }
 
 
   void responseSelected(Event event) {
-    response = int.parse($['response'].selected);
-    supportEntry = response >= 0;
+    resident.response = int.parse(shadowRoot.querySelector('#response').selected);
+    supportEntry = resident.response >= 0;
   }
 
   void fireResponse() {
@@ -75,8 +78,8 @@ class ResponseViewElement extends PolymerElement {
   }
 
   void supportSelected(Event event) {
-    support = int.parse(shadowRoot.querySelector('#support').selected);
-    involvementEntry = support >= 0;
+    resident.support = int.parse(shadowRoot.querySelector('#support').selected);
+    involvementEntry = resident.support >= 0;
   }
 
 
@@ -123,12 +126,22 @@ class ResponseViewElement extends PolymerElement {
     var input = e.target;
 
     involvementMap[input.id] = input.checked;
-    print("${input.id}: ${input.checked}");
+    var instanceMirror = reflect(resident);
+    var attrName = input.id.toLowerCase().replaceAll(' ', '_');
+    instanceMirror.setField(new Symbol(attrName), involvementMap[input.id]);
   }
 
 
   selectPage(Event e) {
     var target = e.target as CoreSelector;
     selectedTab = target.selected is int ? target.selected : int.parse(target.selected);
+  }
+
+
+  residentDetailChanged(e) {
+    var input = e.target;
+    var instanceMirror = reflect(resident);
+    var attrName = input.id.toLowerCase().replaceAll(' ', '_');
+    instanceMirror.setField(new Symbol(attrName), input.value);
   }
 }

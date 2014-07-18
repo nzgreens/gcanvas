@@ -95,7 +95,7 @@ class SyncCtrl {
         var data = JSON.encode(residents);
         _http.post('/json/residents', sendData: data).then((request) {
           completer.complete(request.readyState == 200);
-        });
+        }, onError: (error) => completer.complete(false));
       } else {
         completer.complete(true);
       }

@@ -13,7 +13,8 @@
     <!-- import the elements -->
     <link rel="import" href="packages/paper_elements/roboto.html">
     <link rel="import" href="packages/gcanvas/elements/gcanvas-app.html">
-    
+    <link rel="import" href="packages/gcanvas/elements/service/address-service.html">
+    <link rel="import" href="packages/gcanvas/elements/service/appstate-service.html">
     <style type="text/css" shim-shadowdom>
       body {
         font-family: RobotoDraft, Arial;
@@ -35,6 +36,8 @@
     <!-- <script type="application/dart" src="main.dart"></script> -->
   </head>
   <body>
+    <address-service id="address-service"></address-service>
+    <appstate-service id="appstate-service"></appstate-service>
     <gcanvas-app></gcanvas-app>
   </body>
 </html>

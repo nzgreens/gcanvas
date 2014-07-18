@@ -73,7 +73,7 @@
     </paper-tabs>
     <template if="{{ selectedTab == RESPONSE }}">
       <div>
-        <paper-radio-group id="response" on-change="{{responseSelected}}" selected="-1">
+        <paper-radio-group id="response" on-change="{{ responseSelected }}" selected="{{ resident.response }}">
           <template repeat="{{ key in responseMap.keys }}">
             <paper-radio-button name="{{ key }}" label="{{responseMap[key]}}"></paper-radio-button><br>
           </template>
@@ -82,7 +82,7 @@
     </template>
     <template if="{{ selectedTab == SUPPORT }}">
       <div id="support-tab">
-        <paper-radio-group id="support" on-change="{{ supportSelected }}">
+        <paper-radio-group id="support" on-change="{{ supportSelected }}" selected="{{ resident.support }}">
           <template repeat="{{ key in supportLevelMap.keys }}">
             <paper-radio-button name="{{ key }}" label="{{ supportLevelMap[key] }}"></paper-radio-button><br>
           </template>
@@ -97,7 +97,7 @@
             <template if="{{ involvementMap[key] == true }}">
               <paper-toggle-button id="{{key}}" checked on-change="{{involvementChecked}}"></paper-toggle-button>
             </template>
-            <template if="{{ involvementMap[key] == false }}">
+            <template if="{{ involvementMap[key] != true }}">
               <paper-toggle-button id="{{key}}" on-change="{{involvementChecked}}"></paper-toggle-button>
             </template>
             <label>{{key}}</label>
@@ -108,13 +108,13 @@
     <template if="{{ selectedTab == DETAILS }}">
       <div id="details-tab">
         <div>
-          <email-input type="email" placeholder="Email" id="email" name="email" value="{{resident.email}}"></email-input>
+          <email-input type="email" placeholder="Email" id="email" name="email" value="{{resident.email}}" on-blur="{{ residentDetailChanged }}"></email-input>
         </div>
         <div>
-          <telephone-input type="tel" placeholder="Phone" id="phone" name="phone" value="{{resident.phone}}"></telephone-input>
+          <telephone-input type="tel" placeholder="Phone" id="phone" name="phone" value="{{resident.phone}}" on-blur="{{ residentDetailChanged }}"></telephone-input>
         </div>
         <div>
-          <paper-input multiline name="notes" placeholder="Notes" id="notes" value="{{resident.notes}}"></paper-input>
+          <paper-input multiline name="notes" placeholder="Notes" id="notes" value="{{resident.notes}}" on-blur="{{ residentDetailChanged }}"></paper-input>
         </div>
       </div>
     </template>
