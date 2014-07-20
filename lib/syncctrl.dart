@@ -24,13 +24,14 @@ class SyncCtrl {
    * create a list of addresses, which contain a list of it's residents.
    */
   Future<bool> sync() {
-    return _upload().then((result) {
+    return _download();
+    /*return _upload().then((result) {
       if(result == true) {
         return _download();
       }
 
       return new Future.value(false);
-    });
+    });*/
   }
 
   Future<bool> _download() {

@@ -20,6 +20,7 @@ part 'utils.dart';
 UrlPattern serveAddrMatch = new UrlPattern(r'/address/(-?\d+\.\d+)/(\d+\.\d+)');
 UrlPattern indivAddrMatch = new UrlPattern(r'/address/(\d+)');
 UrlPattern serveAddrJsonMatch = new UrlPattern(r'/address');
+UrlPattern userStatusMatch = new UrlPattern(r'/accounts/user.json');
 
 Router setupRouter(HttpServer server, DBConnection conn) {
   Router router = new Router(server)

@@ -28,7 +28,7 @@ class UserCtrl {
   Future<bool> userLogin(email, password) {
     Completer<bool> completer = new Completer<bool>();
 
-    _http.post('accounts/login', {'email': email, 'password': password}).then((HttpRequest request) {
+    _http.post('accounts/login', data: {'email': email, 'password': password}).then((HttpRequest request) {
       Map response = JSON.decode(request.response);
 
       completer.complete(response.keys.contains('status') && response['status'] == 'authenticated');
@@ -45,7 +45,7 @@ class UserCtrl {
   Future<bool> userRegistration(User user, String password) {
     Completer<bool> completer = new Completer<bool>();
 
-    _http.post('accounts/register', {'firstname': user.firstname, 'lastname': user.lastname, 'email': user.email, 'password': password}).then((HttpRequest request) {
+    _http.post('accounts/register', data: {'firstname': user.firstname, 'lastname': user.lastname, 'email': user.email, 'password': password}).then((HttpRequest request) {
       Map response = JSON.decode(request.response);
 
       completer.complete(response.keys.contains('status') && response['status'] == 'authenticated');
