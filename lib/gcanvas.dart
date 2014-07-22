@@ -47,10 +47,10 @@ class Http extends Observable {// extends BrowserClient {
   }
 
 
-  Future<HttpRequest> post(String url, {Map<String, String> data, Map<String, String> headers, String responseType: 'application/json', sendData}) {
+  Future<HttpRequest> post(String url, {String data, Map<String, String> headers, String responseType: 'application/json'}) {
     headers = headers != null ? headers : {};
 
-    return HttpRequest.request(url, method: 'POST', responseType: _safariFix(responseType), sendData: sendData);
+    return HttpRequest.request(url, method: 'POST', responseType: _safariFix(responseType), sendData: data);
 
     //return HttpRequest.postFormData(url, data, responseType: _safariFix(responseType), requestHeaders: headers);
   }

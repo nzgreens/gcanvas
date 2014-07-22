@@ -23,11 +23,7 @@ class GCanvasStatusElement extends PolymerElement {
         }
       } else {
         var user = new User.blank();
-        if(status['verified'] == false) {
-          fireNotVerified(user);
-        } else {
-          fireNotAuthenticated(user);
-        }
+        fireNotAuthenticated(user);
       }
     });
   }

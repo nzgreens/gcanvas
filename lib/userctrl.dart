@@ -1,7 +1,6 @@
 part of gcanvas.client;
 
-@reflectable
-class UserCtrl {
+class UserCtrl extends Reflectable {
   final Http _http;
 
   UserCtrl(this._http);
@@ -28,7 +27,7 @@ class UserCtrl {
   Future<bool> userLogin(email, password) {
     Completer<bool> completer = new Completer<bool>();
 
-    _http.post('accounts/login', data: {'email': email, 'password': password}).then((HttpRequest request) {
+    _http.post('accounts/login', data: JSON.encode({'email': email, 'password': password})).then((HttpRequest request) {
       Map response = JSON.decode(request.response);
 
       completer.complete(response.keys.contains('status') && response['status'] == 'authenticated');
@@ -45,10 +44,10 @@ class UserCtrl {
   Future<bool> userRegistration(User user, String password) {
     Completer<bool> completer = new Completer<bool>();
 
-    _http.post('accounts/register', data: {'firstname': user.firstname, 'lastname': user.lastname, 'email': user.email, 'password': password}).then((HttpRequest request) {
+    _http.post('/accounts/register', data: JSON.encode({'firstname': user.firstname, 'lastname': user.lastname, 'email': user.email, 'password': password})).then((HttpRequest request) {
       Map response = JSON.decode(request.response);
 
-      completer.complete(response.keys.contains('status') && response['status'] == 'authenticated');
+      completer.complete(response.keys.contains('status') && response['status'] == 'registered');
     });
 
 
