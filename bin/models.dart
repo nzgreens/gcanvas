@@ -3,22 +3,8 @@ part of gcanvas.server;
 
 @Kind()
 class DoorKnocker extends Entity {
+  @constructKind
   DoorKnocker(Key key): super(key);
-  /*@constructKind
-  DoorKnocker(Datastore datastore, Key key, email, firstname, lastname) :
-    super(
-        datastore,
-        key,
-        {
-          'email': email,
-          'password': '',
-          'salt': '',
-          'firstname': firstname,
-          'lastname': lastname,
-          'confirmed': false
-          }
-        );*/
-
 
   @Property(indexed: true)
   String get email => getProperty('email');
@@ -52,36 +38,8 @@ class DoorKnocker extends Entity {
 
 @Kind()
 class OAuth2Credentials extends Entity {
+  @constructKind
   OAuth2Credentials(Key key) : super(key);
-  /*OAuth2Credentials(
-      Key key,
-      String client_name,
-      String client_id,
-      String client_secret,
-      String redirect_url,
-      String access_token_url,
-      String authorise_url,
-      String base_url,
-      {
-        String access_token: '',
-        String refresh_token: '',
-        String expiry: ''
-      }) :
-      super(
-          key
-          {
-            'client_name': client_name,
-            'client_id': client_id,
-            'client_secret': client_secret,
-            'access_token': access_token,
-            'expiry': expiry,
-            'refresh_token': refresh_token,
-            'redirect_url': redirect_url,
-            'access_token_url': access_token_url,
-            'authorise_url': authorise_url,
-            'base_url': base_url
-            }
-          );*/
 
   @Property(indexed: false)
   String get client_name => getProperty('client_name');

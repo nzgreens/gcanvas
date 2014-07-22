@@ -41,7 +41,7 @@ Future<bool> register(String firstname,
     datastore.logger.onRecord.listen(print);
 
     datastore.withTransaction((transaction) {
-      var key = new Key("User", name: email);
+      var key = new Key("DoorKnocker", name: email);
       return datastore.lookup(key).then((entityResult) {
                 if (entityResult.isPresent) {
                   completer.complete(false);
@@ -96,3 +96,12 @@ bool isAuthenticated(HttpSession session) => session.keys.contains('doorknocker'
 
 bool saveToHttpSession(var key, var value, HttpSession session) => session[key] = value;
 
+void createEntities() {
+  futureConnection.then((connection) {
+    Datastore store = new Datastore(connection);
+    store.withTransaction((trans) {
+
+    });
+    DoorKnocker;
+  });
+}
