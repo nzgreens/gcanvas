@@ -9,7 +9,7 @@ import 'dart:convert' show JSON;
 import 'package:browser_detect/browser_detect.dart' as detect;
 import 'package:observe/observe.dart';
 import 'package:lawndart/lawndart.dart';
-import 'package:uuid/uuid_client.dart';
+import 'package:uuid/uuid.dart';
 
 import 'address.dart';
 import 'resident.dart';

@@ -28,9 +28,9 @@ void addresslistctrl_test() {
         );
 
     var address = new Address.create(
-        id: 1,
-        street: "48 Bignell street",
-        suburb: "Gonville",
+        id: 1.toString(),
+        address1: "48 Bignell street",
+        address2: "Gonville",
         city: "Wanganui",
         postcode: "4501",
         latitude: 169.201928,
@@ -40,9 +40,9 @@ void addresslistctrl_test() {
     );
 
     var address2 = new Address.create(
-        id: 2,
-        street: "50 Bignell street",
-        suburb: "Gonville",
+        id: 2.toString(),
+        address1: "50 Bignell street",
+        address2: "Gonville",
         city: "Wanganui",
         postcode: "4501",
         latitude: 169.201928,
@@ -52,9 +52,9 @@ void addresslistctrl_test() {
     );
 
     var address3 = new Address.create(
-        id: 3,
-        street: "52 Bignell street",
-        suburb: "Gonville",
+        id: 3.toString(),
+        address1: "52 Bignell street",
+        address2: "Gonville",
         city: "Wanganui",
         postcode: "4501",
         latitude: 169.201928,
@@ -96,7 +96,7 @@ void addresslistctrl_test() {
     test("adds an address", () {
       schedule(() {
         var expectedId = address3.id;
-        Future<int> future = addressCtrl.add(address3);
+        Future<String> future = addressCtrl.add(address3);
         future.then((id) {
           expect(id, equals(expectedId));
         });

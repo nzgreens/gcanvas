@@ -11,11 +11,9 @@ class AddressService extends PolymerElement {
   @published bool synced;
 
   final AddressListCtrl addrCtrl = new AddressListCtrl.create();
-  final SyncCtrl ctrl = new SyncCtrl.create();
+  get ctrl => querySelector('#address-db');
 
-  AddressService.created() : super.created() {
-
-  }
+  AddressService.created() : super.created();
 
   attached() {
     super.attached();

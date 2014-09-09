@@ -2,16 +2,35 @@ import 'package:polymer/polymer.dart';
 
 import 'package:gcanvas/gcanvas.dart';
 
+import 'dart:html';
+
 @CustomTag('gcanvas-registration')
 class GCanvasRegistrationElement extends PolymerElement {
-  @published UserCtrl userCtrl = new UserCtrl.create();
+  get userCtrl => document.querySelector('#user-db');
 
-  @PublishedProperty(reflect: true) String firstname = "";
-  @PublishedProperty(reflect: true) String lastname = "";
-  @PublishedProperty(reflect: true) String password1 = "";
-  @PublishedProperty(reflect: true) String password2 = "";
-  @PublishedProperty(reflect: true) String email1 = "";
-  @PublishedProperty(reflect: true) String email2 = "";
+  @PublishedProperty(reflect: true)
+  String get firstname => readValue(#firstname);
+  set firstname(val) => writeValue(#firstname, val);
+
+  @PublishedProperty(reflect: true)
+  String get lastname => readValue(#lastname);
+  set lastname(val) => writeValue(#lastname, val);
+
+  /*@PublishedProperty(reflect: true)
+  String get password1 => readValue(#password1);
+  set password1(val) => writeValue(#password1, val);
+
+  @PublishedProperty(reflect: true)
+  String get password2 => readValue(#password2);
+  set password2(val) => writeValue(#password2, val);
+
+  @PublishedProperty(reflect: true)
+  String get email1 => readValue(#email1);
+  set email1(val) => writeValue(#email1, val);
+
+  @PublishedProperty(reflect: true)
+  String get email2 => readValue(#email2);
+  set email2(val) => writeValue(#email2, val);*/
 
   GCanvasRegistrationElement.created() : super.created();
 
@@ -23,24 +42,18 @@ class GCanvasRegistrationElement extends PolymerElement {
   }
 
 
-  domReady() {
-    super.domReady();
-
-  }
-
-
   bool get allFieldsNotEmpty =>
             firstname.length > 0 &&
-            lastname.length > 0 &&
-            password1.length > 0 &&
-            password2.length > 0 &&
-            email1.length > 0 &&
-            email2.length > 0;
+            lastname.length > 0;// &&
+            //password1.length > 0 &&
+            //password2.length > 0 &&
+            //email1.length > 0 &&
+            //email2.length > 0;
 
 
-  bool get emailsMatch => email1 == email2;
+  bool get emailsMatch => true;//email1 == email2;
 
-  bool get passwordsMatch => password1 == password2;
+  bool get passwordsMatch => true;//password1 == password2;
 
 
   bool get verified => allFieldsNotEmpty && emailsMatch && passwordsMatch;
@@ -62,21 +75,24 @@ class GCanvasRegistrationElement extends PolymerElement {
     }
 
     if(verified) {
-      var user = new User(firstname, lastname, email1);
-      userCtrl.userRegistration(user, password1).then((success) {
-
-      }).catchError((error) {
-
-      });
+      var user = new User.create(firstname: firstname, lastname: lastname);
+      userCtrl.registration(user).
+        then((status) {
+          if(status) {
+            fireRegistered();
+          }
+        }).
+        catchError(print);
     }
+  }
+
+
+  fireRegistered() {
+    fire('registered');
   }
 
   void updateFields() {
     firstname = $['firstname'].value;
     lastname = $['lastname'].value;
-    email1 = $['email1'].value;
-    email2 = $['email2'].value;
-    password1 = $['password1'].value;
-    password2 = $['password2'].value;
   }
 }

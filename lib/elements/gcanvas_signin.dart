@@ -11,13 +11,12 @@ import 'dart:html';
 @CustomTag('gcanvas-signin')
 class GCanvasLoggonElement extends PolymerElement {
   @published bool authenticated = false;
-  @published UserCtrl userCtrl = new UserCtrl.create();
+
+  get userCtrl => document.querySelector('#user-db');
 
   @observable User user = new User.blank();
-  @observable String email;
-  @observable String password;
 
-  GCanvasLoggonElement.created() : super.created() { print('created signin'); }
+  GCanvasLoggonElement.created() : super.created();
 
 
   void attached() {
@@ -25,10 +24,9 @@ class GCanvasLoggonElement extends PolymerElement {
   }
 
   authenticate(Event e) {
-    userCtrl.userLogin(email, password).then((result) {
-      print(result);
+    userCtrl.login().then((result) {
       if(result) {
-        user = new User("James", "Hurford", email);
+        user = new User.blank();
         fireAuthenticated();
       } else {
         user = new User.blank();

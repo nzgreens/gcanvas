@@ -3,9 +3,9 @@ part of gcanvas_test;
 void appstatectrl_test() {
   group("[AppStateCtrl]", () {
     var address3 = new Address.create(
-        id: 3,
-        street: "52 Bignell street",
-        suburb: "Gonville",
+        id: 3.toString(),
+        address1: "52 Bignell street",
+        address2: "Gonville",
         city: "Wanganui",
         postcode: "4501",
         latitude: 169.201928,

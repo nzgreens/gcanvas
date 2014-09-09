@@ -3,6 +3,7 @@ import 'package:polymer/polymer.dart';
 import 'package:gcanvas/gcanvas.dart' show UserCtrl, User;
 
 import 'dart:html';
+import 'dart:convert' show JSON;
 
 @CustomTag('gcanvas-status')
 class GCanvasStatusElement extends PolymerElement {
@@ -14,9 +15,9 @@ class GCanvasStatusElement extends PolymerElement {
 
   void checkStatus() {
     userCtrl.userStatus().then((status) {
-      if(status['status'] == 'authenticated') {
+      if(status.containsKey('status') && status['status'] == 'authenticated') {
         var user = new User(status['firstname'], status['lastname'], status['email']);
-        if(status['verified'] == true) {
+        if(status.containsKey('verified') && status['verified'] == true) {
           fireAuthenticated(user);
         } else {
           fireNotVerified(user);

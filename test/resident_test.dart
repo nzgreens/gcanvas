@@ -3,9 +3,9 @@ part of gcanvas_test;
 void resident_test() {
   group("[gCanvas Resident class]", () {
       var address = new Address.create(
-          id: 1,
-          street: "48 Bignell street",
-          suburb: "Gonville",
+          id: 1.toString(),
+          address1: "48 Bignell street",
+          address2: "Gonville",
           city: "Wanganui",
           postcode: "4501",
           latitude: 169.201928,
@@ -41,7 +41,7 @@ void resident_test() {
 
 
       test("address is address", () {
-        schedule(() {expect(voter.address.id, equals(address.id));});
+        schedule(() {expect(address.residents, contains(voter));});
       });
 
 

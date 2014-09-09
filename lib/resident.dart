@@ -16,7 +16,7 @@ class Resident extends Observable {
   @observable String notes;
   @observable int response;
   @observable int support;
-  @observable bool volunteer;
+  //@observable bool volunteer;
   @observable bool host_a_billboard;
   @observable int inferred_support_level;
 
@@ -35,7 +35,7 @@ class Resident extends Observable {
        this.notes,
        this.response,
        this.support,
-       this.volunteer,
+    //   this.volunteer,
        this.host_a_billboard,
        this.inferred_support_level
 
@@ -76,7 +76,7 @@ class Resident extends Observable {
         notes: notes,
         response: response,
         support: support,
-        volunteer: volunteer,
+      //  volunteer: volunteer,
         host_a_billboard: host_a_billboard,
         inferred_support_level: inferred_support_level
         );
@@ -97,7 +97,7 @@ class Resident extends Observable {
     var notes = map['notes'];
     var response = map['response'];
     var support = map['support'];
-    var volunteer = map['volunteer'];
+    //var volunteer = map['volunteer'];
     var host_a_billboard = map['host_a_billboard'];
     var inferred_support_level = map['inferred_support_level'];
 
@@ -115,7 +115,7 @@ class Resident extends Observable {
         notes: notes,
         response: response,
         support: support,
-        volunteer: volunteer,
+        //volunteer: volunteer,
         host_a_billboard: host_a_billboard,
         inferred_support_level: inferred_support_level
         );
@@ -137,7 +137,7 @@ class Resident extends Observable {
       "notes": notes,
       "response": response,
       "support": support,
-      "volunteer": volunteer,
+      //"volunteer": volunteer,
       "host_a_billboard": host_a_billboard,
       "inferred_support_level": inferred_support_level
     };

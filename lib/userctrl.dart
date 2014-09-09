@@ -44,6 +44,7 @@ class UserCtrl extends Reflectable {
   Future<bool> userRegistration(User user, String password) {
     Completer<bool> completer = new Completer<bool>();
 
+    user.toString();
     _http.post('/accounts/register', data: JSON.encode({'firstname': user.firstname, 'lastname': user.lastname, 'email': user.email, 'password': password})).then((HttpRequest request) {
       Map response = JSON.decode(request.response);
 

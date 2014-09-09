@@ -1,12 +1,18 @@
 <head>
   <!-- Make polymer work -->
-  <!-- <link rel="import" href="packages/polymer/polymer.html"> -->
+  <!-- Setup polymer -->
+  <script src="packages/web_components/platform.js"></script>
+  <script src="packages/web_components/dart_support.js"></script>
+  
   <!-- Load component(s) -->
   <link rel="import" href="packages/gcanvas/elements/gcanvas-app.html">
   <link rel="import" href="packages/gcanvas/elements/address-list.html">
   <link rel="import" href="packages/gcanvas/elements/address-list-item.html">
   <link rel="import" href="packages/gcanvas/elements/address-view.html">
   <link rel="import" href="packages/gcanvas/elements/resident-view.html">
+  <link rel="import" href="packages/gcanvas/elements/database/address-db.html">
+  <link rel="import" href="packages/gcanvas/elements/database/user-db.html">
+    
   <script type="application/dart" src="test.dart"></script>
   <script src="packages/unittest/test_controller.js"></script>
   <!-- <script src="http://maps.googleapis.com/maps/api/js?sensor=false"></script> -->

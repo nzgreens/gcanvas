@@ -9,10 +9,10 @@ class SyncCtrl {
 
 
   factory SyncCtrl.create({Http http, AddressListCtrl ctrl}) {
-    http = http != null ? http : new Http();
+    //http = http != null ? http : new Http();
     ctrl = ctrl != null ? ctrl : new AddressListCtrl.create();
 
-    return new SyncCtrl(http, ctrl);
+    //return new SyncCtrl(http, ctrl);
   }
 
 
@@ -94,7 +94,7 @@ class SyncCtrl {
       if(addresses.length > 0) {
         var residents = addresses.map((address) => address.residents.map((resident) => resident.toMap())).expand((resident) => resident).toList();
         var data = JSON.encode(residents);
-        _http.post('/json/residents', sendData: data).then((request) {
+        _http.post('/json/residents', data: data).then((request) {
           completer.complete(request.readyState == 200);
         }, onError: (error) => completer.complete(false));
       } else {

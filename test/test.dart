@@ -25,6 +25,7 @@ part 'configctrl_test.dart';
 
 part 'elements/gcanvas_app_element_test.dart';
 part 'elements/address_list_element_test.dart';
+part 'elements/userdb_test.dart';
 
 //@initMethod
 main() {

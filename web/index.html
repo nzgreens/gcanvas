@@ -15,6 +15,9 @@
     <link rel="import" href="packages/gcanvas/elements/gcanvas-app.html">
     <link rel="import" href="packages/gcanvas/elements/service/address-service.html">
     <link rel="import" href="packages/gcanvas/elements/service/appstate-service.html">
+    <link rel="import" href="packages/gcanvas/elements/database/address-db.html">
+    <link rel="import" href="packages/gcanvas/elements/database/user-db.html">
+    
     <style type="text/css" shim-shadowdom>
       body {
         font-family: RobotoDraft, Arial;
@@ -31,11 +34,12 @@
         color: green;
       }
     </style>
-    
     <script type="application/dart">export 'package:polymer/init.dart';</script>
     <!-- <script type="application/dart" src="main.dart"></script> -->
   </head>
   <body>
+    <address-db id="address-db"></address-db>
+    <user-db id="user-db"></user-db>
     <address-service id="address-service"></address-service>
     <appstate-service id="appstate-service"></appstate-service>
     <gcanvas-app></gcanvas-app>

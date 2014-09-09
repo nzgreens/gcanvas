@@ -127,4 +127,9 @@ class GCanvasApp extends PolymerElement {
 
     appstateService.save(appState);
   }
+
+
+  registered(e) {
+    $['status'].checkStatus();
+  }
 }

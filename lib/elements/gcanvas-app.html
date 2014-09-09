@@ -2,7 +2,6 @@
 
 <link rel="import"
       href="../../../packages/paper_elements/paper_icon_button.html">
-<link rel="import" href="../../../packages/core_elements/core_header_panel.html">
 <link rel="import" href="../../../packages/core_elements/core_menu.html">
 <link rel="import" href="../../../packages/core_elements/core_item.html">
 <link rel="import" href="../../../packages/core_elements/core_media_query.html">
@@ -112,16 +111,15 @@
     </style>
     
     <core-media-query query="max-width: 800px" queryMatches="{{phoneScreen}}"></core-media-query>
-    <gcanvas-status></gcanvas-status>
+    <gcanvas-status id="status"></gcanvas-status>
     
     <app-route route="/signin">
       <gcanvas-signin></gcanvas-signin>
-      <twitter-signin-button></twitter-signin-button>
       <register-user-button></register-user-button>
     </app-route>
     
     <app-route route="/register">
-      <gcanvas-registration></gcanvas-registration>
+      <gcanvas-registration on-registered="{{ registered }}"></gcanvas-registration>
     </app-route>
     
     <app-route route="/home">
