@@ -5,12 +5,32 @@ void address_test() {
     var voter = new Resident.create(
       id: 1,
       firstname: "Bob",
-      lastname: "Kate"
+      lastname: "Kate",
+      occupation: '',
+      gender: '',
+      dob: new DateTime(1973, 4, 10),
+      email : 'test@test.com',
+      phone : '',
+      notes : '',
+      response : -1,
+      support: -1,
+      host_a_billboard: false,
+      inferred_support_level: -1
       );
     var voter2 = new Resident.create(
         id: 2,
         firstname: "Bobby",
-        lastname: "Kate"
+        lastname: "Kate",
+        occupation: '',
+        gender: '',
+        dob: new DateTime(1973, 4, 10),
+        email : 'test@test.com',
+        phone : '',
+        notes : '',
+        response : -1,
+        support: -1,
+        host_a_billboard: false,
+        inferred_support_level: -1
         //new DateTime(1973, 4, 10),
         //address: address2
         );
@@ -18,7 +38,17 @@ void address_test() {
     var voter3 = new Resident.create(
         id: 3,
         firstname: "Bobby3",
-        lastname: "Kate"
+        lastname: "Kate",
+        occupation: '',
+        gender: '',
+        dob: new DateTime(1973, 4, 10),
+        email : 'test@test.com',
+        phone : '',
+        notes : '',
+        response : -1,
+        support: -1,
+        host_a_billboard: false,
+        inferred_support_level: -1
         //new DateTime(1973, 4, 10),
         //address: address2
         );
@@ -40,9 +70,8 @@ void address_test() {
     });
 
     test("id is 1", () {
-      schedule(() {expect(address.id, equals(1));});
+      expect(address.id, '1');
     });
-
 
     test("street is 48 Bignell street", () {
       schedule(() {expect(address.address1, equals("48 Bignell street"));});
@@ -88,9 +117,10 @@ void address_test() {
 
     test("toMap generates map", () {
       var expected = {
-        "id": 1,
-        "street": "48 Bignell street",
-        "suburb": "Gonville",
+        "id": 1.toString(),
+        "address1": "48 Bignell street",
+        "address2": "Gonville",
+        "address3": "",
         "city": "Wanganui",
         "postcode": "4501",
         'meshblock': -1,
@@ -107,9 +137,9 @@ void address_test() {
 
     test("constructor fromMap works", () {
       var map = {
-        "id": 1,
-        "street": "48 Bignell street",
-        "suburb": "Gonville",
+        "id": 1.toString(),
+        "address1": "48 Bignell street",
+        "address2": "Gonville",
         "city": "Wanganui",
         "postcode": "4501",
         "latitude": 169.201928,

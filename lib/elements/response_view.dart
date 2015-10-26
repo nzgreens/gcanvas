@@ -1,43 +1,74 @@
-import 'dart:mirrors';
+@HtmlImport('resident_view.html')
+library gcanvas.response_view;
+//import 'dart:mirrors';
 
 import 'package:polymer/polymer.dart';
+import 'package:web_components/web_components.dart';
 import 'package:gcanvas/response.dart';
 import 'package:gcanvas/resident.dart';
 
-import 'package:core_elements/core_selector.dart';
+import 'package:polymer_elements/iron_selector.dart';
+import 'package:polymer_elements/paper_tabs.dart';
+import 'package:polymer_elements/paper_tab.dart';
+import 'package:polymer_elements/paper_button.dart';
+import 'package:polymer_elements/paper_input.dart';
+import 'package:polymer_elements/paper_toggle_button.dart';
+import 'package:polymer_elements/paper_radio_group.dart';
+import 'package:polymer_elements/paper_radio_button.dart';
+
+import 'package:gcanvas/elements/fields/email_input.dart';
+import 'package:gcanvas/elements/fields/telephone_input.dart';
 
 import 'dart:html' show Event, SelectElement, CheckboxInputElement;
 
-@CustomTag('response-view')
+@PolymerRegister('response-view')
 class ResponseViewElement extends PolymerElement {
-  @published final Map<int, String> responseMap = toObservable({
+  @property final Map<int, String> responseMap = {
     1:'Answered',
     2:'Bad Information',
     9:'Inaccessible',
     6:'Not Interested',
     7:'No Answer',
     0:'Other'
-  });
+  };
 
-  @published final Map<int, String> supportLevelMap = toObservable({
+  @property final Map<int, String> supportLevelMap = {
     1:'Strong support',
     2:'Weak support',
     3:'Undecided',
     4:'Weak oppose',
     5:'Strong oppose'
-  });
+  };
 
 
-  @published final Map<String, bool> involvementMap = toObservable({
+  @property final Map<String, bool> involvementMap = {
     'Volunteer': false,
     'Host a Billboard': false
-  });
+  };
 
-  @PublishedProperty(reflect: true) Resident resident = new Resident.create();
+  @Property(notify: true) Resident resident = new Resident.create();
 
-  @observable bool supportEntry = false;
-  @observable bool involvementEntry = false;
-  @observable int selectedTab = 0;
+  bool _supportEntry = false;
+  @property bool get supportEntry => _supportEntry;
+  @reflectable void set supportEntry(val) {
+    _supportEntry = val;
+    notifyPath('supportEntry', supportEntry);
+  }
+
+  bool _involvementEntry = false;
+  @property bool get involvementEntry => _involvementEntry;
+  @reflectable void set involvementEntry(val) {
+    _involvementEntry = val;
+    notifyPath('involvementEntry', involvementEntry);
+  }
+
+  int _selectedTab = 0;
+  @property int get selectedTab => _selectedTab;
+  @reflectable void set selectedTab(val) {
+    _selectedTab = val;
+    notifyPath('selectedTab', selectedTab);
+  }
+
   int response = -1;
   int support = -1;
 
@@ -45,6 +76,18 @@ class ResponseViewElement extends PolymerElement {
   final int SUPPORT = 1;
   final int INVOLVEMENT = 2;
   final int DETAILS = 3;
+
+  @Property(computed: 'hasSelectedResponse()') bool resposeSelected;
+  @reflectable bool hasSelectedResponse() => selectedTab == RESPONSE;
+
+  @Property(computed: 'hasSelectedSupport()') bool supportSelected;
+  @reflectable bool hasSelectedSupport() => selectedTab == SUPPORT;
+
+  @Property(computed: 'hasSelectedInvolvement()') bool involvementSelected;
+  @reflectable bool hasSelectedInvolvement() => selectedTab == INVOLVEMENT;
+
+  @Property(computed: 'hasSelectedDetails()') bool detailsSelected;
+  @reflectable bool hasSelectedDetails() => selectedTab == DETAILS;
 
   String responseSelection = "No Answer";
 
@@ -54,55 +97,58 @@ class ResponseViewElement extends PolymerElement {
 
   void attached() {
     super.attached();
-    var instanceMirror = reflect(resident);
+    Map residentMap = resident.toMap();
     involvementMap.keys.forEach((key) {
       //keys are just the attribute in a human readable for with spaces and capatals
       //lowercase and replace spaces with underscores
       var attrName = key.toLowerCase().replaceAll(' ', '_');
-      var objMirror = instanceMirror.getField(new Symbol(attrName));
-      var attrVal = objMirror.reflectee == null ? false : objMirror.reflectee;
-      print("Name ($attrName): $attrVal");
-      involvementMap[key] = attrVal;
+      involvementMap[key] = residentMap[key];
     });
   }
 
 
-  void responseSelected(Event event) {
+  @reflectable
+  void responseSelect(Event event, [_]) {
     resident.response = int.parse(shadowRoot.querySelector('#response').selected);
     supportEntry = resident.response >= 0;
   }
 
-  void fireResponse() {
+  @reflectable
+  void fireResponse([_, __]) {
     ResidentResponse residentResponse = new ResidentResponse.create(id: resident.id, response: response, support: support, resident: resident, involvement: involvementMap);
     fire('response-submit', detail: residentResponse);
   }
 
-  void supportSelected(Event event) {
+  @reflectable
+  void supportSelect(Event event, [_]) {
     resident.support = int.parse(shadowRoot.querySelector('#support').selected);
     involvementEntry = resident.support >= 0;
   }
 
 
 
-  fireCanceled() {
+  @reflectable
+  fireCanceled([_, __]) {
     fire('response-canceled');
   }
 
 
-  submit([e]) {
+  @reflectable
+  submit([_, __]) {
     fireResponse();
     reset();
   }
 
 
-  cancel([e]) {
+  cancel([_, __]) {
     fireCanceled();
     reset();
   }
 
 
-  reset() {
-    var response = shadowRoot.querySelector("#response");
+  @reflectable
+  reset(_, __) {
+    var response = new PolymerDom(this.root).querySelector("#response");
     if(response != null) {
       response.selected = "-1";
     }
@@ -111,7 +157,7 @@ class ResponseViewElement extends PolymerElement {
       support.selected = "-1";
     }
     supportEntry = false;
-    shadowRoot.querySelectorAll("input").forEach((input) {
+    new PolymerDom(this.root).querySelectorAll("input").forEach((input) {
       if(input is CheckboxInputElement && involvementMap.containsKey(input.name)) {
         input.checked = false;
       }
@@ -121,27 +167,29 @@ class ResponseViewElement extends PolymerElement {
   }
 
 
-  involvementChecked(Event e) {
+  @reflectable
+  involvementChecked(Event e, [_]) {
     //CheckboxInputElement
     var input = e.target;
 
     involvementMap[input.id] = input.checked;
-    var instanceMirror = reflect(resident);
     var attrName = input.id.toLowerCase().replaceAll(' ', '_');
-    instanceMirror.setField(new Symbol(attrName), involvementMap[input.id]);
+
+    resident.setField(attrName, involvementMap[input.id]);
   }
 
 
-  selectPage(Event e) {
-    var target = e.target as CoreSelector;
+  @reflectable
+  selectPage(Event e, [_]) {
+    var target = e.target as IronSelector;
     selectedTab = target.selected is int ? target.selected : int.parse(target.selected);
   }
 
 
-  residentDetailChanged(e) {
+  @reflectable
+  residentDetailChanged(e, [_]) {
     var input = e.target;
-    var instanceMirror = reflect(resident);
     var attrName = input.id.toLowerCase().replaceAll(' ', '_');
-    instanceMirror.setField(new Symbol(attrName), input.value);
+    resident.setField(attrName, input.value);
   }
 }

@@ -1,15 +1,47 @@
+@HtmlImport('address_edit.html')
+library gcanvas.address_edit;
+
 import 'package:polymer/polymer.dart';
+import 'package:web_components/web_components.dart';
+
 import 'package:gcanvas/address.dart';
 import 'package:gcanvas/resident.dart';
 import 'dart:html' show Event, window;
 
+import 'package:polymer_elements/paper_button.dart';
+import 'package:polymer_elements/paper_input.dart';
+import 'package:polymer_elements/paper_checkbox.dart';
 
-@CustomTag('address-edit')
+@PolymerRegister('address-edit')
 class AddressEditElement extends PolymerElement {
-  @published Address address = new Address.create();
-  @observable List<Resident> residents = toObservable([]);
-  @observable String latitude;
-  @observable String longitude;
+  @property Address address = new Address.create();
+  @property List<Resident> residents = [];
+
+  String _latitude;
+  @property String get latitude => _latitude;
+  @reflectable void set latitude(val) {
+    _latitude = val;
+    notifyPath('latitude', latitude);
+    try {
+      address.latitude = double.parse(latitude);
+      validLatitude = true;
+    } on FormatException {
+      validLatitude = false;
+    }
+  }
+
+  String _longitude;
+  @property String get longitude => _longitude;
+  @reflectable void set longitude(val) {
+    _longitude = val;
+    notifyPath('longitude', longitude);
+    try {
+      address.longitude = double.parse(longitude);
+      validLongitude = true;
+    } on FormatException {
+      validLongitude = false;
+    }
+  }
 
   bool validLatitude = false;
   bool validLongitude = false;
@@ -36,7 +68,7 @@ class AddressEditElement extends PolymerElement {
 
   }
 
-  void submit(Event event) {
+  void submit(Event event, [_, __]) {
     event.preventDefault();
 
     if(validate()) {
@@ -47,27 +79,12 @@ class AddressEditElement extends PolymerElement {
   }
 
 
-  void cancel() {
+  void cancel(Event event, [_, __]) {
     fire("address-creation-cancel");
   }
 
-
-  latitudeChanged() {
-    try {
-      address.latitude = double.parse(latitude);
-      validLatitude = true;
-    } on FormatException {
-      validLatitude = false;
-    }
-  }
-
-
-  longitudeChanged() {
-    try {
-      address.longitude = double.parse(longitude);
-      validLongitude = true;
-    } on FormatException {
-      validLongitude = false;
-    }
+  @Observe('residents.*')
+  void residentsChanged([_]) {
+    notifyPath('residents', residents);
   }
 }

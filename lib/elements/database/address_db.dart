@@ -1,6 +1,9 @@
-import 'package:polymer/polymer.dart';
+@HtmlImport('address_db.html')
+library gcanvas.address_db;
 
-import 'package:core_elements/core_ajax_dart.dart';
+import 'package:polymer/polymer.dart';
+import 'package:web_components/web_components.dart';
+
 
 import 'dart:async';
 import 'dart:html';
@@ -12,21 +15,30 @@ import 'package:gcanvas/address.dart';
 import 'package:gcanvas/resident.dart';
 
 
-@CustomTag('address-db')
+@PolymerRegister('address-db')
 class AddressDB extends PolymerElement {
-  @PublishedProperty(reflect: true)
-  String get clientId => readValue(#clientId);
-  set clientId(val) => writeValue(#clientId, val);
+  String _clientId;
+  @property String get clientId => _clientId;
+  @reflectable void set clientId(val) {
+    _clientId = val;
+    notifyPath('clientId', clientId);
+  }
 
-  @PublishedProperty(reflect: true)
-  int get baseURL => readValue(#baseURL);
-  set baseURL(val) => writeValue(#baseURL, val);
+  int _baseURL;
+  @property int get baseURL => _baseURL;
+  @reflectable void set baseURL(val) {
+    _baseURL = val;
+    notifyPath('baseURL', baseURL);
+  }
 
-  @PublishedProperty(reflect: true)
-  AddressListCtrl get ctrl => readValue(#ctrl);
-  set ctrl(val) => writeValue(#ctrl, val);
+  AddressListCtrl _ctrl;
+  @property AddressListCtrl get ctrl => _ctrl;
+  @reflectable void set ctrl(val) {
+    _ctrl = val;
+    notifyPath('ctrl', ctrl);
+  }
 
-  @observable var response;
+  @property var response;
 
   static final String peopleDownloadURI =  'json/people.json';
   static final String residentsUploadURI = 'json/residents';

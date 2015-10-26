@@ -1,10 +1,5 @@
-<link rel="import" href="../../../packages/polymer/polymer.html">
-
-<link rel="import" href="../../../packages/core_elements/core_item.html">
-
-<polymer-element name="resident-view">
-  <template>
-    <style>
+<dom-module id="resident-view">
+  <style>
     :host {
       /*width: 100px;
       height: 100px;*/
@@ -12,18 +7,19 @@
       /*display: inline-block;*/
       /*border: 1px solid blue;*/
     }
-    
+
     #icon {
       top: 0px;
       width: 40px;
       height: 40px;
       border: none;
     }
-    </style>
-    <core-item>
+  </style>
+  <template>
+    <paper-item>
       <img id="icon" src="../../../packages/gcanvas/elements/images/user.png">
       <div><span id="firstname">{{resident.firstname}}</span> <span id="lastname">{{resident.lastname}}</span></div>
-    </core-item>
+    </paper-item>
   </template>
   <script type="application/dart" src="resident_view.dart"></script>
-</polymer-element>
+</dom-module>

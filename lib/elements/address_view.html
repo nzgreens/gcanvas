@@ -1,0 +1,30 @@
+<dom-module id="address-view">
+  <template>
+    <!-- <link rel="stylesheet" href="gcanvas-app-style.css"> -->
+    <template is="dom-if" if="{{showAddress}}">
+      <div id="address">
+        <div id="address1">{{ address.address1 }}</div>
+        <div id="address2">{{ address.address2 }}</div>
+        <div id="address3">{{ address.address3 }}</div>
+        <div id="city">{{ address.city }}</div>
+        <div id="postcode">{{ address.postcode }}</div>
+        <div>
+          <template is="dom-repeat" items="{{ address.residents }}" as="resident">
+              <resident-view on-resident-selected="residentSelected" on-resident-deselected="residentDeselected" resident="{{ resident }}"></resident-view>
+          </template>
+        </div>
+        <paper-button on-click="emitPrevAddress" label="Previous" raisedButton></paper-button>
+        <paper-button on-click="emitNextAddress" label="Next" raisedButton></paper-button>
+      </div>
+    </template>
+    <template is="dom-if" if="{{showAddress}}">
+      <div id="response">
+        <response-view resident="{{ selectedResident }}"
+                        on-response-submit="submitResponse"
+                        on-response-canceled="responseCanceled">
+        </response-view>
+      </div>
+    </template>
+  </template>
+  <script type="application/dart" src="address_view.dart"></script>
+</dom-module>

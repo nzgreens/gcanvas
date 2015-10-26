@@ -7,9 +7,10 @@ import 'dart:async';
 import 'dart:convert' show JSON;
 
 import 'package:browser_detect/browser_detect.dart' as detect;
-import 'package:observe/observe.dart';
+import 'package:reflectable/reflectable.dart';
 import 'package:lawndart/lawndart.dart';
 import 'package:uuid/uuid.dart';
+import 'package:polymer/polymer.dart' show JsProxy, reflectable;
 
 import 'address.dart';
 import 'resident.dart';
@@ -18,7 +19,7 @@ import 'response.dart';
 part 'addressctrl.dart';
 part 'residentctrl.dart';
 part 'responsectrl.dart';
-part 'delayedhttp.dart';
+//part 'delayedhttp.dart';
 part 'state.dart';
 part 'appstatectrl.dart';
 part 'syncctrl.dart';
@@ -26,8 +27,8 @@ part 'user.dart';
 part 'userctrl.dart';
 
 
-class Http extends Observable {// extends BrowserClient {
-  final HttpRequest request = new HttpRequest();
+class Http extends JsProxy {// extends BrowserClient {
+  @reflectable final HttpRequest request = new HttpRequest();
 
   Http();
 

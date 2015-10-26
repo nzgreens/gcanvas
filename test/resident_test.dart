@@ -2,23 +2,30 @@ part of gcanvas_test;
 
 void resident_test() {
   group("[gCanvas Resident class]", () {
-      var address = new Address.create(
-          id: 1.toString(),
-          address1: "48 Bignell street",
-          address2: "Gonville",
-          city: "Wanganui",
-          postcode: "4501",
-          latitude: 169.201928,
-          longitude: 49.21112,
-          visited: false);
+    var dob = new DateTime.now();
+
 
       var voter = new Resident.create(
           id: 1,
           firstname: "Bob",
-          lastname: "Kate"
+          lastname: "Kate",
+          dob: dob,
+          email : 'test@test.com'
           // new DateTime(1973, 4, 10),
       );
 
+
+    var address = new Address.create(
+        id: 1.toString(),
+        address1: "48 Bignell street",
+        address2: "Gonville",
+        city: "Wanganui",
+        postcode: "4501",
+        latitude: 169.201928,
+        longitude: 49.21112,
+        visited: false,
+        residents: [voter]
+    );
 
       test("id is 1", () {
         schedule(() {expect(voter.id, equals(1));});
@@ -40,7 +47,7 @@ void resident_test() {
         });*/
 
 
-      test("address is address", () {
+      test("address is address of voter", () {
         schedule(() {expect(address.residents, contains(voter));});
       });
 
@@ -54,8 +61,15 @@ void resident_test() {
             'middlenames': '',
             'lastname': 'Kate',
             'occupation': '',
-            'gender': ''
-              //'dob': new DateTime(1973, 4, 10).toString(),
+            'gender': '',
+            'dob': dob.toString(),
+            'email' : 'test@test.com',
+            'phone' : '',
+            'notes' : '',
+            'response' : -1,
+            'support': -1,
+            'host_a_billboard': false,
+            'inferred_support_level': -1
             //'address': address.toMap()
           };
 

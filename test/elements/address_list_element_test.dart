@@ -4,8 +4,8 @@ part of gcanvas_test;
 class AddressListItemComponent extends PageComponent {
   AddressListItemComponent(el) : super(el);
 
-  String get currentStreetDisplay => el.$['street'].text;
-  String get currentSuburbDisplay => el.$['suburb'].text;
+  String get currentStreetDisplay => el.$['address1'].text;
+  String get currentSuburbDisplay => el.$['address2'].text;
 }
 
 
@@ -13,7 +13,7 @@ class AddressListComponent extends PageComponent {
 
   AddressListComponent(el) : super(el);
 
-  List<AddressListItemComponent> get addressListItemComponents => el.shadowRoot.querySelectorAll('address-list-item').map((item) => new AddressListItemComponent(item)).toList();
+  List<AddressListItemComponent> get addressListItemComponents => new PolymerDom(el.root).querySelectorAll('address-list-item').map((item) => new AddressListItemComponent(item)).toList();
 }
 
 
@@ -26,8 +26,8 @@ class ResidentViewComponent extends PageComponent {
     return flush();
   }
 
-  String get currentFirstnameDisplay => el.shadowRoot.querySelector("#firstname").text;
-  String get currentLastnameDisplay => el.shadowRoot.querySelector("#lastname").text;
+  String get currentFirstnameDisplay => new PolymerDom(el.root).querySelector("#firstname").text;
+  String get currentLastnameDisplay => new PolymerDom(el.root).querySelector("#lastname").text;
 
   String get currentStyleBorderDisplay => el.style.border;
 }
@@ -36,19 +36,34 @@ class ResidentViewComponent extends PageComponent {
 class AddressViewComponent extends PageComponent {
   AddressViewComponent(el) : super(el);
 
-  String get currentStreetDisplay => el.shadowRoot.querySelector('#street').text;
-  String get currentSuburbDisplay => el.shadowRoot.querySelector('#suburb').text;
-  String get currentCityDisplay => el.shadowRoot.querySelector('#city').text;
-  String get currentPostcodeDisplay => el.shadowRoot.querySelector('#postcode').text;
+  Future<String> get currentStreetDisplay async {
+    var completer = new Completer();
+    el.async(() => completer.complete());
+    await completer.future;
+    PolymerElement address1 = new PolymerDom(el.root).querySelector('#address1');
+    if (address1 != null) {
+      return address1.text;
+    }
 
-  List<ResidentViewComponent> get currentResidentComponents => el.shadowRoot.querySelectorAll('resident-view').map((item) => new ResidentViewComponent(item)).toList();
+    return el.root.toString();
+  }
+  String get currentSuburbDisplay => new PolymerDom(el.root).querySelector('#address2').text;
+  String get currentCityDisplay => new PolymerDom(el.root).querySelector('#city').text;
+  String get currentPostcodeDisplay => new PolymerDom(el.root).querySelector('#postcode').text;
+
+  List<ResidentViewComponent> get currentResidentComponents => new PolymerDom(el.root).querySelectorAll('resident-view').map((item) => new ResidentViewComponent(item)).toList();
 
   Future flush() {
     return super.flush().then((_) {
       Completer completer = new Completer();
-      el.shadowRoot.querySelector("resident-view").async((_) {
+      PolymerElement residentView = new PolymerDom(this.el.root).querySelector("resident-view");
+      if(residentView != null) {
+        residentView.async(() {
+          completer.complete();
+        });
+      } else {
         completer.complete();
-      });
+      }
 
       return completer.future;
     });
@@ -60,28 +75,24 @@ class AddressViewComponent extends PageComponent {
 void address_list_element_test() {
   group("[address-list-item]", () {
     AddressListItemComponent listitem;
-    var address = new Address.create(id: 1, street: '1234 Somestreet street', suburb: 'somesuburb');
+    var address = new Address.create(id: '1', address1: '1234 Somestreet street', address2: 'somesuburb');
     setUp(() {
-      schedule(() {
-        PolymerElement el = createElement('<address-list-item></address-list-item>');
-        el.address = address;
-        document.body.append(el);
-        listitem = new AddressListItemComponent(el);
+      PolymerElement el = createElement('<address-list-item></address-list-item>');
+      el.address = address;
+      document.body.append(el);
+      listitem = new AddressListItemComponent(el);
 
-        return listitem.flush();
-      });
-      currentSchedule.onComplete.schedule(() => listitem.el.remove());
-
-
+      return listitem.flush();
     });
 
 
+    tearDown(() => listitem.el.remove());
 
 
     test("document contains element", () {
-      schedule(() {
+      schedule(() async {
           expect(querySelector("address-list-item"), isNotNull);
-          return listitem.flush();
+          await listitem.flush();
         });
     });
 
@@ -103,21 +114,18 @@ void address_list_element_test() {
 
   group("[address-list]", () {
     AddressListComponent listcomp;
-    var addresses = [new Address.create(id: 1, street: '1234 Somestreet street', suburb: 'somesuburb'), new Address.create(id: 2, street: '5678 Somestreet street', suburb: 'somesuburb2')];
+    var addresses = [new Address.create(id: '1', address1: '1234 Somestreet street', address2: 'somesuburb'), new Address.create(id: '2', address1: '5678 Somestreet street', address2: 'somesuburb2')];
     setUp(() {
-      schedule(() {
-        PolymerElement el = createElement('<address-list></address-list>');
-        el.addresses = addresses;
-        document.body.append(el);
-        listcomp = new AddressListComponent(el);
+      PolymerElement el = createElement('<address-list></address-list>');
+      el.addresses = addresses;
+      document.body.append(el);
+      listcomp = new AddressListComponent(el);
 
-        return listcomp.flush();
-      });
-
-      currentSchedule.onComplete.schedule(() => listcomp.el.remove());
+      return listcomp.flush();
     });
 
 
+    tearDown(() => listcomp.el.remove());
 
     test("address item count is 2", () {
       schedule(() {expect(listcomp.addressListItemComponents.length, equals(addresses.length));});
@@ -141,24 +149,22 @@ void address_list_element_test() {
 
   group("[address-view]", () {
     AddressViewComponent view;
-    var address = new Address.create(id: 1, street: '1234 Somestreet street', suburb: 'somesuburb');
     var residents = [new Resident.create(id: 1, title: 'Mr', firstname: 'Jim', lastname: 'Jimbo'), new Resident.create(id: 1, title: 'Mrs', firstname: 'Kim', lastname: 'Jimbo')];
+    var address = new Address.create(id: '1', address1: '1234 Somestreet street', address2: 'somesuburb', residents: residents);
+
     setUp(() {
-      schedule(() {
-        PolymerElement el = createElement('<address-view></address-view>');
-        el.address = address;
-        el.residents = residents;
-        document.body.append(el);
-  //        el.shadowRoot.querySelector("resident-view").async((_) {
-  //          completer.complete();
-  //        });
-        view = new AddressViewComponent(el);
+      PolymerElement el = createElement('<address-view></address-view>');
+      el.address = address;
+      document.body.append(el);
+//        el.shadowRoot.querySelector("resident-view").async((_) {
+//          completer.complete();
+//        });
+      view = new AddressViewComponent(el);
 
-        return view.flush();
-      });
-
-      currentSchedule.onComplete.schedule(() => view.el.remove());
+      return view.flush();
     });
+
+    tearDown(() => view.el.remove());
 
 
     test("address details correct", () {
@@ -190,24 +196,21 @@ void address_list_element_test() {
 
   group("[resident-view]", () {
     ResidentViewComponent view;
-    var address = new Address.create(id: 1, street: '1234 Somestreet street', suburb: 'somesuburb');
+    var address = new Address.create(id: '1', address1: '1234 Somestreet street', address2: 'somesuburb');
     var resident = new Resident.create(id: 1, title: 'Mr', firstname: 'Jim', lastname: 'Jimbo');
     var selectedStyle = "5px solid green";
     var deselectedStyle = "1px solid blue";
 
     setUp(() {
-      schedule(() {
-        PolymerElement el = createElement("<resident-view></resident-view>");
-        el.resident = resident;
-        document.body.append(el);
-        view = new ResidentViewComponent(el);
+      PolymerElement el = createElement("<resident-view></resident-view>");
+      el.resident = resident;
+      document.body.append(el);
+      view = new ResidentViewComponent(el);
 
-        return view.flush();
-      });
-
-      currentSchedule.onComplete.schedule(() => view.el.remove());
+      return view.flush();
     });
 
+    tearDown(() => view.el.remove());
 
     test("resident details are correct", () {
       schedule(() {expect(view.currentFirstnameDisplay, equals(resident.firstname));});

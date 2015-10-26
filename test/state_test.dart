@@ -14,139 +14,146 @@ void state_test() {
         longitude: 49.21112,
         visited: false);
 
+    group('[default values]', () {
+      setUp(() {
+        schedule(() {
+          state = new State.create();
+        });
+      });
 
-    setUp(() {
-      schedule(() {
+
+      test("addressListView default value is true", () {
+        expect(state.addressListView, isTrue);
+      });
+
+      test('addressView default value is false', () {
+        expect(state.addressView, isFalse);
+      });
+
+      test('address default values is not null', () {
+        expect(state.address, isNotNull);
+      });
+    });
+    group('[values passed to constructor]', () {
+      var address;
+      setUp(() {
+        address = new Address.create(id: 10.toString());
+        state = new State.create(addressListView: false, addressView: true, address: address);
+      });
+
+      test("addressListView is false", () {
+        expect(state.addressListView, isFalse);
+      });
+
+      test('addressView is true', () {
+        expect(state.addressView, isTrue);
+      });
+
+      test('address is not null', () {
+        expect(state.address, isNotNull);
+      });
+
+      test('address is the correct address', () {
+        expect(state.address.id, equals(address.id));
+      });
+    });
+
+
+    group("[only 1 of the states can be true at a time]", () {
+      setUp(() {
+        state = new State.create(addressListView: true, addressView: true);
+      });
+
+      tearDown(() {
+        state = null;
+      });
+
+      test("after create setting both addressListView and addressListView to true", () {
+        expect(state.addressListView, isTrue, reason: 'addressListView');
+        expect(state.addressView, isFalse, reason: 'addressView');
+      });
+
+      test('setting addressView to true', () {
+        state.addressView = true;
+        expect(state.addressListView, isFalse, reason: 'addressListView');
+        expect(state.addressView, isTrue, reason: 'addressView');
+      });
+    });
+
+
+    group('[selector methods]', () {
+      setUp(() {
         state = new State.create();
       });
-    });
+
+      tearDown(() {
+        state = null;
+      });
+
+      test("selectAddressView() sets addressView to true and others to false, and sets address", () {
+        schedule(() {
+          state.selectAddressView(address2);
+
+          expect(state.addressListView, isFalse, reason: 'addressListView');
+          expect(state.addressView, isTrue, reason: 'addressView');
+          expect(state.address, isNotNull, reason: 'address');
+          expect(state.address, address2, reason: 'address is address');
+        });
+      });
+
+      test("selectAddressListView() sets addressListView to true and others to false, and uses already set address", () {
+        schedule(() {
+          state.address = address2;
+          state.selectAddressListView();
+
+          expect(state.addressListView, isTrue, reason: 'addressListView');
+          expect(state.addressView, isFalse, reason: 'addressView');
+          expect(state.address, isNotNull, reason: 'address');
+          expect(state.address, address2, reason: 'address is address');
+        });
+      });
 
 
-    test("default values are set", () {
-      schedule(() {
-        expect(state.addressListView, isTrue);
-        expect(state.addressView, isFalse);
-        expect(state.address, isNotNull);
+      test("selectAddressView() sets addressView to true and others to false, and sets address", () {
+        schedule(() {
+          var address = new Address.create(id: 10.toString());
+
+          state.selectAddressView(address);
+
+          expect(state.addressListView, isFalse);
+          expect(state.addressView, isTrue);
+          expect(state.address, isNotNull);
+          expect(state.address.id, equals(address.id));
+        });
       });
     });
 
-
-    test("values passed to state are set", () {
-      schedule(() {
-        var address = new Address.create(id: 10.toString());
-        state = new State.create(addressListView: false, addressView: true, addressSelector: false, address: address);
-
-        expect(state.addressListView, isFalse);
-        //expect(state.addressSelector, isFalse);
-        expect(state.addressView, isTrue);
-        expect(state.address, isNotNull);
-        //expect(state.location, isNotNull);
-        expect(state.address.id, equals(address.id));
-      });
-    });
-
-
-
-    test("only 1 of the states can be true at a time when state is initialised with create", () {
-      schedule(() {
-        state = new State.create(addressListView: true, addressView: true, addressSelector: true);
-
-        expect(state.addressListView, isTrue);
-        //expect(state.addressSelector, isFalse);
-        expect(state.addressView, isFalse);
-        //expect(state.location, isNotNull);
-        expect(state.address, isNotNull);
-      });
-    });
-
-
-    test("selectAddressSelector() sets addressSelector to true and others to false, and sets location", () {
-      schedule(() {
-        //var location = new GeoCoordinates.create(-39.94622585, 175.02286207);
-        //state.selectAddressSelector(location);
-
-        expect(state.addressListView, isFalse);
-        //expect(state.addressSelector, isTrue);
-        expect(state.addressView, isFalse);
-        expect(state.address, isNotNull);
-        //expect(state.location, isNotNull);
-        //expect(state.location.latitude, equals(location.latitude));
-      });
-    });
-
-    test("selectAddressSelector() sets addressSelector to true and others to false, and uses already set location", () {
-      schedule(() {
-        //var location = new GeoCoordinates.create(-39.94622585, 175.02286207);
-        //state.location = location;
-        //state.selectAddressSelector();
-
-        expect(state.addressListView, isFalse);
-        //expect(state.addressSelector, isTrue);
-        expect(state.addressView, isFalse);
-        expect(state.address, isNotNull);
-        //expect(state.location, isNotNull);
-        //expect(state.location.latitude, equals(location.latitude));
-      });
-    });
-
-
-
-    test("selectAddressListView() sets addressListView to true and others to false", () {
-      schedule(() {
-        state.selectAddressListView();
-
-        expect(state.addressListView, isTrue);
-        //expect(state.addressSelector, isFalse);
-        expect(state.addressView, isFalse);
-        expect(state.address, isNotNull);
-        //expect(state.location, isNotNull);
-      });
-    });
-
-
-    test("selectAddressView() sets addressView to true and others to false, and sets address", () {
-      schedule(() {
-        var address = new Address.create(id: 10.toString());
-
-        state.selectAddressView(address);
-
-        expect(state.addressListView, isFalse);
-        //expect(state.addressSelector, isFalse);
-        expect(state.addressView, isTrue);
-        expect(state.address, isNotNull);
-        //expect(state.location, isNotNull);
-        expect(state.address.id, equals(address.id));
-      });
-    });
-
-
-    test("toMap() works", () {
-      schedule(() {
+    group('[serialisation]', () {
+      test("toMap() works", () {
         var expected = {
-                        'addressListView': true,
-                        'addressView': false,
-                        'addressSelector': false,
-                        'address': address2.toMap(),
-          //              'location': location2.toMap()
-                      };
+          'addressListView': true,
+          'addressView': false,
+          'address': address2.toMap(),
+        };
 
-        state = new State.create(addressListView: true, addressView: false, addressSelector: false, address: address2);//, location: location2);
+        state = new State.create(
+            addressListView: true,
+            addressView: false,
+            address: address2
+        );//, location: location2);
 
         var actual = state.toMap();
 
         expect(actual, equals(expected));
       });
-    });
 
 
-    test("fromMap() factory works", () {
-      schedule(() {
+      test("fromMap() factory works", () {
         var map = {
           'addressListView': true,
           'addressView': false,
           'addressSelector': false,
           'address': address2.toMap(),
-          //'location': location2.toMap()
         };
 
 
@@ -157,7 +164,6 @@ void state_test() {
         expect(actual.address.id, equals(address2.id));
         expect(actual.addressListView, isTrue);
         expect(actual.addressView, isFalse);
-        //expect(actual.addressSelector, isFalse);
       });
     });
   });

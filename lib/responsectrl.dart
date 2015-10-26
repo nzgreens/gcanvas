@@ -1,67 +1,65 @@
 part of gcanvas.client;
 
-class ResidentResponseCtrl extends Observable {
-  final Store _storeCtrl;
+class ResidentResponseCtrl extends JsProxy {
+  Future<Store> _storeCtrl;
 
   ResidentResponseCtrl([this._storeCtrl]);
 
   factory ResidentResponseCtrl.create() {
-    return new ResidentResponseCtrl(new Store("gcanvas", "response"));
+    return new ResidentResponseCtrl(Store.open("gcanvas", "response"));
+  }
+
+  Future<bool> _open() async {
+    var store = await _storeCtrl.then((store) => store);
+
+    return store != null;
   }
 
 
-  Future<bool> _open() {
-    Completer<bool> completer = new Completer<bool>();
+  Future<bool> add(ResidentResponse response) async {
 
-    if(_storeCtrl.isOpen) {
-      completer.complete(true);
+    await _open();
+    var data;
+    if(!detect.browser.isSafari) {
+      data = response.toMap();
     } else {
-      _storeCtrl.open().then((_) => completer.complete(true));
+      data = JSON.encode(response.toMap());
     }
 
-    return completer.future;
+    Store store = await _storeCtrl.then((store) => store);
+
+    String key = await store.save(data, "${response.id}");
+
+    return key != null;
   }
 
 
-  Future<bool> add(ResidentResponse response) {
-    Completer<bool> completer = new Completer<bool>();
+  Future<List<ResidentResponse>> getResidentResponses() async {
+    bool opened = await _open();
+    if(opened) {
+      Store store = await _storeCtrl.then((store) => store);
+      List response = await store.all().toList().map((response) => new ResidentResponse.fromMap(response)).toList();
+//    if(!detect.browser.isSafari) {
+//    } else {
+//      _storeCtrl.all().toList().then((responses) => completer.complete(responses.map((response) => new ResidentResponse.fromMap(JSON.decode(response))).toList()));
+//    }
 
-    _open().then((_) {
-      var data;
-      if(!detect.browser.isSafari) {
-        data = response.toMap();
-      } else {
-        data = JSON.encode(response.toMap());
-      }
-      _storeCtrl.save(data, "${response.id}").then((_) => completer.complete(true));
-    });
+      return response;
+    }
 
-    return completer.future;
+    return [];
   }
 
 
-  Future<List<ResidentResponse>> getResidentResponses() {
-    Completer<List<ResidentResponse>> completer = new Completer<List<ResidentResponse>>();
+  Future<bool> remove(ResidentResponse response) async {
+    bool opened = await _open();
+    if(opened) {
+      Store store = _storeCtrl.then((store) => store);
+      String key = await store.removeByKey("${response.id}");
 
-    _open().then((_) {
-      if(!detect.browser.isSafari) {
-        _storeCtrl.all().toList().then((responses) => completer.complete(responses.map((response) => new ResidentResponse.fromMap(response)).toList()));
-      } else {
-        _storeCtrl.all().toList().then((responses) => completer.complete(responses.map((response) => new ResidentResponse.fromMap(JSON.decode(response))).toList()));
-      }
-    });
+      return key != null;
+    }
 
-    return completer.future;
-  }
-
-
-  Future<bool> remove(ResidentResponse response) {
-    Completer<bool> completer = new Completer<bool>();
-
-    _open().then((_) {
-      _storeCtrl.removeByKey("${response.id}").then((_) => completer.complete(true));
-    });
-
-    return completer.future;
+    return false;
   }
 }

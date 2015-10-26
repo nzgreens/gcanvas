@@ -1,18 +1,22 @@
+@HtmlImport('telephone_input.html')
+library gcanvas.telephone_input;
+
 import 'package:polymer/polymer.dart';
+import 'package:web_components/web_components.dart';
 
 import 'package:browser_detect/browser_detect.dart' as detect;
 
-import 'package:paper_elements/paper_input.dart';
+import 'package:polymer_elements/paper_input.dart';
 
 import 'dart:html';// show ShadowElement, InputElement;
 
-@CustomTag('telephone-input')
+@PolymerRegister('telephone-input')
 class TelephoneInput extends PolymerElement {
-  @published String label;
-  @published String name;
-  @observable String valueStore;
-  @published String get value => $.keys.contains('shadow') ? $['shadow'].value : '';
-  @published set value(val) {
+  @property String label;
+  @property String name;
+  @property String valueStore;
+  @property String get value => $.keys.contains('shadow') ? $['shadow'].value : '';
+  @reflectable void set value(val) {
       valueStore = val;
   }
 
@@ -24,10 +28,12 @@ class TelephoneInput extends PolymerElement {
 
   void attached() {
     super.attached();
-
-    InputElement result = ($['shadow'] as PaperInput).shadowRoot.querySelector('shadow').getDistributedNodes().firstWhere((el) => el is InputElement);
-    result.type = 'tel';
-    result.autocomplete = 'on';
+    async(() {
+      InputElement result = ($['shadow'] as PaperInput).inputElement;
+//      .shadowRoot.querySelector('shadow').getDistributedNodes().firstWhere((el) => el is InputElement);
+      result.type = 'tel';
+      result.autocomplete = 'on';
+    });
   }
 
 

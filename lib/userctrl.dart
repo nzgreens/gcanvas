@@ -1,7 +1,11 @@
 part of gcanvas.client;
 
-class UserCtrl extends Reflectable {
+class UserCtrl extends JsProxy {
   final Http _http;
+  @reflectable String baseURL = '';
+  static final String statusURI = 'accounts/user.json';
+  static final String loginURI = 'accounts/login';
+  static final String registerURI = 'accounts/register';
 
   UserCtrl(this._http);
 
@@ -12,7 +16,7 @@ class UserCtrl extends Reflectable {
     return new UserCtrl(http);
   }
 
-  Future<Map> userStatus() {
+  Future<Map> status() {
     Completer<Map> completer = new Completer<Map>();
 
     _http.get('accounts/user.json').then((HttpRequest request) {
@@ -24,7 +28,7 @@ class UserCtrl extends Reflectable {
   }
 
 
-  Future<bool> userLogin(email, password) {
+  Future<bool> login(email, password) {
     Completer<bool> completer = new Completer<bool>();
 
     _http.post('accounts/login', data: JSON.encode({'email': email, 'password': password})).then((HttpRequest request) {
@@ -41,19 +45,26 @@ class UserCtrl extends Reflectable {
 
 
 
-  Future<bool> userRegistration(User user, String password) {
-    Completer<bool> completer = new Completer<bool>();
+  Future<bool> registration(User user, {String password}) async {
+    var data = user.toMap();
+    data['password'] = password;
 
-    user.toString();
-    _http.post('/accounts/register', data: JSON.encode({'firstname': user.firstname, 'lastname': user.lastname, 'email': user.email, 'password': password})).then((HttpRequest request) {
-      Map response = JSON.decode(request.response);
+    /*($['ajax'] as CoreAjax)
+      ..url = '$baseURL/$registerURI'
+      ..headers = {'Content-Type': 'application/json:;odata=verbose'}
+      ..method = 'POST'
+      ..body = JSON.encode(data)
+      ..go()
+      ..onCoreResponse.listen((_) {
+        completer.complete(response.keys.contains('status') && response['status'] == 'authenticated');
+      })
+      ;*/
+    var request = await HttpRequest.request('$baseURL/$registerURI', method: 'POST', responseType: 'json', mimeType: 'application/json', sendData: JSON.encode(data));
+    if(request.status == 200) {
 
-      completer.complete(response.keys.contains('status') && response['status'] == 'registered');
-    });
+      return true;
+    }
 
-
-    return completer.future;
-
-    //return new Future.value(true);
+    return false;
   }
 }

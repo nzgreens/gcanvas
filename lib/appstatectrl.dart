@@ -1,63 +1,62 @@
 part of gcanvas.client;
 
-class AppStateCtrl extends Observable {
-  Store _store;
+class AppStateCtrl extends JsProxy {
+  @reflectable Future<Store> _store;
 
   AppStateCtrl([this._store]);
 
   factory AppStateCtrl.create() {
     return new AppStateCtrl(
-        new Store("gcanvas", "app-state")
+        Store.open("gcanvas", "app-state")
     );
   }
 
 
-  Future<bool> _open() {
-    return _store.open();
+  Future<bool> _open() async {
+    var store = _store.then((store) => store);
+
+    return store != null;
   }
 
 
-  Future<State> get() {
-    Completer<State> completer = new Completer<State>();
-
-    _open().then((_) {
-      _store.exists('state').then((exists) {
-        if(exists) {
-          _store.getByKey("state").then((map) {
-            State state;
-            if(!detect.browser.isSafari) {
-              state = map != null ? new State.fromMap(map) : new State.create();
-            } else {
-              state = map != null ? new State.fromMap(JSON.decode(map)) : new State.create();
-            }
-
-            completer.complete(state);
-          });
-        } else {
-          completer.complete(new State.create());
-        }
+  Future<State> get() async {
+    bool opened = await _open();
+    if(opened) {
+      Store store = await _store.then((store) {
+        return store;
       });
-    });
+      if(await store.exists('state')) {
+        Map map = await store.getByKey("state");
+        State state;
+        if(!detect.browser.isSafari) {
+          state = map != null ? new State.fromMap(map) : new State.create();
+        } else {
+          state = map != null ? new State.fromMap(JSON.decode(map)) : new State.create();
+        }
 
-    return completer.future;
+        return state;
+      }
+    }
+
+    return new State.create();
   }
 
 
-  Future<bool> save(State state) {
-    Completer<bool> completer = new Completer<bool>();
-
-    _open().then((_) {
+  Future<bool> save(State state) async {
+    bool opened = await _open();
+    if(opened) {
       var data;
       if(!detect.browser.isSafari) {
         data = state.toMap();
       } else {
         data = JSON.encode(state.toMap());
       }
-      _store.save(data, 'state').then((key) {
-        completer.complete(true);
-      });
-    });
+      Store store = _store.then((store) => store);
+      Stting key = await store.save(data, 'state');
 
-    return completer.future;
+      return key != null;
+    }
+
+    return false;
   }
 }

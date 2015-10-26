@@ -1,12 +1,4 @@
-<link rel="import" href="../../../packages/polymer/polymer.html">
-
-
-<link rel="import" href="../../../packages/paper_elements/paper_checkbox.html">
-<link rel="import" href="../../../packages/paper_elements/paper_input.html">
-<link rel="import" href="../../../packages/paper_elements/paper_button.html">
-
-<link rel="import" href="resident-edit.html">
-<polymer-element name="address-edit">
+<dom-module id="address-edit">
   <template>
       <paper-input type="text" name="street" value="{{address.street}}" label="Street"></paper-input><label for="street">Street</label><br>
       <paper-input type="text" name="suburb" value="{{address.suburb}}" label="Suburb"></paper-input><label for="suburb">Suburb</label><br>
@@ -16,7 +8,7 @@
       <paper-input type="text" name="longitude" value="{{longitude}}" label="Longitude"></paper-input><label for="longitude">Longitude</label><br>
       <paper-checkbox type="checkbox" name="visited" value="{{visited}}" label="Visited"></paper-checkbox><label for="visited">Visited</label><br>
       
-      <paper-button on-click="{{submit}}">Save</paper-button><paper-button on-click="{{cancel}}">Cancel</paper-button>
+      <paper-button on-click="submit">Save</paper-button><paper-button on-click="cancel">Cancel</paper-button>
   </template>
   <script type="application/dart" src="address_edit.dart"></script>
-</polymer-element>
+</dom-module>

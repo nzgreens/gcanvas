@@ -6,24 +6,24 @@ void addresslistctrl_test() {
     var voter = new Resident.create(
         id: 1,
         firstname: "Bob",
-        lastname: "Kate"
-        //new DateTime(1973, 4, 10),
+        lastname: "Kate",
+        dob: new DateTime(1973, 4, 10)
         //address: address
         );
 
     var voter2 = new Resident.create(
         id: 2,
         firstname: "Bobby",
-        lastname: "Kate"
-        //new DateTime(1973, 4, 10),
+        lastname: "Kate",
+        dob: new DateTime(1973, 4, 10)
         //address: address2
         );
 
     var voter3 = new Resident.create(
         id: 3,
         firstname: "Bobby3",
-        lastname: "Kate"
-        //new DateTime(1973, 4, 10),
+        lastname: "Kate",
+        dob: new DateTime(1973, 4, 10)
         //address: address2
         );
 
@@ -63,17 +63,20 @@ void addresslistctrl_test() {
         residents: [voter3]
     );
 
-    var store = new Store('test', 'address');
+    var store;// = new Store();
     var addressMap = {"${address.id}": address.toMap(), "${address2.id}": address2.toMap()};
     var addressList = [address, address2];
-    var addressCtrl = new AddressListCtrl(store);
+    var addressCtrl;
 
 
-    setUp((){
-      schedule(() {
-        return store.open().then((_) => store.nuke().then((_) => store.batch(addressMap)));
-      });
-      currentSchedule.onComplete.schedule(() => store.nuke());
+    setUp(() async {
+        store = await Store.open('test', 'address');
+        addressCtrl = new AddressListCtrl(new Future.value(store));
+        return store.nuke().then((_) => store.batch(addressMap));
+    });
+
+    tearDown(() {
+      store.nuke();
     });
 
 
@@ -82,7 +85,6 @@ void addresslistctrl_test() {
       schedule(() {
         Future future = addressCtrl.getList();
         future.then((addresses){
-          print(addresses[0].toMap());
           expect(addresses, hasLength(2));
           expect(addresses.map((addr) => addr.toMap()), equals(addressList.map((addr) => addr.toMap())));
         });

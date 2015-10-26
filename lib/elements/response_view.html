@@ -1,0 +1,106 @@
+<dom-module id="response-view">
+  <link rel="import" href="gcanvas-app-style.css">
+  <style>
+    select {
+      width: 99%;
+      height: 40px;
+      font-size: 150%;
+    }
+
+    option {
+      width: 99%;
+      height: 40px;
+    }
+
+    textarea {
+      width: 99%;
+      height: 100px;
+      font-size: 150%;
+    }
+
+    input {
+      width: 99% !important;
+      height: 30px !important;
+      font-size: 150% !important;
+    }
+
+    div.toggle {
+      height: 50px;
+    }
+
+
+    paper-button {
+      width: 100px;
+    }
+
+    .button {
+      width: 99%;
+      height: 30px;
+      border: solid 2px;
+      cursor: pointer;
+    }
+
+  </style>
+  <template>
+
+    <div><span id="firstname">{{resident.firstname}}</span> <span id="lastname">{{resident.lastname}}</span></div>
+    <paper-tabs id="tab-selector" selected="0" on-core-select="{{selectPage}}">
+      <paper-tab id="response-selector">Response</paper-tab>
+      <paper-tab id="support-selector">Support Level</paper-tab>
+      <paper-tab id="involvement-selector">Involvement</paper-tab>
+      <paper-tab id="details-selector">Details<paper-tab>
+    </paper-tabs>/
+    <template is="dom-if" if="{{ responseSelected }}">
+      <div>
+        <paper-radio-group id="response" on-change="responseSelect" selected="{{ resident.response }}">
+          <template is="dom-repeat" items="{{ responseMap.keys }}" as="key">
+            <paper-radio-button name="{{ key }}" label="{{responseMap[key]}}"></paper-radio-button><br>
+          </template>
+        </paper-radio-group>
+      </div>
+    </template>
+    <template is="dom-if" if="{{ supportSelected }}">
+      <div id="support-tab">
+        <paper-radio-group id="support" on-change="supportSelect" selected="{{ resident.support }}">
+          <template is="dom-repeat" items="{{ supportLevelMap.keys }}" as="key">
+            <paper-radio-button name="{{ key }}" label="{{ supportLevelMap[key] }}"></paper-radio-button><br>
+          </template>
+        </paper-radio-group>
+      </div>
+    </template>
+    <template is="dom-if" if="{{ involvementSelected }}">
+      <div id="involvement-tab">
+        <div>Involvement?</div>
+        <template is="dom-repeat" items="{{involvementMap.keys}}" as="key">
+          <div class="toggle" horizontal layout center>
+            <template is="dom-if" if="{{ involvementMap[key] }}">
+              <paper-toggle-button id="{{key}}" checked on-change="involvementChecked"></paper-toggle-button>
+            </template>
+            <template is="dom-if" if="{{ !involvementMap[key] }}">
+              <paper-toggle-button id="{{key}}" on-change="involvementChecked"></paper-toggle-button>
+            </template>
+            <label>{{key}}</label>
+          </div>
+        </template>
+      </div>
+    </template>
+    <template is="dom-if" if="{{ detailsSelected }}">
+      <div id="details-tab">
+        <div>
+          <email-input type="email" placeholder="Email" id="email" name="email" value="{{resident.email}}" on-blur="residentDetailChanged"></email-input>
+        </div>
+        <div>
+          <telephone-input type="tel" placeholder="Phone" id="phone" name="phone" value="{{resident.phone}}" on-blur="residentDetailChanged"></telephone-input>
+        </div>
+        <div>
+          <paper-input multiline name="notes" placeholder="Notes" id="notes" value="{{resident.notes}}" on-blur="residentDetailChanged"></paper-input>
+        </div>
+      </div>
+    </template>
+    <div id="okcancel">
+      <paper-button on-click="{{submit}}" label="Ok" raisedButton></paper-button>
+      <paper-button on-click="{{cancel}}" label="Cancel" raisedButton></paper-button>
+    </div>
+  </template>
+  <script type="application/dart" src="response_view.dart"></script>  
+</dom-module>

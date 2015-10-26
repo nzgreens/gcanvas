@@ -1,14 +1,12 @@
 part of gcanvas.client;
 
-abstract class User {
-  String firstname;
-  String lastname;
-  String email;
+class User extends JsProxy {
+  @reflectable String firstname;
+  @reflectable String lastname;
+  @reflectable String email;
 
 
-  factory User(firstname, lastname, email) {
-    return new _UserImpl(firstname, lastname, email);
-  }
+  User(this.firstname, this.lastname, this.email);
 
 
   factory User.create({firstname, lastname, email}) {
@@ -21,18 +19,8 @@ abstract class User {
 
   //the null user
   factory User.blank() {
-    return new User("","", "");
+    return new User.create(firstname: "", lastname: "", email: "");
   }
-
-  Map toMap();
-}
-
-class _UserImpl extends Observable implements User {
-  @observable String firstname;
-  @observable String lastname;
-  @observable String email;
-
-  _UserImpl(this.firstname, this.lastname, this.email);
 
   Map toMap() {
     return { 'firstname': firstname, 'lastname': lastname, 'email': email };

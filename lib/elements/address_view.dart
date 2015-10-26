@@ -1,36 +1,67 @@
+@HtmlImport('address_edit.html')
+library gcanvas.address_view;
+
+import 'dart:html' show Event;
+
 import 'package:polymer/polymer.dart';
+import 'package:web_components/web_components.dart';
+
+import 'package:polymer_elements/paper_button.dart';
+
+import 'package:gcanvas/elements/resident_view.dart';
+import 'package:gcanvas/elements/response_view.dart';
+
 import 'package:gcanvas/address.dart';
 import 'package:gcanvas/resident.dart';
 import 'package:gcanvas/response.dart';
 
-import 'dart:html' show Event;
 
-@CustomTag('address-view')
+
+@PolymerRegister('address-view')
 class AddressViewElement extends PolymerElement {
-  @PublishedProperty(reflect: true) Address address;
+  @property Address address;
 
-  @observable String response = "";
-  @observable String reason = "";
+  String _response = "";
+  @property String get response => _response;
+  @reflectable void set response(val) {
+    _response = val;
+    notifyPath('response', response);
+  }
 
-  @observable Resident selectedResident = new Resident.create();
+  String _reason = "";
+  @property String get reason => _reason;
+  @reflectable void set reason(val) {
+    _reason = val;
+    notifyPath('reason', reason);
+  }
+
+  @property Resident selectedResident = new Resident.create();
 
 
-  @observable bool showAddress = true;
+  bool _showAddress = true;
+  @Property(notify: true) bool get showAddress => _showAddress;
+  @reflectable void set showAddress(val) {
+    _showAddress = val;
+    print('showAddress: $showAddress');
+    notifyPath('showAddress', showAddress);
+  }
 
   AddressViewElement.created() : super.created();
 
-
+  @reflectable
   void residentSelected(Event event, var detail) {
     selectedResident = detail;
     toggleFlip();
   }
 
 
+  @reflectable
   void residentDeselected(Event event, var detail) {
   }
 
 
-  submitResponse(e) {
+  @reflectable
+  submitResponse(e, [_]) {
     address.visited = true;
     var response = (e.detail as ResidentResponse);
     Resident resident = address.residents.firstWhere((resident) => resident.id == response.id);
@@ -39,16 +70,19 @@ class AddressViewElement extends PolymerElement {
   }
 
 
-  responseCanceled(e) {
+  @reflectable
+  responseCanceled(e, [_]) {
     toggleFlip();
   }
 
 
-  showResident(e) {
+  @reflectable
+  showResident(e, [_]) {
     toggleFlip();
   }
 
-  toggleFlip([e]) {
+  @reflectable
+  toggleFlip([e, _]) {
     print('address flip');
 
     if(showAddress) {
@@ -63,13 +97,15 @@ class AddressViewElement extends PolymerElement {
   }
 
 
-  emitPrevAddress(Event e) {
+  @reflectable
+  emitPrevAddress(Event e, [_]) {
     fire('address-prev');
     e.preventDefault();
   }
 
 
-  emitNextAddress(Event e) {
+  @reflectable
+  emitNextAddress(Event e, [_]) {
     fire('address-next');
     e.preventDefault();
   }

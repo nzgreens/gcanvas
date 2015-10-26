@@ -1,18 +1,22 @@
+@HtmlImport('email_input.html')
+library gcanvas.email_input;
+
 import 'package:polymer/polymer.dart';
+import 'package:web_components/web_components.dart';
 
 import 'package:browser_detect/browser_detect.dart' as detect;
 
-import 'package:paper_elements/paper_input.dart';
+import 'package:polymer_elements/paper_input.dart';
 
 import 'dart:html';// show ShadowElement, InputElement;
 
-@CustomTag('email-input')
+@PolymerRegister('email-input')
 class EmailInput extends PolymerElement {
-  @published String label;
-  @published String name;
-  @observable String valueStore;
-  @published String get value => $.keys.contains('shadow') ? $['shadow'].value : '';
-  @published set value(val) {
+  @property String label;
+  @property String name;
+  @property String valueStore;
+  @property String get value => valueStore;//$.keys.contains('shadow') ? $['shadow'].value : '';
+  @reflectable void set value(val) {
       valueStore = val;
   }
 
@@ -24,22 +28,24 @@ class EmailInput extends PolymerElement {
 
   void attached() {
     super.attached();
+    async(() {
+      InputElement result = ($['shadow'] as PaperInput).inputElement;
+//      new PolymerDom(($['shadow'] as PaperInput).root).querySelector('shadow').getDistributedNodes().firstWhere((el) => el is InputElement);
+      result.type = 'email';
+      result.autocomplete = 'on';
 
-    InputElement result = ($['shadow'] as PaperInput).shadowRoot.querySelector('shadow').getDistributedNodes().firstWhere((el) => el is InputElement);
-    result.type = 'email';
-    result.autocomplete = 'on';
-
-    result.onBlur.listen((e) {
-      var validator = new EmailValidation(value);
-      if(validator.valid()) {
-        print('valid');
-        ($['shadow'] as PaperInput).invalid = false;
-        fireValidEmail();
-      } else {
-        print('invalid');
-        ($['shadow'] as PaperInput).invalid = true;
-        fireInvalidEmail();
-      }
+      result.onBlur.listen((e) {
+        var validator = new EmailValidation(value);
+        if (validator.valid()) {
+          print('valid');
+          ($['shadow'] as PaperInput).invalid = false;
+          fireValidEmail();
+        } else {
+          print('invalid');
+          ($['shadow'] as PaperInput).invalid = true;
+          fireInvalidEmail();
+        }
+      });
     });
   }
 

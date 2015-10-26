@@ -1,30 +1,39 @@
+@HtmlImport('address_list_item.html')
+library gcanvas.address_list_item;
+
 import 'package:polymer/polymer.dart';
+import 'package:web_components/web_components.dart';
 import 'package:gcanvas/address.dart';
 
 import 'dart:html';
 
-@CustomTag('address-list-item')
+@PolymerRegister('address-list-item')
 class AddressListItemElement extends PolymerElement {
-  @published Address address;
-  @observable String visited = "";
+  String _visited;
+  Address _address;
+
+  @Property(notify: true, observer: 'addressChanged') Address get address => _address;
+  @reflectable void set address(val) {
+    _address = val;
+    notifyPath('address', address);
+    _setVisited();
+  }
+
+  @property String get visited => _visited;
+  @reflectable void set visited(val) {
+    _visited = val;
+    notifyPath('visited', visited);
+  }
+
   AddressListItemElement.created() : super.created() {
     onClick.listen((_) {
       dispatchEvent(new CustomEvent("address-item-clicked", detail: address));
     });
   }
 
-  addressChanged() {
+  @Observe('address')
+  addressChanged([_, __]) {
     _setVisited();
-    address.changes.listen((records) {
-      PropertyChangeRecord record = records.last;
-      Symbol name = record.name;
-      bool value = record.newValue;
-
-      if(name == new Symbol('visited') && value == true) {
-        _setVisited();
-      }
-
-    });
   }
 
 

@@ -5,53 +5,49 @@ part of gcanvas.client;
  * Only used to store orphan residents, who are found not to live at an address
  * and it's not known where they live now.
  */
-class ResidentListCtrl extends Observable {
-  final Store _storeCtrl;
+class ResidentListCtrl extends JsProxy {
+  final Future<Store> _storeCtrl;
 
   ResidentListCtrl([this._storeCtrl]);
 
-  Future<bool> _open() {
-    Completer<bool> completer = new Completer<bool>();
+  Future<bool> _open() async {
+    var store = _storeCtrl.then((store) => store);
 
-    if(_storeCtrl.isOpen) {
-      completer.complete(true);
-    } else {
-      _storeCtrl.open().then((_) => completer.complete(true));
+    return store != null;
+  }
+
+
+  Future<bool> add(Resident resident) async {
+    bool opened = await _open();
+    if(opened) {
+      Store store = _storeCtrl.then((store) => store);
+      String key = await store.save(resident.toMap(), "${resident.id}");
+
+      return key != null;
     }
 
-    return completer.future;
+    return false;
   }
 
 
-  Future<bool> add(Resident resident) {
-    Completer<bool> completer = new Completer<bool>();
+  Future<List<Resident>> getResidents() async {
+    bool opened = await _open();
+    if(opened) {
+      Store store = await _storeCtrl.then((store) => store);
+      return await store.all().toList().then((residents) => completer.complete(residents.map((resident) => new Resident.fromMap(resident)).toList()));
+    }
 
-    _open().then((_) {
-      _storeCtrl.save(resident.toMap(), "${resident.id}").then((key) => completer.complete(true));
-    });
-
-    return completer.future;
+    return [];
   }
 
 
-  Future<List<Resident>> getResidents() {
-    Completer<List<Resident>> completer = new Completer<List<Resident>>();
+  Future<bool> remove(Resident resident) async {
+    bool opened = await _open();
+    if(opened) {
+      Store store = await _storeCtrl.then((store) => store);
+      return await store.removeByKey("${resident.id}").then((_) => true);
+    }
 
-    _open().then((_) {
-      _storeCtrl.all().toList().then((residents) => completer.complete(residents.map((resident) => new Resident.fromMap(resident)).toList()));
-    });
-
-    return completer.future;
-  }
-
-
-  Future<bool> remove(Resident resident) {
-    Completer<bool> completer = new Completer<bool>();
-
-    _open().then((_) {
-      _storeCtrl.removeByKey("${resident.id}").then((_) => completer.complete(true));
-    });
-
-    return completer.future;
+    return false;
   }
 }

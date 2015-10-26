@@ -1,25 +1,68 @@
+@HtmlImport('gcanvas_app.html')
+library gcanvas.gcanvas_app;
+
+import 'dart:async';
 import 'dart:html';
 
 import 'package:polymer/polymer.dart';
+import 'package:web_components/web_components.dart';
 
 import 'package:gcanvas/address.dart';
 import 'package:gcanvas/gcanvas.dart';
 
-import 'package:core_elements/core_drawer_panel.dart';
+import 'package:polymer_elements/paper_drawer_panel.dart';
+import 'package:polymer_elements/paper_icon_button.dart';
+import 'package:polymer_elements/paper_menu.dart';
+import 'package:polymer_elements/iron_media_query.dart';
+import 'package:polymer_elements/paper_header_panel.dart';
+import 'package:polymer_elements/iron_icons.dart';
+import 'package:polymer_elements/paper_toolbar.dart';
 
-@CustomTag("gcanvas-app")
+import 'package:gcanvas/elements/address_list.dart';
+import 'package:gcanvas/elements/address_view.dart';
+import 'package:gcanvas/elements/gcanvas_signin.dart';
+import 'package:gcanvas/elements/twitter_signin.dart';
+import 'package:gcanvas/elements/gcanvas_status.dart';
+import 'package:gcanvas/elements/register_user.dart';
+import 'package:gcanvas/elements/gcanvas_registration.dart';
+import 'package:gcanvas/elements/route/app_route.dart';
+import 'package:gcanvas/elements/database/user_db.dart';
+
+@PolymerRegister("gcanvas-app")
 class GCanvasApp extends PolymerElement {
-  @published ResidentResponseCtrl responseCtrl = new ResidentResponseCtrl.create();
-  @published State appState = new State.create();
+  @property ResidentResponseCtrl responseCtrl = new ResidentResponseCtrl.create();
+  @property State appState = new State.create();
 
-  @observable final List<Address> addresses = toObservable([]);
+  @property final List<Address> addresses = [];
 
-  @observable String refreshIcon = 'refresh';
-  @observable String accountIcon = 'account-box';
-  @observable String menuIcon = "menu";
+  String _refreshIcon = 'refresh';
+  @property String get refreshIcon => _refreshIcon;
+  @reflectable void set refreshIcon(val) {
+    _refreshIcon = val;
+    notifyPath('refreshIcon', refreshIcon);
+  }
 
-  @observable User user = new User.blank();
-  @observable var phoneScreen;
+  String _accountIcon = 'account-box';
+  @property String get accountIcon => _accountIcon;
+  @reflectable void set accountIcon(val) {
+    _accountIcon = val;
+    notifyPath('accountIcon', accountIcon);
+  }
+
+  String _menuIcon = "menu";
+  @property String get menuIcon => _menuIcon;
+  @reflectable void set menuIcon(val) {
+    _menuIcon = val;
+    notifyPath('menuIcon', menuIcon);
+  }
+
+  User _user = new User.blank();
+  @Property(notify: true, reflectToAttribute: true) User get user => _user;
+  @reflectable void set user(val) {
+    _user = val;
+    notifyPath('user', user);
+  }
+  @property var phoneScreen;
 
   var addressService;
   var appstateService;
@@ -27,11 +70,17 @@ class GCanvasApp extends PolymerElement {
 
   GCanvasApp.created() : super.created();
 
-  domReady() {
-    super.domReady();
-    addressService = window.document.querySelector('#address-service');
-    appstateService = window.document.querySelector('#appstate-service');
-    _loadAppState();
+  void ready() {
+    async(() {
+      print('start');
+      addressService = new PolymerDom(this).querySelector('#address-service');
+      print('middle');
+      appstateService = new PolymerDom(this).querySelector('#appstate-service');
+      print('nearly there');
+      _loadAppState();
+      print('done');
+//      on['registered'].listen(registered);
+    });
   }
 
   //@TODO: shift service elements to index.html, and use querySelector to get a reference to them.
@@ -52,12 +101,14 @@ class GCanvasApp extends PolymerElement {
   }
 
 
-  void refresh() {
+//  @reflectable
+  void refresh([_, __]) {
     addressService.sync();
   }
 
 
-  void showAddress(event) {
+//  @reflectable
+  void showAddress(event, [_]) {
     var address = event.detail as Address;
     appState.selectAddressView(address);
 
@@ -65,7 +116,8 @@ class GCanvasApp extends PolymerElement {
   }
 
 
-  nextAddress(event) {
+//  @reflectable
+  void nextAddress(event, [_]) {
     _setVisited();
 
     if(addresses.last.id != appState.address.id) {
@@ -76,7 +128,8 @@ class GCanvasApp extends PolymerElement {
   }
 
 
-  prevAddress(event) {
+//  @reflectable
+  void prevAddress(event, [_]) {
     _setVisited();
 
     if(addresses.first.id != appState.address.id) {
@@ -87,7 +140,8 @@ class GCanvasApp extends PolymerElement {
   }
 
 
-  hideAddress(event) {
+//  @reflectable
+  void hideAddress(event, [_]) {
     _setVisited();
   }
 
@@ -98,27 +152,32 @@ class GCanvasApp extends PolymerElement {
   }
 
 
-  setUpAccount([e]) {
+//  @reflectable
+  void setUpAccount([_, __]) {
 
   }
 
 
-  menu(e) {
+//  @reflectable
+  void menu([_, __]) {
     (shadowRoot.querySelector('#panel') as CoreDrawerPanel).jsElement.callMethod("togglePanel");
   }
 
-  submitResponse(e) {
+//  @reflectable
+  void submitResponse(e, [_]) {
     responseCtrl.add(e.detail);
   }
 
 
-  addressesChanged() {
+//  @reflectable
+  void addressesChanged([_, __]) {
     print("addressesChanged");
     //_loadAppState();
   }
 
 
-  reverseAddresses(e) {
+//  @reflectable
+  void reverseAddresses([_, __]) {
     var reversed = addresses.reversed.toList();
     addresses.clear();
     addresses.addAll(reversed);
@@ -129,7 +188,9 @@ class GCanvasApp extends PolymerElement {
   }
 
 
-  registered(e) {
-    $['status'].checkStatus();
+  @reflectable
+  void registered([_, __]) {
+    print('registered');
+//    $['status'].checkStatus();
   }
 }

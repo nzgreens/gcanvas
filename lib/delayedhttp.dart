@@ -1,16 +1,16 @@
 part of gcanvas.client;
 
-class _Request extends Observable {
-  String id;
-  String url;
-  String method;
-  bool withCredentials;
-  String responseType;
-  String mimeType;
-  Map<String, String> requestHeaders;
-  var sendData;
-  HttpRequest request;
-  bool sent = false;
+class _Request extends JsProxy {
+  @reflectable String id;
+  @reflectable String url;
+  @reflectable String method;
+  @reflectable bool withCredentials;
+  @reflectable String responseType;
+  @reflectable String mimeType;
+  @reflectable Map<String, String> requestHeaders;
+  @reflectable var sendData;
+  @reflectable HttpRequest request;
+  @reflectable bool sent = false;
 
   _Request(this.id, this.url, {this.method, this.withCredentials,
     this.responseType, this.mimeType, this.requestHeaders,
@@ -84,14 +84,14 @@ final StreamController<_Request> _controller = new StreamController<_Request>.br
  * treated like a regular HttpRequest.  This does the notification via a future
  * HttpRequests and a broadcast stream.
  */
-class DelayedHttp extends Observable {
+class DelayedHttp extends JsProxy {
   final Store _httpRequestStore;
   final StreamController<_Request> _pollRequestController;
   //braodcast stream
-  Stream get pollRequestStream => _pollRequestController.stream;
-  bool forceOffline = false; //even if we're online, force it to treat it as if offline
-  bool get isOnline => forceOffline ? false : window.navigator.onLine;
-  final Uuid _uuid;
+  @reflectable Stream get pollRequestStream => _pollRequestController.stream;
+  @reflectable bool forceOffline = false; //even if we're online, force it to treat it as if offline
+  @reflectable bool get isOnline => forceOffline ? false : window.navigator.onLine;
+  @reflectable final Uuid _uuid;
 
   DelayedHttp(this._httpRequestStore, this._pollRequestController, this._uuid);
 

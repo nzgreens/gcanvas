@@ -6,18 +6,6 @@
     <meta name="viewport" content="width=device-width">
     <title>gCanvas</title>
 
-    <!-- Setup polymer -->
-    <script src="packages/web_components/platform.js"></script>
-    <script src="packages/web_components/dart_support.js"></script>
-
-    <!-- import the elements -->
-    <link rel="import" href="packages/paper_elements/roboto.html">
-    <link rel="import" href="packages/gcanvas/elements/gcanvas-app.html">
-    <link rel="import" href="packages/gcanvas/elements/service/address-service.html">
-    <link rel="import" href="packages/gcanvas/elements/service/appstate-service.html">
-    <link rel="import" href="packages/gcanvas/elements/database/address-db.html">
-    <link rel="import" href="packages/gcanvas/elements/database/user-db.html">
-    
     <style type="text/css" shim-shadowdom>
       body {
         font-family: RobotoDraft, Arial;
@@ -34,14 +22,18 @@
         color: green;
       }
     </style>
-    <script type="application/dart">export 'package:polymer/init.dart';</script>
-    <!-- <script type="application/dart" src="main.dart"></script> -->
   </head>
-  <body>
-    <address-db id="address-db"></address-db>
-    <user-db id="user-db"></user-db>
-    <address-service id="address-service"></address-service>
-    <appstate-service id="appstate-service"></appstate-service>
-    <gcanvas-app></gcanvas-app>
+  <body unresolved>
+      <template is="dom-bind">
+        <gcanvas-app user="{{user}}">
+            <address-db id="address-db"></address-db>
+            <user-db id="user-db" user="{{user}}"></user-db>
+            <address-service id="address-service"></address-service>
+            <appstate-service id="appstate-service"></appstate-service>
+        </gcanvas-app>
+      </template>
+
+    <script type="application/dart" src="main.dart"></script>
+    <script type="application/ecmascript" src="packages/browser/dart.js"></script>
   </body>
 </html>

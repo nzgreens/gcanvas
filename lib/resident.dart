@@ -1,24 +1,24 @@
 library gcanvas.address.resident;
 
-import 'package:observe/observe.dart';
+import 'package:polymer/polymer.dart' show JsProxy, reflectable;
 
-class Resident extends Observable {
-  final int id;
-  @observable String title;
-  @observable String firstname;
-  @observable String middlenames;
-  @observable String lastname;
-  @observable String occupation;
-  @observable String gender;
-  @observable DateTime dob;
-  @observable String email;
-  @observable String phone;
-  @observable String notes;
-  @observable int response;
-  @observable int support;
+class Resident extends JsProxy {
+  @reflectable final int id;
+  @reflectable  String title;
+  @reflectable  String firstname;
+  @reflectable  String middlenames;
+  @reflectable  String lastname;
+  @reflectable  String occupation;
+  @reflectable  String gender;
+  @reflectable  DateTime dob;
+  @reflectable  String email;
+  @reflectable  String phone;
+  @reflectable  String notes;
+  @reflectable  int response;
+  @reflectable  int support;
   //@observable bool volunteer;
-  @observable bool host_a_billboard;
-  @observable int inferred_support_level;
+  @reflectable  bool host_a_billboard;
+  @reflectable  int inferred_support_level;
 
   Resident(
       this.id,
@@ -83,7 +83,7 @@ class Resident extends Observable {
   }
 
 
-  factory Resident.fromMap(var map) {
+  factory Resident.fromMap(Map map) {
     var id = map['id'];
     var title = map['title'];
     var firstname = map['firstname'];
@@ -91,7 +91,7 @@ class Resident extends Observable {
     var lastname = map['lastname'];
     var occupation = map['occupation'];
     var gender = map['gender'];
-    var dob = DateTime.parse(map['dob']);
+    var dob = map.containsKey('dob') && map['dob'] != null ? DateTime.parse(map['dob']) : new DateTime.now();
     var email = map['email'];
     var phone = map['phone'];
     var notes = map['notes'];
@@ -131,7 +131,7 @@ class Resident extends Observable {
       "lastname": lastname,
       "occupation": occupation,
       "gender": gender,
-      "dob": "$dob",
+      "dob": dob != null ? "$dob" : new DateTime.now().toString(),
       "email": email,
       "phone": phone,
       "notes": notes,
@@ -143,6 +143,57 @@ class Resident extends Observable {
     };
   }
 
+  void setField(String name, value) {
+    switch(name) {
+      case 'id':
+        throw new Exception("id is final and can't be changed");
+        break;
+      case 'title':
+        title = value;
+        break;
+      case 'firstname':
+        firstname = value;
+        break;
+      case 'middlenames':
+        middlenames = value;
+        break;
+      case 'lastname':
+        lastname = value;
+        break;
+      case 'occupation':
+        occupation = value;
+        break;
+      case 'gender':
+        gender = value;
+        break;
+      case 'dob':
+        dob = value;
+        break;
+      case 'email':
+        email = value;
+        break;
+      case 'phone':
+        phone = value;
+        break;
+      case 'notes':
+        notes = value;
+        break;
+      case 'response':
+        response = value;
+        break;
+      case 'support':
+        support = value;
+        break;
+      case 'host_a_billboard':
+        host_a_billboard = value;
+        break;
+      case 'inferred_support_level':
+        inferred_support_level = value;
+        break;
+      default:
+        throw new Exception('field of name $name does not exist in Resident');
+    }
+  }
 
   String toString() => toMap().toString();
 }

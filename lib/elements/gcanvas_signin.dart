@@ -1,20 +1,29 @@
+@HtmlImport('gcanvas_signin.html')
+library gcanvas.gcanvas_signin;
+
 import 'dart:html' show Event, window;
 
-import 'package:polymer/polymer.dart';// show CustomTag, PolymerElement, published, observable;
+import 'package:polymer/polymer.dart';
+import 'package:web_components/web_components.dart';
 
-import 'package:paper_elements/paper_input.dart';
+import 'package:polymer_elements/paper_button.dart';
+import 'package:polymer_elements/paper_input.dart';
+import 'package:polymer_elements/paper_toast.dart';
+
+import 'package:gcanvas/elements/fields/password_input.dart';
+import 'package:gcanvas/elements/fields/email_input.dart';
 
 import 'package:gcanvas/gcanvas.dart' show UserCtrl, User;
 
 import 'dart:html';
 
-@CustomTag('gcanvas-signin')
+@PolymerRegister('gcanvas-signin')
 class GCanvasLoggonElement extends PolymerElement {
-  @published bool authenticated = false;
+  @property bool authenticated = false;
 
   get userCtrl => document.querySelector('#user-db');
 
-  @observable User user = new User.blank();
+  @property User user = new User.blank();
 
   GCanvasLoggonElement.created() : super.created();
 
@@ -23,7 +32,8 @@ class GCanvasLoggonElement extends PolymerElement {
     super.attached();
   }
 
-  authenticate(Event e) {
+  @reflectable
+  authenticate([_, __]) {
     userCtrl.login().then((result) {
       if(result) {
         user = new User.blank();

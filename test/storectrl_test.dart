@@ -61,37 +61,33 @@ void storectrl_test() {
 
 
       setUp(() {
-        schedule(() {
-          Completer completer = new Completer();
-          var batched = {"2": address2.toMap(), "3": address3.toMap()};
-          storeCtrl.addressStore.open()
-            .then((_) => storeCtrl.addressStore.nuke())
-            .then((_) => storeCtrl.addressStore.batch(batched)).then((_) => completer.complete());
+        Completer completer = new Completer();
+        var batched = {"2": address2.toMap(), "3": address3.toMap()};
+        storeCtrl.addressStore.open()
+          .then((_) => storeCtrl.addressStore.nuke())
+          .then((_) => storeCtrl.addressStore.batch(batched)).then((_) => completer.complete());
 
-          print("setup");
+        print("setup");
 
-          return completer.future;
-        });
+        return completer.future;
       });
 
 
       test("adds an address", () {
-        schedule(() {
-          Future future = storeCtrl.addAddress(address);
+        Future future = storeCtrl.addAddress(address);
 
-          future.then((id) {
-            expect(id, equals(address.id));
-            var check = storeCtrl.addressStore.getByKey("${address.id}");
-            check.then((addr) {
-              expect(address.toMap(), equals(addr));
-            });
-            expect(check, completes);
+        future.then((id) {
+          expect(id, equals(address.id));
+          var check = storeCtrl.addressStore.getByKey("${address.id}");
+          check.then((addr) {
+            expect(address.toMap(), equals(addr));
           });
-
-          expect(future, completes);
-
-          return future;
+          expect(check, completes);
         });
+
+        expect(future, completes);
+
+        return future;
       });
 
 

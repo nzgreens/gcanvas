@@ -1,23 +1,23 @@
 library gcanvas.address;
 
-import 'package:observe/observe.dart' show observable, Observable, ChangeNotifier;
-
+import 'package:reflectable/reflectable.dart';
+import 'package:polymer/polymer.dart';
 import 'package:gcanvas/resident.dart';
 
 
-class Address extends Observable {
-  String id;
-  String address1;
-  String address2;
-  String address3;
-  String city;
-  String postcode;
-  int meshblock;
-  int electorate;
-  num latitude;
-  num longitude;
-  bool visited = false;
-  List<Resident> residents = [];
+class Address extends JsProxy {
+  @reflectable String id;
+  @reflectable String address1;
+  @reflectable String address2;
+  @reflectable String address3;
+  @reflectable String city;
+  @reflectable String postcode;
+  @reflectable int meshblock;
+  @reflectable int electorate;
+  @reflectable num latitude;
+  @reflectable num longitude;
+  @reflectable bool visited = false;
+  @reflectable List<Resident> residents = [];
 
 
   Address(
@@ -34,7 +34,6 @@ class Address extends Observable {
       [this.visited,
        this.residents]
   );
-
 
 
   /*
@@ -56,7 +55,7 @@ class Address extends Observable {
       num latitude: 0,
       num longitude: 0,
       bool visited: false,
-      List<Resident> residents: null}) {
+      List<Resident> residents}) {
     residents = residents != null ? residents : [];
     return new Address(
           id,

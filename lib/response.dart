@@ -1,15 +1,15 @@
 library gcanvas.address.response;
 
-import 'package:observe/observe.dart';
+import 'package:polymer/polymer.dart' show JsProxy, reflectable;
 
 import 'resident.dart';
 
-class ResidentResponse extends Observable {
-  int id;
-  int response = -1;
-  int support = -1;
-  Resident resident;
-  Map<String, bool> involvement;
+class ResidentResponse extends JsProxy {
+  @reflectable int id;
+  @reflectable int response = -1;
+  @reflectable int support = -1;
+  @reflectable Resident resident;
+  @reflectable Map<String, bool> involvement;
 
 
   ResidentResponse(this.id, this.response, this.support, this.resident, this.involvement);

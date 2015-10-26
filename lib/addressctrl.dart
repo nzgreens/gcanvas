@@ -1,19 +1,19 @@
 part of gcanvas.client;
 
 
-class AddressListCtrl extends Observable {
-  Store _store;
+class AddressListCtrl extends JsProxy {
+  @reflectable Future<Store> _store;
 
   AddressListCtrl([this._store]);
 
 
   factory AddressListCtrl.create() {
-    return new AddressListCtrl(new Store("gcanvas", "addresses"));
+    return new AddressListCtrl(Store.open("gcanvas", "addresses"));
   }
 
 
   Future<bool> _open() {
-    return _store.open();
+    return _store.then((store) => store != null);
   }
 
 
@@ -21,14 +21,11 @@ class AddressListCtrl extends Observable {
     Completer<String> completer = new Completer<String>();
 
     _open().then((_) {
-      var data;
-      if(!detect.browser.isSafari) {
-        data = addr.toMap();
-      } else {
-        data = JSON.encode(addr.toMap());
-      }
-      _store.save(data, "${addr.id}").then((key) {
-        completer.complete(key);
+      String data = JSON.encode(addr.toMap());
+      _store.then((store) {
+        store.save(data, "${addr.id}").then((key) {
+          completer.complete(key);
+        });
       });
     });
 
@@ -40,7 +37,7 @@ class AddressListCtrl extends Observable {
     Completer<bool> completer = new Completer<bool>();
 
     _open().then((_) {
-      _store.removeByKey("${addr.id}").then((_) => completer.complete(true));
+      _store.then((store) => store.removeByKey("${addr.id}").then((_) => completer.complete(true)));
     });
 
     return completer.future;
@@ -50,20 +47,22 @@ class AddressListCtrl extends Observable {
   Future<List<Address>> getList() {
     Completer<List<Address>> completer = new Completer<List<Address>>();
     _open().then((_) {
-      _store.all().toList().then((values) {
-        List<Address> addresses = new List<Address>();
-        for(var map in values) {
-          var data;
-          if(!detect.browser.isSafari) {
-            data = map;
-          } else {
-            data = JSON.decode(map);
-          }
-          addresses.add(new Address.fromMap(data));
-        }
-        completer.complete(addresses);
+      _store.then((store){
+          store.all().toList().then((values) {
+            List<Address> addresses = new List<Address>();
+            for(var map in values) {
+              var data;
+              if(!detect.browser.isSafari) {
+                data = map;
+              } else {
+                data = JSON.decode(map);
+              }
+              addresses.add(new Address.fromMap(data));
+            }
+            completer.complete(addresses);
+          });
+        });
       });
-    });
 
     return completer.future;
   }

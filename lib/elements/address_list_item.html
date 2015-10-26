@@ -1,0 +1,28 @@
+<dom-module id="address-list-item">
+  <style>
+    :host {
+      /*display: none;*/
+      cursor: pointer;
+
+    }
+
+    #address_item {
+      border-bottom: 1px solid blue;
+    }
+
+    #address_item.visited {
+      border-top: 1px solid red;
+      border-bottom: 1px solid red;
+      background-color: lightGray;
+    }
+
+  </style>
+  <template>
+    <div id="address_item" class="[[visited]]">
+      <div id="address1">[[address.address1]]</div>
+      <div id="address2">[[address.address2]]</div>
+      <div id="address3">[[address.address3]]</div>
+    </div>
+  </template>
+  <script type="application/dart" src="address_list_item.dart"></script>
+</dom-module>

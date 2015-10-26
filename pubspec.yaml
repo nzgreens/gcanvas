@@ -5,19 +5,32 @@ description: Canvassing App for doorknocking campaigns.
 environment:
   sdk: '>=1.0.0 <2.0.0'
 dependencies:
+  analyzer: "0.26.1+14"
   browser_detect: any
-  core_elements: any
   csvparser: any
   lawndart: any
   oauth2: any
-  paper_elements: any
-  polymer: '>=0.12.1 <0.13.0'
+  polymer_elements: ">=1.0.0-rc.2 <2.0.0"
+  polymer: ">=1.0.0-rc.2 <2.0.0"
+  web_components: ">=0.12.0+3 <1.0.0"
+  reflectable: ">=0.3.3 <1.0.0"
+  polymer_interop: ">=1.0.0-rc.1 <2.0.0"
   route_hierarchical: any
   uuid: any
+  dart_to_js_script_rewriter: any
 dev_dependencies:
-  scheduled_test: any
+  test: any
 transformers:
-- polymer:
+- web_components:
     entry_points:
     - web/index.html
-    lint: 'false'
+    - test/index.html
+- reflectable:
+    entry_points:
+    - web/main.dart
+    - test/test.dart
+- test/pub_serve:
+    $include: test/test.dart
+- $dart2js:
+    minify: false
+- dart_to_js_script_rewriter

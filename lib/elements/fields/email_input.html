@@ -1,0 +1,11 @@
+<dom-module id="email-input">
+    <template>
+        <template if="{{ isSafari == false }}">
+            <paper-input label="{{label}}" name="{{name}}" value="{{valueStore}}" id="shadow"></paper-input>
+        </template>
+        <template if="{{ isSafari == true }}">
+            <input type="email" placeholder="{{labal}}" name="{{name}}" value="{{valueStore}}">
+        </template>
+    </template>
+    <script type="application/dart" src="email_input.dart"></script>
+</dom-module>

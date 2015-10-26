@@ -1,7 +1,6 @@
 part of gcanvas.client;
 
-@reflectable
-class SyncCtrl {
+class SyncCtrl extends JsProxy {
   final Http _http;
   final AddressListCtrl _addrListCtrl;
 

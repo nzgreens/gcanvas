@@ -2,7 +2,7 @@ part of gcanvas_test;
 
 void response_test() {
   group("[Response]", () {
-    var resResponse;
+    ResidentResponse resResponse;
 
     var address = new Address.create(
         id: 1.toString(),
@@ -37,8 +37,8 @@ void response_test() {
     var voter = new Resident.create(
         id: 1,
         firstname: "Bob",
-        lastname: "Kate"
-        //new DateTime(1973, 4, 10),
+        lastname: "Kate",
+        dob: new DateTime(1973, 4, 10)
         //address: address
         );
 
@@ -60,48 +60,31 @@ void response_test() {
 
     setUp(() {
       schedule(() {
-        //resResponse = new ResidentResponse.create(address: address);
+        resResponse = new ResidentResponse.create(resident: voter);
       });
     });
 
 
-    test("response from address", () {
+    test("response is created from resident", () {
       schedule(() {
-        //var response = new ResidentResponse.create(address: address2);
-        //expect(response, isNotNull);
+        var response = new ResidentResponse.create(resident: voter2);
+        expect(response, isNotNull);
+        expect(response.resident, voter2);
       });
     });
 
 
-    test("has correct address", () {
-      schedule(() {expect(resResponse.address.id, equals(address.id));});
+    test("has correct resident", () {
+      expect(resResponse.resident, voter);
     });
 
 
 
     test("response response", () {
       schedule(() {
-        expect(resResponse.response, equals(""));
-        resResponse.response = "No Answer";
-        expect(resResponse.response, equals("No Answer"));
-      });
-    });
-
-
-    test("response reason", () {
-      schedule(() {
-        expect(resResponse.reason, equals(""));
-        resResponse.reason = "No Answer";
-        expect(resResponse.reason, equals("No Answer"));
-      });
-    });
-
-
-    test("response presentResidents", () {
-      schedule(() {
-        expect(resResponse.presentResidents, hasLength(0));
-        resResponse.presentResidents.add(voter);
-        expect(resResponse.presentResidents, hasLength(1));
+        expect(resResponse.response, -1);
+        resResponse.response = 1;
+        expect(resResponse.response, 1);
       });
     });
 
@@ -110,18 +93,17 @@ void response_test() {
       schedule(() {
         var expected = {
           "id": 1,
-          "response": "No Answer",
-          "reason": "No Answer",
-          "address": address.toMap(),
-          "presentResidents": [voter.toMap()]
+          "response": 1,
+          "support": 1,
+          "resident": voter.toMap(),
+          "involvement": {}
         };
 
         resResponse
           ..id = 1
-          ..response = "No Answer"
-          ..reason = "No Answer"
-          ..presentResidents.add(voter);
-
+          ..response = 1
+          ..support = 1
+        ;
         expect(resResponse.toMap(), equals(expected));
       });
     });
@@ -131,19 +113,15 @@ void response_test() {
       schedule(() {
         var map = {
           "id": 1,
-          "response": "No Answer",
-          "reason": "No Answer",
-          "address": address.toMap(),
-          "presentResidents": [voter.toMap()]
+          "response": 1,
+          "support": 1,
+          "resident": voter.toMap(),
+          "involvement": {}
         };
 
         var copy = new ResidentResponse.fromMap(map);
 
-        expect(copy.response, equals("No Answer"));
-        /*expect(copy.reason, equals("No Answer"));
-        expect(copy.address.id, equals(address.id));
-        expect(copy.presentResidents, hasLength(1));
-        expect(copy.presentResidents[0].id, equals(voter.id));*/
+        expect(copy.toMap(), map);
       });
     });
   });

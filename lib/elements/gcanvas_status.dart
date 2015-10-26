@@ -1,20 +1,24 @@
+@HtmlImport('gcanvas_status.html')
+library gcanvas.gcanvas_status;
+
 import 'package:polymer/polymer.dart';
+import 'package:web_components/web_components.dart';
 
 import 'package:gcanvas/gcanvas.dart' show UserCtrl, User;
 
 import 'dart:html';
 import 'dart:convert' show JSON;
 
-@CustomTag('gcanvas-status')
+@PolymerRegister('gcanvas-status')
 class GCanvasStatusElement extends PolymerElement {
-  @published UserCtrl userCtrl = new UserCtrl.create();
+  @property UserCtrl userCtrl = new UserCtrl.create();
 
   GCanvasStatusElement.created() : super.created() {
     checkStatus();
   }
 
   void checkStatus() {
-    userCtrl.userStatus().then((status) {
+    userCtrl.status().then((status) {
       if(status.containsKey('status') && status['status'] == 'authenticated') {
         var user = new User(status['firstname'], status['lastname'], status['email']);
         if(status.containsKey('verified') && status['verified'] == true) {

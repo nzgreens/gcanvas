@@ -1,0 +1,10 @@
+<dom-module id="gcanvas-lists">
+  <template>
+    <ul>
+      <template is="dom-repeat" items="{{ listItems }}" as="item">
+        <li id="{{ item.id }}" on-click="loadList">{{ item.name }}</li>
+      </template>
+    </ul>
+  </template>
+  <script type="application/dart" src="gcanvas_lists.dart"></script>
+</dom-module>

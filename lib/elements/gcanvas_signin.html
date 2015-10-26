@@ -1,0 +1,52 @@
+<dom-module id="gcanvas-signin">
+    <style>
+        :host {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 90%;
+        }
+
+        div.centre input[type="email"] {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 90%;
+        }
+
+        div.centre input[type="password"] {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 90%;
+        }
+
+        div.centre div {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 90%;
+        }
+
+
+        div.centre button {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 60%;
+        }
+
+        input {
+            border-top: none;
+            border-left: none;
+            border-right: none;
+        }
+    </style>
+  <template>
+    <div>
+      <paper-button  label="Signin" on-click="authenticate" raisedButton></paper-button>
+    </div>
+    
+  </template>
+  <script type="application/dart" src="gcanvas_signin.dart"></script>
+</dom-module>

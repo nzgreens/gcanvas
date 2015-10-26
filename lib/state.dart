@@ -5,24 +5,35 @@ part of gcanvas.client;
  * @TODO: add GeoCoordinates and have it serialised in fromMap factory and
  * toMap method.
  */
-class State extends Observable {
+class State extends JsProxy {
 
-  @observable Address address;
-  @observable bool addressListView;
-  @observable bool addressView;
-  @observable User user;
+  Address _address;
+  bool _addressListView = true;
+  bool _addressView = false;
+  User _user;
+
+  @reflectable Address get address => _address;
+  @reflectable void set address(val) { _address = notifyPropertyChange(#address, _address, val); }
+  @reflectable bool get addressListView => _addressListView;
+  @reflectable void set addressListView(val) { _addressListView = notifyPropertyChange(#addressListView, _addressListView, val); }
+  @reflectable bool get addressView => _addressView;
+  @reflectable void set addressView(val) { _addressView = notifyPropertyChange(#addressView, _addressView, val); }
+  @reflectable User user;
 
 
   State(
-      this.addressListView,
-      this.addressView,
-      [this.address]);
+      this._addressListView,
+      this._addressView,
+      [this._address]) {
+    _address = _address != null ? _address : new Address.create();
+    _addressListView = _addressListView != null ? _addressListView : true;
+    _addressView = _addressView != null && !_addressListView ? _addressView : false;
+  }
 
 
   factory State.create({
     addressListView,
     addressView,
-    addressSelector,
     address,
     location}) {
     address = address != null ? address : new Address.create();
@@ -62,15 +73,31 @@ class State extends Observable {
     };
   }
 
+  bool _changed = false;
+
+  @override
+  dynamic notifyPropertyChange(field, oldValue, newValue) {
+//    super.notifyPropertyChange(field, oldValue, newValue);
+
+    if(field == #addressView && _addressListView == newValue && !_changed) {
+      _changed = true;
+      addressListView =  oldValue;
+    } else if(field == #addressListView && _addressView == newValue && !_changed) {
+      _changed = true;
+      addressView = oldValue;
+    } else {
+      _changed = false;
+    }
+
+    return newValue;
+  }
 
   void selectAddressListView() {
     addressListView = true;
-    addressView = false;
   }
 
 
   void selectAddressView(Address newAddress) {
-    addressListView = false;
     addressView = true;
     address = newAddress;
   }

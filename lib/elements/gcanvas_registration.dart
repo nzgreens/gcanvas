@@ -1,20 +1,51 @@
+@HtmlImport('gcanvas_registration.html')
+library gcanvas.gcanvas_registration;
+
 import 'package:polymer/polymer.dart';
+import 'package:web_components/web_components.dart';
+
+import 'package:polymer_elements/paper_button.dart';
+import 'package:polymer_elements/paper_input.dart';
+import 'package:polymer_elements/paper_toast.dart';
+
+import 'package:gcanvas/elements/fields/password_input.dart';
+import 'package:gcanvas/elements/fields/email_input.dart';
 
 import 'package:gcanvas/gcanvas.dart';
 
 import 'dart:html';
 
-@CustomTag('gcanvas-registration')
+@PolymerRegister('gcanvas-registration')
 class GCanvasRegistrationElement extends PolymerElement {
-  get userCtrl => document.querySelector('#user-db');
+  UserCtrl get userCtrl => new UserCtrl.create();
 
-  @PublishedProperty(reflect: true)
-  String get firstname => readValue(#firstname);
-  set firstname(val) => writeValue(#firstname, val);
+  String _firstname;
+  @Property(reflectToAttribute: true)
+  String get firstname => _firstname;
+  @reflectable
+  void set firstname(val) {
+    _firstname = val;
+    notifyPath('firstname', firstname);
+  }
 
-  @PublishedProperty(reflect: true)
-  String get lastname => readValue(#lastname);
-  set lastname(val) => writeValue(#lastname, val);
+  String _lastname;
+  @Property(reflectToAttribute: true)
+  String get lastname => _lastname;
+  @reflectable
+  void set lastname(val) {
+    _lastname = val;
+    notifyPath('lastname', lastname);
+  }
+
+
+  User _user;
+  @Property(notify: true, reflectToAttribute: true)
+  User get user => _user;
+  @reflectable
+  void set user(val) {
+    _user = val;
+    notifyPath('user', user);
+  }
 
   /*@PublishedProperty(reflect: true)
   String get password1 => readValue(#password1);
@@ -37,7 +68,9 @@ class GCanvasRegistrationElement extends PolymerElement {
 
   attached() {
     super.attached();
-
+    async(() {
+      fireRegistered();
+    });
 
   }
 
@@ -59,7 +92,8 @@ class GCanvasRegistrationElement extends PolymerElement {
   bool get verified => allFieldsNotEmpty && emailsMatch && passwordsMatch;
 
 
-  doRegistration(e) {
+  @reflectable
+  void doRegistration([_, __]) async {
     updateFields();
     if(!emailsMatch) {
       $['emailMismatched'].toggle();
@@ -75,19 +109,17 @@ class GCanvasRegistrationElement extends PolymerElement {
     }
 
     if(verified) {
-      var user = new User.create(firstname: firstname, lastname: lastname);
-      userCtrl.registration(user).
-        then((status) {
-          if(status) {
-            fireRegistered();
-          }
-        }).
-        catchError(print);
+      user = new User.create(firstname: firstname, lastname: lastname);
+//      userCtrl.user = user;
+      bool status = await userCtrl.registration(user);
+      if(status) {
+        fireRegistered();
+      }
     }
   }
 
 
-  fireRegistered() {
+  void fireRegistered() {
     fire('registered');
   }
 

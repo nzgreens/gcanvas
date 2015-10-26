@@ -1,0 +1,8 @@
+<dom-module id="address-list">
+  <template>
+    <template is="dom-repeat" items="{{addresses}}" as="address">
+      <address-list-item address="{{address}}" on-address-item-clicked="addressClicked"></address-list-item>
+    </template>
+  </template>
+  <script type="application/dart" src="address_list.dart"></script>
+</dom-module>

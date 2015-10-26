@@ -1,12 +1,19 @@
+@HtmlImport('resident_view.html')
+library gcanvas.resident_view;
+
 import 'package:polymer/polymer.dart';
+import 'package:web_components/web_components.dart';
+
+import 'package:polymer_elements/paper_item.dart';
+
 import 'package:gcanvas/resident.dart';
 
-@CustomTag("resident-view")
+@PolymerRegister("resident-view")
 class ResidentViewElement extends PolymerElement {
-  @published Resident resident;
+  @property Resident resident;
 
-  @published String styleSelected = "5px solid green";
-  @published String styleDeselected = "1px solid blue";
+  @property String styleSelected = "5px solid green";
+  @property String styleDeselected = "1px solid blue";
 
   bool selected = false;
 
@@ -14,12 +21,13 @@ class ResidentViewElement extends PolymerElement {
 
   void attached() {
     super.attached();
+    async(() {
+      onClick.listen((event) {
+        click();
+      });
 
-    onClick.listen((event) {
-      click();
+      style.border = styleDeselected;
     });
-
-    style.border = styleDeselected;
   }
 
   void click() {
