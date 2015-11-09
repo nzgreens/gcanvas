@@ -1,0 +1,10 @@
+.duplicate {
+    border-top-color: red;
+    border-top-style: solid;
+    border-bottom-color: red;
+    border-bottom-style: solid;
+    border-left-color: red;
+    border-left-style: solid;
+    border-right-color: red;
+    border-right-style: solid;
+}

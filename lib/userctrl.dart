@@ -16,15 +16,14 @@ class UserCtrl extends JsProxy {
     return new UserCtrl(http);
   }
 
-  Future<Map> status() {
-    Completer<Map> completer = new Completer<Map>();
+  Future<Map> status() async {
 
-    _http.get('accounts/user.json').then((HttpRequest request) {
-      var user = JSON.decode(request.response);
-      completer.complete(user);
-    });
+    HttpRequest request = await _http.get('accounts/user.json');
+    var user = JSON.decode(request.response);
 
-    return completer.future;
+
+//    {"status": "unauthenticated"};
+    return user;
   }
 
 

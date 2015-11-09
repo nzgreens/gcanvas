@@ -27,6 +27,9 @@ import 'package:gcanvas/elements/register_user.dart';
 import 'package:gcanvas/elements/gcanvas_registration.dart';
 import 'package:gcanvas/elements/route/app_route.dart';
 import 'package:gcanvas/elements/database/user_db.dart';
+import 'package:gcanvas/elements/database/address_db.dart';
+import 'package:gcanvas/elements/service/address_service.dart';
+import 'package:gcanvas/elements/service/appstate_service.dart';
 
 @PolymerRegister("gcanvas-app")
 class GCanvasApp extends PolymerElement {
@@ -62,52 +65,55 @@ class GCanvasApp extends PolymerElement {
     _user = val;
     notifyPath('user', user);
   }
+
+  var _userCtrl;
+  @Property(notify: true, reflectToAttribute: true)
+  get userCtrl => _userCtrl;
+  @reflectable
+  void set userCtrl(val) {
+    _userCtrl = val;
+    notifyPath('userCtrl', userCtrl);
+  }
+
   @property var phoneScreen;
 
-  var addressService;
-  var appstateService;
+  get addressService => new PolymerDom(this).querySelector('#address-service');
+  get appstateService => new PolymerDom(this).querySelector('#appstate-service');
 
 
   GCanvasApp.created() : super.created();
 
   void ready() {
     async(() {
-      print('start');
-      addressService = new PolymerDom(this).querySelector('#address-service');
-      print('middle');
-      appstateService = new PolymerDom(this).querySelector('#appstate-service');
-      print('nearly there');
+      userCtrl = new PolymerDom(this).querySelector('#user-db');
       _loadAppState();
-      print('done');
-//      on['registered'].listen(registered);
     });
   }
 
   //@TODO: shift service elements to index.html, and use querySelector to get a reference to them.
-  void _loadAppState() {
-    addressService.getAddressList().then((addrList) {
-      addresses
-        ..clear()
-        ..addAll(addrList);
-      appstateService.get().then((state) {
-        appState = state;
-        if(addresses.isNotEmpty) {
-          Address address = addresses.firstWhere((address) => !address.visited, orElse: () {});
-          appState.address = address;
-        }
-        appstateService.save(appState); //@TODO: make sure this is only done when no state is stored in browser DB
-      });
-    });
+  _loadAppState() async {
+    List addrList = await addressService.getAddressList();
+    addresses
+      ..clear()
+      ..addAll(addrList);
+    appState = await appstateService.get();
+    if(addresses.isNotEmpty) {
+      Address address = addresses.firstWhere((address) => !address.visited, orElse: () {});
+      appState.address = address;
+    }
+    appstateService.save(appState); //@TODO: make sure this is only done when no state is stored in browser DB
   }
 
 
-//  @reflectable
-  void refresh([_, __]) {
-    addressService.sync();
+  @reflectable
+  refresh([_, __]) async {
+    print('syncing addresses');
+    await addressService.syncAddress();
+    print('syncing addresses finished');
   }
 
 
-//  @reflectable
+  @reflectable
   void showAddress(event, [_]) {
     var address = event.detail as Address;
     appState.selectAddressView(address);
@@ -116,7 +122,7 @@ class GCanvasApp extends PolymerElement {
   }
 
 
-//  @reflectable
+  @reflectable
   void nextAddress(event, [_]) {
     _setVisited();
 
@@ -128,7 +134,7 @@ class GCanvasApp extends PolymerElement {
   }
 
 
-//  @reflectable
+  @reflectable
   void prevAddress(event, [_]) {
     _setVisited();
 
@@ -140,7 +146,7 @@ class GCanvasApp extends PolymerElement {
   }
 
 
-//  @reflectable
+  @reflectable
   void hideAddress(event, [_]) {
     _setVisited();
   }
@@ -152,31 +158,30 @@ class GCanvasApp extends PolymerElement {
   }
 
 
-//  @reflectable
+  @reflectable
   void setUpAccount([_, __]) {
 
   }
 
 
-//  @reflectable
+  @reflectable
   void menu([_, __]) {
-    (shadowRoot.querySelector('#panel') as CoreDrawerPanel).jsElement.callMethod("togglePanel");
+    (shadowRoot.querySelector('#panel') as PaperDrawerPanel).jsElement.callMethod("togglePanel");
   }
 
-//  @reflectable
+  @reflectable
   void submitResponse(e, [_]) {
     responseCtrl.add(e.detail);
   }
 
 
-//  @reflectable
+  @reflectable
   void addressesChanged([_, __]) {
-    print("addressesChanged");
-    //_loadAppState();
+    _loadAppState();
   }
 
 
-//  @reflectable
+  @reflectable
   void reverseAddresses([_, __]) {
     var reversed = addresses.reversed.toList();
     addresses.clear();
@@ -189,8 +194,19 @@ class GCanvasApp extends PolymerElement {
 
 
   @reflectable
-  void registered([_, __]) {
-    print('registered');
-//    $['status'].checkStatus();
+  void onRegistered([_, __]) {
+    $['status'].checkStatus();
+  }
+
+
+  @reflectable
+  void onAuthenticated([_, __]) {
+    $['status'].checkStatus();
+  }
+
+
+  @reflectable
+  void onNotAuthenticated([_, __]) {
+    $['status'].checkStatus();
   }
 }

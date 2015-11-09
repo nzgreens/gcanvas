@@ -2,9 +2,9 @@
     <style>
         :host {
             display: block;
-            margin-left: auto;
-            margin-right: auto;
-            width: 90%;
+            /*margin-left: auto;*/
+            /*margin-right: auto;*/
+            /*width: 90%;*/
         }
 
         div.centre input[type="email"] {
@@ -41,10 +41,21 @@
             border-left: none;
             border-right: none;
         }
+
+        paper-button#signin {
+            background-image: url(images/sign-in-now-button.png);
+            background-repeat: no-repeat;
+            background-size: 160px 32px;
+            width: 160px;
+            height: 32px;
+        }
     </style>
   <template>
     <div>
-      <paper-button  label="Signin" on-click="authenticate" raisedButton></paper-button>
+        <paper-input label="*Username" type="text" name="username" id="username" value="{{username}}"></paper-input><br>
+        <password-input label="*Password" name="password" id="password" value="{{password}}"></password-input><br>
+        <paper-button id="signin" on-click="authenticate" raised></paper-button>
+        <content></content>
     </div>
     
   </template>

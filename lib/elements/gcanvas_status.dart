@@ -11,16 +11,35 @@ import 'dart:convert' show JSON;
 
 @PolymerRegister('gcanvas-status')
 class GCanvasStatusElement extends PolymerElement {
-  @property UserCtrl userCtrl = new UserCtrl.create();
+  var _userCtrl;
+  @property get userCtrl {
+    if(_userCtrl == null) {
+      var ctrls = new PolymerDom(domHost).queryDistributedElements('#user-db');
+
+      print(ctrls);
+
+      _userCtrl = ctrls != null && ctrls.length > 0 ? ctrls[0] : new UserCtrl.create();
+    }
+
+    return _userCtrl;
+  }
 
   GCanvasStatusElement.created() : super.created() {
-    checkStatus();
+  }
+
+
+  void ready() {
+    async(() => checkStatus());
+  }
+
+  void _setCSRFTokenCookie(token) {
+
   }
 
   void checkStatus() {
     userCtrl.status().then((status) {
       if(status.containsKey('status') && status['status'] == 'authenticated') {
-        var user = new User(status['firstname'], status['lastname'], status['email']);
+        var user = new User.create(username: status['username'], firstname: status['firstname'], lastname: status['lastname'], email: status['email']);
         if(status.containsKey('verified') && status['verified'] == true) {
           fireAuthenticated(user);
         } else {
@@ -28,6 +47,7 @@ class GCanvasStatusElement extends PolymerElement {
         }
       } else {
         var user = new User.blank();
+
         fireNotAuthenticated(user);
       }
     });

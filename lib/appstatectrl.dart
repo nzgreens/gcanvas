@@ -26,13 +26,8 @@ class AppStateCtrl extends JsProxy {
         return store;
       });
       if(await store.exists('state')) {
-        Map map = await store.getByKey("state");
-        State state;
-        if(!detect.browser.isSafari) {
-          state = map != null ? new State.fromMap(map) : new State.create();
-        } else {
-          state = map != null ? new State.fromMap(JSON.decode(map)) : new State.create();
-        }
+        String map = await store.getByKey("state");
+        State state = map != null ? new State.fromMap(JSON.decode(map)) : new State.create();
 
         return state;
       }
@@ -51,8 +46,8 @@ class AppStateCtrl extends JsProxy {
       } else {
         data = JSON.encode(state.toMap());
       }
-      Store store = _store.then((store) => store);
-      Stting key = await store.save(data, 'state');
+      Store store = await _store.then((store) => store);
+      String key = await store.save(data, 'state');
 
       return key != null;
     }

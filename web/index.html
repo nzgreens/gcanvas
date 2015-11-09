@@ -24,14 +24,15 @@
     </style>
   </head>
   <body unresolved>
-      <template is="dom-bind">
-        <gcanvas-app user="{{user}}">
+    <template is="dom-bind">
+      <gcanvas-app>
+          <user-db id="user-db"></user-db>
+          <address-service id="address-service">
             <address-db id="address-db"></address-db>
-            <user-db id="user-db" user="{{user}}"></user-db>
-            <address-service id="address-service"></address-service>
-            <appstate-service id="appstate-service"></appstate-service>
-        </gcanvas-app>
-      </template>
+          </address-service>
+          <appstate-service id="appstate-service"></appstate-service>
+      </gcanvas-app>
+    </template>
 
     <script type="application/dart" src="main.dart"></script>
     <script type="application/ecmascript" src="packages/browser/dart.js"></script>

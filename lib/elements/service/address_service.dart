@@ -1,6 +1,7 @@
 @HtmlImport('address_service.html')
 library gcanvas.address_service;
 
+import 'dart:html';
 import 'dart:async' show Future;
 
 import 'package:polymer/polymer.dart';
@@ -17,29 +18,38 @@ class AddressService extends PolymerElement {
   @Property(notify: true, reflectToAttribute:true) bool synced;
 
   final AddressListCtrl addrCtrl = new AddressListCtrl.create();
-  get ctrl => querySelector('#address-db');
+  get ctrl => new PolymerDom(this).querySelector('#address-db');
 
   AddressService.created() : super.created();
 
   attached() {
     super.attached();
-  }
-
-
-  Future<bool> sync() {
-    return ctrl.sync().then((result) {
-      synced = result;
-      if(synced == true) {
-        $['synced'].toggle();
-      } else {
-        $['notSynced'].toggle();
-      }
+    async(() {
+      print(domHost);
+      var tmp = new PolymerDom(domHost);
+      print(tmp.getDistributedNodes());
     });
   }
 
 
-  Future<List<Address>> getAddressList() {
-    return addrCtrl.getList();
+  Future<bool> syncAddress() async {
+    print('syncing addresses with server: ${ctrl}');
+    bool result = await ctrl.sync();
+    synced = result;
+    print('synced: ${synced}');
+    if(synced == true) {
+      $['synced'].toggle();
+    } else {
+      $['notSynced'].toggle();
+    }
+
+    return synced;
+  }
+
+
+  Future<List<Address>> getAddressList() async {
+    print('getAddressList()');
+    return await addrCtrl.getList();
   }
 
 

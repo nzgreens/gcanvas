@@ -15,21 +15,22 @@ class EmailInput extends PolymerElement {
   @property String label;
   @property String name;
   @property String valueStore;
-  @property String get value => valueStore;//$.keys.contains('shadow') ? $['shadow'].value : '';
+  @Property(notify: true, reflectToAttribute: true) String get value => valueStore;//$.keys.contains('shadow') ? $['shadow'].value : '';
   @reflectable void set value(val) {
-      valueStore = val;
+    valueStore = val;
+    notifyPath('value', value);
   }
 
   bool valid = false;
 
-  bool get isSafari => detect.browser.isSafari;
+  @Property(notify: true) bool get isSafari => detect.browser.isSafari;
 
   EmailInput.created() : super.created();
 
   void attached() {
     super.attached();
     async(() {
-      InputElement result = ($['shadow'] as PaperInput).inputElement;
+      InputElement result = (new PolymerDom(this.root).querySelector('#shadow') as PaperInput).inputElement;
 //      new PolymerDom(($['shadow'] as PaperInput).root).querySelector('shadow').getDistributedNodes().firstWhere((el) => el is InputElement);
       result.type = 'email';
       result.autocomplete = 'on';

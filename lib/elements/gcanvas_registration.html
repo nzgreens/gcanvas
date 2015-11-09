@@ -1,23 +1,28 @@
 <dom-module id="gcanvas-registration">
-  <template>
-    <h1>Register yourself</h1>
+    <link rel="import" type="css" href="gcanvas_registration.css">
+    <template>
+        <h1>Register yourself</h1>
 
-    <paper-input label="*Firstname" type="text" name="firstname" id="firstname" value="{{firstname}}"></paper-input><br>
-    <paper-input label="*Lastname" type="text" name="lastname" id="lastname" value="{{lastname}}"></paper-input><br>
+        <paper-input label="*Username" type="text" name="username" id="username" value="{{username}}"></paper-input><br>
+        <paper-input label="*Firstname" type="text" name="firstname" id="firstname" value="{{firstname}}"></paper-input><br>
+        <paper-input label="*Lastname" type="text" name="lastname" id="lastname" value="{{lastname}}"></paper-input><br>
 
-    <!-- <email-input label="*Email" type="email" name="email" id="email1" value="{{email1}}"></email-input><br>
-    <email-input label="*Verify Email" type="email" name="email2" id="email2" value="{{email2}}"></email-input><br>
+        <email-input label="*Email" type="email" name="email" id="email1" value="{{email1}}"></email-input><br>
+        <email-input label="*Verify Email" type="email" name="email2" id="email2" value="{{email2}}"></email-input><br>
 
-    <password-input label="*Password" name="password1" id="password1" value="{{password1}}"></password-input><br>
-    <password-input label="*Verify Password" name="password2" id="password2" value="{{password2}}"></password-input><br> -->
+        <password-input label="*Password" name="password1" id="password1" value="{{password1}}"></password-input><br>
+        <password-input label="*Verify Password" name="password2" id="password2" value="{{password2}}"></password-input><br>
 
-    <paper-button on-click="doRegistration" raised>Register</paper-button><br>
+        <paper-button on-click="doRegistration" raised>Register</paper-button><br>
 
-    <div>
-      <paper-toast text="Passwords don't match" id="passwordMismatched"></paper-toast>
-      <paper-toast text="Emails doesn't match" id="emailMismatched"></paper-toast>
-      <paper-toast text="Please fill in all the fields" id="missing"></paper-toast>
-    </div>
-  </template>
-  <script type="application/dart" src="gcanvas_registration.dart"></script>
+
+        <div>
+            <paper-toast text="There was a problem registering" id="error"></paper-toast>
+            <paper-toast text="Username already used" id="usernameAlreadyUsed"></paper-toast>
+            <paper-toast text="Passwords don't match" id="passwordMismatched"></paper-toast>
+            <paper-toast text="Emails doesn't match" id="emailMismatched"></paper-toast>
+            <paper-toast text="Please fill in all the fields" id="missing"></paper-toast>
+        </div>
+    </template>
+    <script type="application/dart" src="gcanvas_registration.dart"></script>
 </dom-module>

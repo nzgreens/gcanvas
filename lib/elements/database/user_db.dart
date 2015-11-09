@@ -23,7 +23,7 @@ class UserDB extends PolymerElement {
     notifyPath('clientId', clientId);
   }
 
-  String _baseURL;
+  String _baseURL = '';
   @Property(notify: true)
   String get baseURL => _baseURL;
   @reflectable
@@ -32,14 +32,20 @@ class UserDB extends PolymerElement {
     notifyPath('baseURL', baseURL);
   }
 
+  User _user = new User.blank();
+  @Property(notify: true, reflectToAttribute: true)
+  User get user => _user;
+  @reflectable
+  void set user(val) {
+    _user = val;
+    notifyPath('user', user);
+  }
+
   @Property(notify:true) Map response;
 
   static final String statusURI = 'accounts/user.json';
   static final String loginURI = 'accounts/login';
   static final String registerURI = 'accounts/register';
-
-  @Property(notify: true, reflectToAttribute: true)   User user;
-//  , observer: 'userChanged')
 
   UserDB.created() : super.created();
 
@@ -49,69 +55,62 @@ class UserDB extends PolymerElement {
   }
 
 
-//  @Observe('user')
-//  void userChanged([_]) {
-//    print('user: $user');
-//  }
-
-
   Future<Map> status() async {
     String jsonText = await HttpRequest.getString('$baseURL/$statusURI');
     response = JSON.decode(jsonText);
-
-    print('status');
+    document.cookie = "csrftoken=${response['token']}";
+    document.cookie = "csrf_token=${response['token']}";
 
     return response;
   }
 
 
-  Future<bool> login() {
-    Completer<bool> completer = new Completer<bool>();
+  Future<bool> login(String username, String password) async {
+    var data = {'username': username, 'password' : password};
+    Map headers = {};
+    if(window.document.cookie.contains('csrftoken')) {
+      var csrftoken = new Map.fromIterable(window.document.cookie.split(';').map((cookie) => cookie.split('=')), key: (item) => item[0], value: (item) => item[1])['csrftoken'];
+      print('Token: ${csrftoken}');
+      headers['X-CSRFToken'] = csrftoken;
+    }
 
-//    ($['ajax'] as CoreAjax)
-//      ..url = '$baseURL/$loginURI'
-//      ..method = 'GET'
-//      ..go()
-//      ..onCoreResponse.listen((status) {
-//        var response = status.detail['response'];
-//        if(response.keys.contains('status') && response['status'] != 'authenticated') {
-//          completer.complete(false);
-//          window.location.href = response.keys.contains('loginUrl') ? response['loginUrl'] : '';
-//        } else {
-//          completer.complete(true);
-//        }
-//      })
-//      ;
+    var request = await HttpRequest.request('$baseURL/$loginURI', method: 'POST', responseType: 'json', mimeType: 'application/json', requestHeaders: headers, sendData: JSON.encode(data));
+    print(request.status);
+    var response = request.response;
+//    String jsonText = await HttpRequest.getString('$baseURL/$loginURI');
+//    Map response = JSON.decode(jsonText);
+    if(response.keys.contains('status') && response['status'] != 'authenticated') {
+//      window.location.href = response.keys.contains('loginUrl') ? response['loginUrl'] : '';
 
-//    return completer.future;
-    return new Future.value(true);
+      print(response);
+
+      return false;
+    }
+
+    user = new User.fromMap(response);
+
+    return true;
   }
 
 
-  @reflectable
-  Future<bool> registration(User user, {String password: ''}) {
-    Completer<bool> completer = new Completer<bool>();
-
+  Future<Map> registration(User user, {String password: ''}) async {
     var data = user.toMap();
     data['password'] = password;
 
-    /*($['ajax'] as CoreAjax)
-      ..url = '$baseURL/$registerURI'
-      ..headers = {'Content-Type': 'application/json:;odata=verbose'}
-      ..method = 'POST'
-      ..body = JSON.encode(data)
-      ..go()
-      ..onCoreResponse.listen((_) {
-        completer.complete(response.keys.contains('status') && response['status'] == 'authenticated');
-      })
-      ;*/
-    HttpRequest.request('$baseURL/$registerURI', method: 'POST', responseType: 'application/json', mimeType: 'application/json', sendData: JSON.encode(data)).
-      then((request) {
-      var response = JSON.decode(request.responseText);
-      completer.complete(response.keys.contains('status') && response['status'] == 'authenticated');
-    });
+    Map headers = {};
+    if(window.document.cookie.contains('csrftoken')) {
+      var csrftoken = new Map.fromIterable(window.document.cookie.split(';').map((cookie) => cookie.split('=')), key: (item) => item[0], value: (item) => item[1])['csrftoken'];
+      print('Token: ${csrftoken}');
+      headers['X-CSRFToken'] = csrftoken;
+    }
 
-    return completer.future;
+    var request = await HttpRequest.request('$baseURL/$registerURI', method: 'POST', responseType: 'json', mimeType: 'application/json', requestHeaders: headers, sendData: JSON.encode(data));
+    print(request.status);
+    var response = request.response;
+
+    print(response);
+
+    return response;
   }
 }
 

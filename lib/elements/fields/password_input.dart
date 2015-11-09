@@ -14,9 +14,12 @@ class PasswordInput extends PolymerElement {
   @property String label;
   @property String name;
   @property String valueStore;
-  @property String get value => $.keys.contains('shadow') ? $['shadow'].value : '';
+
+  @Property(notify: true, reflectToAttribute: true) String get value => valueStore;
+//  $.keys.contains('shadow') ? $['shadow'].value : '';
   @reflectable void set value(val) {
-      valueStore = val;
+    valueStore = val;
+    notifyPath('value', value);
   }
 
 

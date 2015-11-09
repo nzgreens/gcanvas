@@ -86,16 +86,17 @@
     
     <iron-media-query query="max-width: 800px" queryMatches="{{phoneScreen}}"></iron-media-query>
     <gcanvas-status id="status"></gcanvas-status>
-    
+
     <app-route route="/signin">
-      <gcanvas-signin></gcanvas-signin>
+      <gcanvas-signin user="{{user}}" user-ctrl="{{userCtrl}}" on-authenticated="onAuthenticated" on-not-authenticated="onNotAuthenticated">
+      </gcanvas-signin>
       <register-user-button></register-user-button>
     </app-route>
-    
+
     <app-route route="/register">
-      <gcanvas-registration on-registered="registered" user="{{user}}"></gcanvas-registration>
+      <gcanvas-registration on-registered="onRegistered"></gcanvas-registration>
     </app-route>
-    
+
     <app-route route="/home">
       <paper-drawer-panel id="panel" responsiveWidth="800px">
         <paper-header-panel drawer id="drawer" mode="waterfall">
@@ -125,7 +126,7 @@
         </paper-header-panel>
       </paper-drawer-panel>
     </app-route>
-      <content hidden></content>
+      <content></content>
   </template>
   <script type="application/dart" src="gcanvas_app.dart"></script>
 </dom-module>
