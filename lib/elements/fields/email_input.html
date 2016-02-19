@@ -1,6 +1,11 @@
 <dom-module id="email-input">
+    <style>
+        :host {
+            display: block;
+        }
+    </style>
     <template>
-        <paper-input label="{{label}}" name="{{name}}" value="{{value}}" id="shadow"></paper-input>
+        <paper-input placeholder="Email" name="{{name}}" value="{{value}}" id="shadow"></paper-input>
     </template>
     <script type="application/dart" src="email_input.dart"></script>
 </dom-module>

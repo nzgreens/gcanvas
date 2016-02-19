@@ -16,7 +16,7 @@ class Resident extends JsProxy {
   @reflectable  String notes;
   @reflectable  int response;
   @reflectable  int support;
-  //@observable bool volunteer;
+  @reflectable bool volunteer;
   @reflectable  bool host_a_billboard;
   @reflectable  int inferred_support_level;
 
@@ -30,15 +30,14 @@ class Resident extends JsProxy {
       this.gender,
       this.dob,
       {
-       this.email,
-       this.phone,
-       this.notes,
-       this.response,
-       this.support,
-    //   this.volunteer,
-       this.host_a_billboard,
-       this.inferred_support_level
-
+       this.email: '',
+       this.phone: '',
+       this.notes: '',
+       this.response: -1,
+       this.support: -1,
+       this.volunteer: false,
+       this.host_a_billboard: false,
+       this.inferred_support_level: -1
       }
   );
 
@@ -76,7 +75,7 @@ class Resident extends JsProxy {
         notes: notes,
         response: response,
         support: support,
-      //  volunteer: volunteer,
+        volunteer: volunteer,
         host_a_billboard: host_a_billboard,
         inferred_support_level: inferred_support_level
         );
@@ -97,7 +96,7 @@ class Resident extends JsProxy {
     var notes = map['notes'];
     var response = map['response'];
     var support = map['support'];
-    //var volunteer = map['volunteer'];
+    var volunteer = map['volunteer'];
     var host_a_billboard = map['host_a_billboard'];
     var inferred_support_level = map['inferred_support_level'];
 
@@ -115,7 +114,7 @@ class Resident extends JsProxy {
         notes: notes,
         response: response,
         support: support,
-        //volunteer: volunteer,
+        volunteer: volunteer,
         host_a_billboard: host_a_billboard,
         inferred_support_level: inferred_support_level
         );
@@ -137,7 +136,7 @@ class Resident extends JsProxy {
       "notes": notes,
       "response": response,
       "support": support,
-      //"volunteer": volunteer,
+      "volunteer": volunteer,
       "host_a_billboard": host_a_billboard,
       "inferred_support_level": inferred_support_level
     };
@@ -183,6 +182,9 @@ class Resident extends JsProxy {
         break;
       case 'support':
         support = value;
+        break;
+      case 'volunteer':
+        volunteer = value;
         break;
       case 'host_a_billboard':
         host_a_billboard = value;

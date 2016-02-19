@@ -1,40 +1,41 @@
 <!DOCTYPE html>
 
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>gCanvas</title>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>gCanvas</title>
 
-    <style type="text/css" shim-shadowdom>
-      body {
-        font-family: RobotoDraft, Arial;
-        margin: 0;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
-        -webkit-touch-callout: none;
-      }
-      
-      gcanvas-app /deep/ paper-button::shadow #ripple {
-        color: green;
-      }
-    </style>
-  </head>
-  <body unresolved>
-    <template is="dom-bind">
-      <gcanvas-app>
-          <user-db id="user-db"></user-db>
-          <address-service id="address-service">
-            <address-db id="address-db"></address-db>
-          </address-service>
-          <appstate-service id="appstate-service"></appstate-service>
-      </gcanvas-app>
-    </template>
+        <style type="text/css" shim-shadowdom>
+          body {
+            font-family: RobotoDraft, Arial;
+            margin: 0;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+            -webkit-touch-callout: none;
+          }
 
-    <script type="application/dart" src="main.dart"></script>
-    <script type="application/ecmascript" src="packages/browser/dart.js"></script>
-  </body>
+          gcanvas-app /deep/ paper-button::shadow #ripple {
+            color: green;
+          }
+        </style>
+        <script type="application/javascript" src="packages/web_components/webcomponents-lite.min.js"></script>
+    </head>
+    <body unresolved>
+        <template is="dom-bind">
+            <gcanvas-app>
+                <user-db id="user-db"></user-db>
+                <address-service id="address-service">
+                <address-db id="address-db"></address-db>
+                </address-service>
+                <appstate-service id="appstate-service"></appstate-service>
+            </gcanvas-app>
+        </template>
+
+        <script type="application/dart" src="main.dart"></script>
+        <script type="application/javascript" src="packages/browser/dart.js"></script>
+    </body>
 </html>

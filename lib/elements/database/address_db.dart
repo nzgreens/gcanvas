@@ -1,13 +1,14 @@
 @HtmlImport('address_db.html')
 library gcanvas.address_db;
 
-import 'package:polymer/polymer.dart';
-import 'package:web_components/web_components.dart';
-
-
 import 'dart:async';
 import 'dart:html';
 import 'dart:convert';
+
+import 'package:polymer/polymer.dart';
+import 'package:web_components/web_components.dart';
+
+import 'package:lawndart/lawndart.dart';
 
 import 'package:gcanvas/gcanvas.dart';
 
@@ -32,20 +33,30 @@ class AddressDB extends PolymerElement {
   }
 
   AddressListCtrl _ctrl;
-  @property AddressListCtrl get ctrl => _ctrl;
-  @reflectable void set ctrl(val) {
-    _ctrl = val;
-    notifyPath('ctrl', ctrl);
+  @property Future<AddressListCtrl> get ctrl async {
+    if(_ctrl == null) {
+      _ctrl = new AddressListCtrl.create();
+    }
+
+    return _ctrl;
   }
+
+  SyncCtrl _syncCtrl;
+  Future<SyncCtrl> get syncCtrl async {
+    if(_syncCtrl == null) {
+      _syncCtrl = new SyncCtrl.create(ctrl: await ctrl);
+    }
+
+    return _syncCtrl;
+  }
+
 
   @property var response;
 
   static final String peopleDownloadURI =  'json/people.json';
   static final String residentsUploadURI = 'json/residents';
 
-  AddressDB.created() : super.created() {
-    ctrl = new AddressListCtrl.create();
-  }
+  AddressDB.created() : super.created();
 
   /**
    * This is about uploading updated voters details, if any exist, and
@@ -67,66 +78,12 @@ class AddressDB extends PolymerElement {
 
 
   Future<bool> _download() async {
-    Completer<bool> completer = new Completer<bool>();
-
-    var addresses = {};
-
-//    ($['ajax'] as IronAjax)
-//        ..url = '$baseURL/$peopleDownloadURI'
-//        ..method = 'GET'
-//        ..go()
-//        ..onCoreResponse.listen((Event e) {
-//            response['results'].forEach((Map item) {
-//              var id = item['id'];
-//              var firstname = item['first_name'];
-//              var lastname = item['last_name'];
-//              var occupation = item['occupation'];
-//              var gender = item['sex'];
-//              var dob = DateTime.parse(item['birthdate']);
-//              var notes = item['note'];
-//              var email = item['email'];
-//              var phone = item['phone'];
-//
-//              var resident = new Resident.create(id: id, firstname: firstname, lastname: lastname, occupation: occupation, gender: gender, dob: dob, notes: notes, email: email, phone: phone);
-//
-//              var addr = item['primary_address'];
-//              var latitude = addr['lat'];
-//              var longitude = addr['lng'];
-//              var address1 = addr['address1'];
-//              var address2 = addr['address2'];
-//              var address3 = addr['address3'];
-//              var city = addr['city'];
-//              var postcode = addr['zip'];
-//              if(!addresses.containsKey("$latitude,$longitude,$address1,$address2,$address3,$city")) {
-//                Address address = new Address.create(id: "$latitude,$longitude,$address1,$address2,$address3,$city", address1: address1, address2: address2, address3: address3, city: city, postcode: postcode, latitude: latitude, longitude: longitude, residents: [resident]);
-//                addresses["$latitude,$longitude,$address1,$address2,$address3,$city"] = address;
-//              } else {
-//                Address address = addresses["$latitude,$longitude,$address1,$address2,$address3,$city"];
-//                address.residents.add(resident);
-//              }
-//            });
-//
-//            int count = 0;
-//            addresses.values.forEach((address) => ctrl.add(address).then((_) => count++));
-//
-//            Timer timer = new Timer.periodic(new Duration(milliseconds: 100), (timer) {
-//              if(count == addresses.length) {
-//                completer.complete(e.detail.request.readyState == 200);
-//                timer.cancel();
-//              }
-//            });
-//        })
-//        ;
-//
-//
-//    return completer.future;
-
-    return false;
+    return await (await syncCtrl).sync();
   }
 
 
   Future<bool> _upload() async {
-    Completer<bool> completer = new Completer<bool>();
+//    Completer<bool> completer = new Completer<bool>();
 
 //    ctrl.getList().then((addresses) {
 //      if(addresses.length > 0) {
@@ -147,6 +104,6 @@ class AddressDB extends PolymerElement {
 //    });
 //
 //    return completer.future;
-    return false;
+    return true;
   }
 }

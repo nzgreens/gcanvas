@@ -16,6 +16,7 @@ import 'package:polymer_elements/paper_toast.dart';
 class AddressService extends PolymerElement {
   @Property(notify: true, reflectToAttribute: true) String userEmail;
   @Property(notify: true, reflectToAttribute:true) bool synced;
+  @Property(notify: true, reflectToAttribute: true) final List<Address> addresses = [];
 
   final AddressListCtrl addrCtrl = new AddressListCtrl.create();
   get ctrl => new PolymerDom(this).querySelector('#address-db');
@@ -24,11 +25,6 @@ class AddressService extends PolymerElement {
 
   attached() {
     super.attached();
-    async(() {
-      print(domHost);
-      var tmp = new PolymerDom(domHost);
-      print(tmp.getDistributedNodes());
-    });
   }
 
 
@@ -36,7 +32,6 @@ class AddressService extends PolymerElement {
     print('syncing addresses with server: ${ctrl}');
     bool result = await ctrl.sync();
     synced = result;
-    print('synced: ${synced}');
     if(synced == true) {
       $['synced'].toggle();
     } else {
@@ -48,8 +43,9 @@ class AddressService extends PolymerElement {
 
 
   Future<List<Address>> getAddressList() async {
-    print('getAddressList()');
-    return await addrCtrl.getList();
+    return addresses
+      ..clear()
+      ..addAll(await addrCtrl.getList());
   }
 
 

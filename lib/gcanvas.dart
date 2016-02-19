@@ -3,6 +3,7 @@ library gcanvas.client;
 //@TODO create admin view where they can move around a map and allocate houses to people
 
 import 'dart:html';
+import 'dart:indexed_db';
 import 'dart:async';
 import 'dart:convert' show JSON;
 

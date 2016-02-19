@@ -4,6 +4,7 @@ library gcanvas_test;
 import 'package:test/test.dart';
 import 'dart:html';
 import 'dart:async';
+import 'dart:convert';
 import 'package:polymer/polymer.dart';
 import 'package:gcanvas/gcanvas.dart';
 import 'package:gcanvas/address.dart';
@@ -26,6 +27,7 @@ part 'appstatectrl_test.dart';
 part 'script_response_test.dart';
 part 'state_test.dart';
 part 'configctrl_test.dart';
+part 'residentresponsectrl_test.dart';
 
 part 'elements/gcanvas_app_element_test.dart';
 part 'elements/address_list_element_test.dart';
@@ -37,17 +39,18 @@ main() async {
   await initPolymer();
 
 //  storectrl_test();
-  address_test();
-  resident_test();
-  state_test();
-  response_test();
-  addresslistctrl_test();
+//  address_test();
+//  resident_test();
+//  state_test();
+//  response_test();
+//  addresslistctrl_test();
 //  residentlistctrl_test();
 //  appstatectrl_test();
 //
-  address_list_element_test();
+//  address_list_element_test();
 //  gcanvas_app_element_test();
 
+  residentresponsectrl_test();
   //pollForDone(testCases);
 }
 

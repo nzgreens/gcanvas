@@ -1,4 +1,4 @@
-@HtmlImport('resident_view.html')
+@HtmlImport('response_view.html')
 library gcanvas.response_view;
 //import 'dart:mirrors';
 
@@ -32,6 +32,9 @@ class ResponseViewElement extends PolymerElement {
     0:'Other'
   };
 
+  @property Iterable get responseMapKeys => responseMap.keys;
+  @reflectable String responseMapValue(key) => responseMap[key];
+
   @property final Map<int, String> supportLevelMap = {
     1:'Strong support',
     2:'Weak support',
@@ -40,13 +43,18 @@ class ResponseViewElement extends PolymerElement {
     5:'Strong oppose'
   };
 
+  @property Iterable get supportLevelMapKeys => supportLevelMap.keys;
+  @reflectable String supportLevelMapValue(key) => supportLevelMap[key];
 
   @property final Map<String, bool> involvementMap = {
     'Volunteer': false,
     'Host a Billboard': false
   };
 
-  @Property(notify: true) Resident resident = new Resident.create();
+  @property Iterable get involvementMapKeys => involvementMap.keys;
+  @reflectable bool involvementMapValue(key) => involvementMap[key];
+
+  @Property(notify: true, observer: 'residentChanged') Resident resident;// = new Resident.create();
 
   bool _supportEntry = false;
   @property bool get supportEntry => _supportEntry;
@@ -77,39 +85,48 @@ class ResponseViewElement extends PolymerElement {
   final int INVOLVEMENT = 2;
   final int DETAILS = 3;
 
-  @Property(computed: 'hasSelectedResponse()') bool resposeSelected;
-  @reflectable bool hasSelectedResponse() => selectedTab == RESPONSE;
+  @Property(computed: 'hasSelectedResponse(selectedTab)') bool responseSelected;
+  @reflectable bool hasSelectedResponse(selected) => selected == RESPONSE;
 
-  @Property(computed: 'hasSelectedSupport()') bool supportSelected;
-  @reflectable bool hasSelectedSupport() => selectedTab == SUPPORT;
+  @Property(computed: 'hasSelectedSupport(selectedTab)') bool supportSelected;
+  @reflectable bool hasSelectedSupport(selected) => selected == SUPPORT;
 
-  @Property(computed: 'hasSelectedInvolvement()') bool involvementSelected;
-  @reflectable bool hasSelectedInvolvement() => selectedTab == INVOLVEMENT;
+  @Property(computed: 'hasSelectedInvolvement(selectedTab)') bool involvementSelected;
+  @reflectable bool hasSelectedInvolvement(selected) => selected == INVOLVEMENT;
 
-  @Property(computed: 'hasSelectedDetails()') bool detailsSelected;
-  @reflectable bool hasSelectedDetails() => selectedTab == DETAILS;
+  @Property(computed: 'hasSelectedDetails(selectedTab)') bool detailsSelected;
+  @reflectable bool hasSelectedDetails(selected) => selected == DETAILS;
 
   String responseSelection = "No Answer";
 
 
   ResponseViewElement.created() : super.created();
 
-
-  void attached() {
-    super.attached();
+  @reflectable
+  void residentChanged([_, __]) {
+    print('resident changed');
     Map residentMap = resident.toMap();
     involvementMap.keys.forEach((key) {
       //keys are just the attribute in a human readable for with spaces and capatals
       //lowercase and replace spaces with underscores
       var attrName = key.toLowerCase().replaceAll(' ', '_');
       involvementMap[key] = residentMap[key];
+      set('involvementMap.${key}', residentMap[key]);
     });
   }
 
 
+  //@TODO Marker for checking later on.  See below
   @reflectable
   void responseSelect(Event event, [_]) {
-    resident.response = int.parse(shadowRoot.querySelector('#response').selected);
+    var selected = (event.target as PaperRadioButton).name;
+    // selected seems to be a int, even though officially it should be a String
+    // Using int.parse on another int causes an exception, but can't trust selected
+    // to be an int.  Best I can come up with is to use toString, which is not
+    // satisfactory, but at least it will work for most situations, no matter what.
+    // int.parse uses the isEmpty on the string to be parsed, which explains the error
+    // that is being thrown.
+    resident.response = int.parse(selected.toString(), onError: (_) => -1);
     supportEntry = resident.response >= 0;
   }
 
@@ -121,7 +138,8 @@ class ResponseViewElement extends PolymerElement {
 
   @reflectable
   void supportSelect(Event event, [_]) {
-    resident.support = int.parse(shadowRoot.querySelector('#support').selected);
+    var selected = (event.target as PaperRadioButton).name;
+    resident.support = int.parse(selected.toString(), onError: (_) => -1);
     involvementEntry = resident.support >= 0;
   }
 
@@ -139,7 +157,7 @@ class ResponseViewElement extends PolymerElement {
     reset();
   }
 
-
+  @reflectable
   cancel([_, __]) {
     fireCanceled();
     reset();
@@ -147,12 +165,12 @@ class ResponseViewElement extends PolymerElement {
 
 
   @reflectable
-  reset(_, __) {
+  reset([_, __]) {
     var response = new PolymerDom(this.root).querySelector("#response");
     if(response != null) {
       response.selected = "-1";
     }
-    var support = shadowRoot.querySelector("#support");
+    var support = querySelector("#support");
     if(support != null) {
       support.selected = "-1";
     }
@@ -180,9 +198,11 @@ class ResponseViewElement extends PolymerElement {
 
 
   @reflectable
-  selectPage(Event e, [_]) {
-    var target = e.target as IronSelector;
-    selectedTab = target.selected is int ? target.selected : int.parse(target.selected);
+  void selectPage(Event e, [_]) {
+    var target = e.target as PaperTabs;
+//    selectedTab = target.selected is int ? target.selected : int.parse(target.selected);
+    set('selectedTab', target.selected is int ? target.selected : int.parse(target.selected));
+    print('selectedTab: ${selectedTab}');
   }
 
 

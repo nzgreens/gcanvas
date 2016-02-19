@@ -12,9 +12,13 @@ Was going to have users install into their Nation, but it turns out most Nation
 Users can't do that.  Also API calls have global permissions.
 
 @TODO: Make them register using an email address and name as an identifier.
+
 @TODO: Have them verify they own the email by sending email to them and getting them to click on the link provided in the email.
-@TODO: Use the API to search for the User by email address and confirm the name they provided matches the one on NationBuilder
-@TODO: Check for NationBuilder Point person rights, and allow them to access a list of volunteers stored on NationBuilder
+
+@TODO: Check for Point person rights, and allow them to access a list of volunteers for their area
+
 @TODO: Keep track of what that volunteer list id is, so we can reference it in the future
+
 @TODO: Allow the point person to create a list of addresses to doorknock and assign that to one of the people in the list of volunteers (repeat and rinse)
-@TODO: Allow volunteer to download that list assigned to them and update it on NationBuilder once they are finished.
+
+@TODO: Allow volunteer to download that list assigned to them and update it once they are finished.

@@ -111,6 +111,8 @@ class Address extends JsProxy {
                             residents: residents
       );
     }
+
+    return new Address.create();
   }
 
 

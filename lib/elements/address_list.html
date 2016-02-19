@@ -1,4 +1,9 @@
 <dom-module id="address-list">
+    <style>
+        :host {
+            display: block;
+        }
+    </style>
   <template>
     <template is="dom-repeat" items="{{addresses}}" as="address">
       <address-list-item address="{{address}}" on-address-item-clicked="addressClicked"></address-list-item>

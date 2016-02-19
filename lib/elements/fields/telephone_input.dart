@@ -15,7 +15,7 @@ class TelephoneInput extends PolymerElement {
   @property String label;
   @property String name;
   @property String valueStore;
-  @property String get value => $.keys.contains('shadow') ? $['shadow'].value : '';
+  @property String get value => valueStore;
   @reflectable void set value(val) {
       valueStore = val;
   }
@@ -29,7 +29,8 @@ class TelephoneInput extends PolymerElement {
   void attached() {
     super.attached();
     async(() {
-      InputElement result = ($['shadow'] as PaperInput).inputElement;
+      valueStore = querySelector('#shadow') != null ? (querySelector('#shadow') as PaperInput).value : '';
+      InputElement result = (querySelector('#shadow') as PaperInput).inputElement;
 //      .shadowRoot.querySelector('shadow').getDistributedNodes().firstWhere((el) => el is InputElement);
       result.type = 'tel';
       result.autocomplete = 'on';

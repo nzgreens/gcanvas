@@ -10,7 +10,7 @@ class ResidentResponseCtrl extends JsProxy {
   }
 
   Future<bool> _open() async {
-    var store = await _storeCtrl.then((store) => store);
+    var store = await _storeCtrl;
 
     return store != null;
   }
@@ -19,16 +19,12 @@ class ResidentResponseCtrl extends JsProxy {
   Future<bool> add(ResidentResponse response) async {
 
     await _open();
-    var data;
-    if(!detect.browser.isSafari) {
-      data = response.toMap();
-    } else {
-      data = JSON.encode(response.toMap());
-    }
+    var data = JSON.encode(response.toMap());
 
     Store store = await _storeCtrl.then((store) => store);
 
-    String key = await store.save(data, "${response.id}");
+
+    var key = await store.save(data, "${response.id}");
 
     return key != null;
   }
@@ -37,12 +33,9 @@ class ResidentResponseCtrl extends JsProxy {
   Future<List<ResidentResponse>> getResidentResponses() async {
     bool opened = await _open();
     if(opened) {
-      Store store = await _storeCtrl.then((store) => store);
-      List response = await store.all().toList().map((response) => new ResidentResponse.fromMap(response)).toList();
-//    if(!detect.browser.isSafari) {
-//    } else {
-//      _storeCtrl.all().toList().then((responses) => completer.complete(responses.map((response) => new ResidentResponse.fromMap(JSON.decode(response))).toList()));
-//    }
+      Store store = await _storeCtrl;
+
+      List response = (await store.all().toList()).map((response) => new ResidentResponse.fromMap(JSON.decode(response))).toList();
 
       return response;
     }
@@ -54,7 +47,7 @@ class ResidentResponseCtrl extends JsProxy {
   Future<bool> remove(ResidentResponse response) async {
     bool opened = await _open();
     if(opened) {
-      Store store = _storeCtrl.then((store) => store);
+      Store store = await _storeCtrl.then((store) => store);
       String key = await store.removeByKey("${response.id}");
 
       return key != null;

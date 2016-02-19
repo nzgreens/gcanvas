@@ -1,4 +1,4 @@
-@HtmlImport('address_edit.html')
+@HtmlImport('address_view.html')
 library gcanvas.address_view;
 
 import 'dart:html' show Event;
@@ -19,30 +19,35 @@ import 'package:gcanvas/response.dart';
 
 @PolymerRegister('address-view')
 class AddressViewElement extends PolymerElement {
-  @property Address address;
+  Address _address;
+  @Property(notify: true, reflectToAttribute: true) Address get address => _address;
+  @reflectable void set address(val) {
+    _address = val;
+    print('address: ${address}');
+    notifyPath('address', address);
+  }
 
   String _response = "";
-  @property String get response => _response;
+  @Property(notify: true, reflectToAttribute: true) String get response => _response;
   @reflectable void set response(val) {
     _response = val;
     notifyPath('response', response);
   }
 
   String _reason = "";
-  @property String get reason => _reason;
+  @Property(notify: true, reflectToAttribute: true) String get reason => _reason;
   @reflectable void set reason(val) {
     _reason = val;
     notifyPath('reason', reason);
   }
 
-  @property Resident selectedResident = new Resident.create();
+  @Property(notify: true, reflectToAttribute: true) Resident selectedResident = new Resident.create();
 
 
   bool _showAddress = true;
-  @Property(notify: true) bool get showAddress => _showAddress;
+  @Property(notify: true, reflectToAttribute: true) bool get showAddress => _showAddress;
   @reflectable void set showAddress(val) {
     _showAddress = val;
-    print('showAddress: $showAddress');
     notifyPath('showAddress', showAddress);
   }
 
@@ -50,7 +55,8 @@ class AddressViewElement extends PolymerElement {
 
   @reflectable
   void residentSelected(Event event, var detail) {
-    selectedResident = detail;
+    set('selectedResident', detail);
+    print('resident selected');
     toggleFlip();
   }
 
@@ -62,9 +68,14 @@ class AddressViewElement extends PolymerElement {
 
   @reflectable
   submitResponse(e, [_]) {
+
     address.visited = true;
     var response = (e.detail as ResidentResponse);
     Resident resident = address.residents.firstWhere((resident) => resident.id == response.id);
+
+    set('selectedResident', resident);
+
+    print('response submited');
 
     toggleFlip();
   }
@@ -78,6 +89,7 @@ class AddressViewElement extends PolymerElement {
 
   @reflectable
   showResident(e, [_]) {
+    print('showResident');
     toggleFlip();
   }
 

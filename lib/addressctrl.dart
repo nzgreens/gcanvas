@@ -2,75 +2,110 @@ part of gcanvas.client;
 
 
 class AddressListCtrl extends JsProxy {
-  @reflectable Future<Store> _store;
+  @reflectable Future<Store> futureStore;
+  @reflectable Store dataStore;
+  @reflectable bool isOpen = false;
 
-  AddressListCtrl([this._store]);
+  AddressListCtrl({this.futureStore, this.dataStore});
 
 
   factory AddressListCtrl.create() {
-    return new AddressListCtrl(Store.open("gcanvas", "addresses"));
+    return new AddressListCtrl(futureStore: Store.open("gcanvas", "addresses"));
   }
 
 
-  Future<bool> _open() {
-    return _store.then((store) => store != null);
+
+  Future<bool> _open() async {
+    if(!isOpen) {
+      try {
+        dataStore = await futureStore;
+        isOpen = dataStore != null;
+      } catch(e) {
+        print('error');
+        isOpen = false;
+      }
+    }
+
+    return isOpen;
   }
 
 
-  Future<String> add(Address addr) {
-    Completer<String> completer = new Completer<String>();
+  Future<bool> _add(addr) async {
+    var data = JSON.encode(addr.toMap());
+    try {
+      var key = await dataStore.save(data, "${addr.id}");
 
-    _open().then((_) {
-      String data = JSON.encode(addr.toMap());
-      _store.then((store) {
-        store.save(data, "${addr.id}").then((key) {
-          completer.complete(key);
-        });
+      return key == "${addr.id}";
+    } catch(e) {
+      print(e);
+    }
+
+    return false;
+  }
+
+  Future<bool> add(Address addr) async {
+    if(!isOpen) await _open();
+
+    return _add(addr);
+  }
+
+
+  Future<bool> remove(Address addr) async {
+    if(!isOpen) await _open();
+    try {
+      var val = await dataStore.removeByKey("${addr.id}");
+
+      return val == addr.id;
+    } catch(e) {
+      print(e);
+    }
+
+    return false;
+  }
+
+
+  Future<List<Address>> getList() async {
+    if(!isOpen) await _open();
+    try {
+      List values = await dataStore.all().toList();
+      List<Address> addresses = new List<Address>();
+      values.forEach((map) {
+        var data;
+        if (map is Map) {
+          data = map;
+        } else {
+          data = JSON.decode(map);
+        }
+        Address address = new Address.fromMap(data);
+        addresses.add(address);
+        print(address.toMap());
       });
-    });
+      print('got addresses and now returning them');
 
-    return completer.future;
+      return addresses;
+    } catch(e) {
+      print(e);
+    }
   }
 
 
-  Future<bool> remove(Address addr) {
-    Completer<bool> completer = new Completer<bool>();
+  Future<bool> update(Address addr) async {
+    try {
+      var id = await add(addr);
 
-    _open().then((_) {
-      _store.then((store) => store.removeByKey("${addr.id}").then((_) => completer.complete(true)));
-    });
+      return addr.id == id;
+    } catch(e) {
+      print(e);
+    }
 
-    return completer.future;
+    return false;
   }
 
+  Future<bool> clear() async {
+    if(!isOpen) await _open();
 
-  Future<List<Address>> getList() {
-    Completer<List<Address>> completer = new Completer<List<Address>>();
-    _open().then((_) {
-      _store.then((store){
-          store.all().toList().then((values) {
-            List<Address> addresses = new List<Address>();
-            for(var map in values) {
-              var data;
-              if(!detect.browser.isSafari) {
-                data = map;
-              } else {
-                data = JSON.decode(map);
-              }
-              addresses.add(new Address.fromMap(data));
-            }
-            completer.complete(addresses);
-          });
-        });
-      });
+    await dataStore.nuke();
 
-    return completer.future;
-  }
-
-
-  Future<bool> update(Address addr) {
-    return add(addr).then((id) {
-      return new Future.value(addr.id == id);
-    });
+    return true;
   }
 }

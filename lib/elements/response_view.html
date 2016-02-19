@@ -42,19 +42,18 @@
 
   </style>
   <template>
-
     <div><span id="firstname">{{resident.firstname}}</span> <span id="lastname">{{resident.lastname}}</span></div>
-    <paper-tabs id="tab-selector" selected="0" on-core-select="{{selectPage}}">
+    <paper-tabs id="tab-selector" selected="0" on-iron-select="selectPage">
       <paper-tab id="response-selector">Response</paper-tab>
       <paper-tab id="support-selector">Support Level</paper-tab>
       <paper-tab id="involvement-selector">Involvement</paper-tab>
-      <paper-tab id="details-selector">Details<paper-tab>
-    </paper-tabs>/
+      <paper-tab id="details-selector">Details</paper-tab>
+    </paper-tabs>
     <template is="dom-if" if="{{ responseSelected }}">
       <div>
         <paper-radio-group id="response" on-change="responseSelect" selected="{{ resident.response }}">
-          <template is="dom-repeat" items="{{ responseMap.keys }}" as="key">
-            <paper-radio-button name="{{ key }}" label="{{responseMap[key]}}"></paper-radio-button><br>
+          <template is="dom-repeat" items="{{ responseMapKeys }}" as="key">
+            <paper-radio-button name="[[ key ]]">[[responseMapValue(key)]]</paper-radio-button><br>
           </template>
         </paper-radio-group>
       </div>
@@ -62,8 +61,8 @@
     <template is="dom-if" if="{{ supportSelected }}">
       <div id="support-tab">
         <paper-radio-group id="support" on-change="supportSelect" selected="{{ resident.support }}">
-          <template is="dom-repeat" items="{{ supportLevelMap.keys }}" as="key">
-            <paper-radio-button name="{{ key }}" label="{{ supportLevelMap[key] }}"></paper-radio-button><br>
+          <template is="dom-repeat" items="{{ supportLevelMapKeys }}" as="key">
+            <paper-radio-button name="[[ key ]]">[[supportLevelMapValue(key)]]</paper-radio-button><br>
           </template>
         </paper-radio-group>
       </div>
@@ -71,15 +70,9 @@
     <template is="dom-if" if="{{ involvementSelected }}">
       <div id="involvement-tab">
         <div>Involvement?</div>
-        <template is="dom-repeat" items="{{involvementMap.keys}}" as="key">
+        <template is="dom-repeat" items="{{involvementMapKeys}}" as="key">
           <div class="toggle" horizontal layout center>
-            <template is="dom-if" if="{{ involvementMap[key] }}">
-              <paper-toggle-button id="{{key}}" checked on-change="involvementChecked"></paper-toggle-button>
-            </template>
-            <template is="dom-if" if="{{ !involvementMap[key] }}">
-              <paper-toggle-button id="{{key}}" on-change="involvementChecked"></paper-toggle-button>
-            </template>
-            <label>{{key}}</label>
+            <paper-toggle-button id="{{key}}" checked?="[[involvementMapValue(key)]]" on-change="involvementChecked">[[key]]</paper-toggle-button>
           </div>
         </template>
       </div>
@@ -98,8 +91,8 @@
       </div>
     </template>
     <div id="okcancel">
-      <paper-button on-click="{{submit}}" label="Ok" raisedButton></paper-button>
-      <paper-button on-click="{{cancel}}" label="Cancel" raisedButton></paper-button>
+      <paper-button on-click="submit" raised>Ok</paper-button>
+      <paper-button on-click="cancel" raised>Cancel</paper-button>
     </div>
   </template>
   <script type="application/dart" src="response_view.dart"></script>  

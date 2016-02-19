@@ -13,11 +13,17 @@ class State extends JsProxy {
   User _user;
 
   @reflectable Address get address => _address;
-  @reflectable void set address(val) { _address = notifyPropertyChange(#address, _address, val); }
+  @reflectable void set address(val) {
+    _address = val;
+  }
   @reflectable bool get addressListView => _addressListView;
-  @reflectable void set addressListView(val) { _addressListView = notifyPropertyChange(#addressListView, _addressListView, val); }
+  @reflectable void set addressListView(val) {
+    _addressListView = val;
+  }
   @reflectable bool get addressView => _addressView;
-  @reflectable void set addressView(val) { _addressView = notifyPropertyChange(#addressView, _addressView, val); }
+  @reflectable void set addressView(val) {
+    _addressView = val;
+  }
   @reflectable User user;
 
 
@@ -74,23 +80,6 @@ class State extends JsProxy {
   }
 
   bool _changed = false;
-
-  @override
-  dynamic notifyPropertyChange(field, oldValue, newValue) {
-//    super.notifyPropertyChange(field, oldValue, newValue);
-
-    if(field == #addressView && _addressListView == newValue && !_changed) {
-      _changed = true;
-      addressListView =  oldValue;
-    } else if(field == #addressListView && _addressView == newValue && !_changed) {
-      _changed = true;
-      addressView = oldValue;
-    } else {
-      _changed = false;
-    }
-
-    return newValue;
-  }
 
   void selectAddressListView() {
     addressListView = true;

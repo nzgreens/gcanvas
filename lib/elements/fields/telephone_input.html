@@ -1,11 +1,11 @@
 <dom-module id="telephone-input">
+    <style>
+        :host {
+            display: block;
+        }
+    </style>
     <template>
-        <template if="{{ isSafari == false }}">
-            <paper-input label="{{label}}" name="{{name}}" validate="^[0-9 ]*$" value="{{valueStore}}" id="shadow"></paper-input>
-        </template>
-        <template if="{{ isSafari == true }}">
-            <input type="tel" placeholder="{{label}}" name="{{name}}" value="{{valueStore}}">
-        </template>
+        <paper-input placeholder="Phone" name="{{name}}" validate="^[0-9 ]*$" value="{{valueStore}}" id="shadow"></paper-input>
     </template>
     <script type="application/dart" src="telephone_input.dart"></script>
 </dom-module>

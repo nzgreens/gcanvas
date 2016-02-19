@@ -11,7 +11,7 @@ dependencies:
   lawndart: any
   oauth2: any
   polymer_elements: ">=1.0.0-rc.2 <2.0.0"
-  polymer: ">=1.0.0-rc.2 <2.0.0"
+  polymer: ">=1.0.0-rc.8 <2.0.0"
   web_components: ">=0.12.0+3 <1.0.0"
   reflectable: ">=0.3.3 <1.0.0"
   polymer_interop: ">=1.0.0-rc.1 <2.0.0"

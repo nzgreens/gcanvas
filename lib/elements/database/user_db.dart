@@ -58,8 +58,8 @@ class UserDB extends PolymerElement {
   Future<Map> status() async {
     String jsonText = await HttpRequest.getString('$baseURL/$statusURI');
     response = JSON.decode(jsonText);
-    document.cookie = "csrftoken=${response['token']}";
-    document.cookie = "csrf_token=${response['token']}";
+//    document.cookie = "csrftoken=${response['token']}";
+//    document.cookie = "csrf_token=${response['token']}";
 
     return response;
   }

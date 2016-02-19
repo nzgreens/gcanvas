@@ -1,6 +1,12 @@
 <dom-module id="address-view">
   <template>
     <!-- <link rel="stylesheet" href="gcanvas-app-style.css"> -->
+    <style>
+      :host {
+        display: block;
+        height: 100%;
+      }
+    </style>
     <template is="dom-if" if="{{showAddress}}">
       <div id="address">
         <div id="address1">{{ address.address1 }}</div>
@@ -13,11 +19,11 @@
               <resident-view on-resident-selected="residentSelected" on-resident-deselected="residentDeselected" resident="{{ resident }}"></resident-view>
           </template>
         </div>
-        <paper-button on-click="emitPrevAddress" label="Previous" raisedButton></paper-button>
-        <paper-button on-click="emitNextAddress" label="Next" raisedButton></paper-button>
+        <paper-button on-click="emitPrevAddress" raised>Previous</paper-button>
+        <paper-button on-click="emitNextAddress" raised>Next</paper-button>
       </div>
     </template>
-    <template is="dom-if" if="{{showAddress}}">
+    <template is="dom-if" if="{{!showAddress}}">
       <div id="response">
         <response-view resident="{{ selectedResident }}"
                         on-response-submit="submitResponse"

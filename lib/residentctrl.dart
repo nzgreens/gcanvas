@@ -20,8 +20,9 @@ class ResidentListCtrl extends JsProxy {
   Future<bool> add(Resident resident) async {
     bool opened = await _open();
     if(opened) {
-      Store store = _storeCtrl.then((store) => store);
-      String key = await store.save(resident.toMap(), "${resident.id}");
+      var data = JSON.encode(resident.toMap());
+      Store store = await _storeCtrl.then((store) => store);
+      String key = await store.save(data, "${resident.id}");
 
       return key != null;
     }
@@ -34,7 +35,9 @@ class ResidentListCtrl extends JsProxy {
     bool opened = await _open();
     if(opened) {
       Store store = await _storeCtrl.then((store) => store);
-      return await store.all().toList().then((residents) => completer.complete(residents.map((resident) => new Resident.fromMap(resident)).toList()));
+      List<Resident> residents = (await store.all().toList()).map((entry) => new Resident.fromMap(JSON.decode(entry))).toList();
+
+      return residents;
     }
 
     return [];

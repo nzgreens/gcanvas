@@ -11,7 +11,7 @@ void appstatectrl_test() {
         latitude: 169.201928,
         longitude: 49.21112,
         visited: false);
-    var store = new Store("test", "app-state");
+    var store = Store.open("test", "app-state");
 
     var state = new State.create();
     var appstatectrl = new AppStateCtrl(store);

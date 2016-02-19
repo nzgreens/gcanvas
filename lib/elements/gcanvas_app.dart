@@ -34,9 +34,15 @@ import 'package:gcanvas/elements/service/appstate_service.dart';
 @PolymerRegister("gcanvas-app")
 class GCanvasApp extends PolymerElement {
   @property ResidentResponseCtrl responseCtrl = new ResidentResponseCtrl.create();
-  @property State appState = new State.create();
+  @Property(notify: true, reflectToAttribute: true) State appState = new State.create();
 
-  @property final List<Address> addresses = [];
+  List<Address> _addresses = [];
+  @Property(notify: true, reflectToAttribute: true) List<Address> get addresses => _addresses;
+  @reflectable void set addresses(val) {
+    _addresses = val;
+    print('set addresses: ${_addresses}');
+    notifyPath('addresses', addresses);
+  }
 
   String _refreshIcon = 'refresh';
   @property String get refreshIcon => _refreshIcon;
@@ -93,9 +99,14 @@ class GCanvasApp extends PolymerElement {
   //@TODO: shift service elements to index.html, and use querySelector to get a reference to them.
   _loadAppState() async {
     List addrList = await addressService.getAddressList();
-    addresses
-      ..clear()
-      ..addAll(addrList);
+    print('_loadAppState: ${addresses}');
+//    addresses
+//      ..clear()
+//      ..addAll(addrList);
+    clear('addresses');
+    addAll('addresses', addrList);
+//    set('addresses', addresses);
+    print('_loadAppState: ${addresses}');
     appState = await appstateService.get();
     if(addresses.isNotEmpty) {
       Address address = addresses.firstWhere((address) => !address.visited, orElse: () {});
@@ -109,6 +120,9 @@ class GCanvasApp extends PolymerElement {
   refresh([_, __]) async {
     print('syncing addresses');
     await addressService.syncAddress();
+    List addrList = await addressService.getAddressList();
+    clear('addresses');
+    addAll('addresses', addrList);
     print('syncing addresses finished');
   }
 
@@ -118,17 +132,25 @@ class GCanvasApp extends PolymerElement {
     var address = event.detail as Address;
     appState.selectAddressView(address);
 
+    notifyPath('appState.address', appState.address);
+    notifyPath('appState.addressView', appState.addressView);
+
+    print('showAddress');
+
     appstateService.save(appState);
   }
 
 
   @reflectable
   void nextAddress(event, [_]) {
+    print('nextAddress');
     _setVisited();
 
     if(addresses.last.id != appState.address.id) {
       int pos = addresses.indexOf(appState.address);
       appState.address = addresses[pos+1];
+      notifyPath('appState.address', appState.address);
+      notifyPath('appState.addressView', appState.addressView);
       appstateService.save(appState);
     }
   }
@@ -136,11 +158,14 @@ class GCanvasApp extends PolymerElement {
 
   @reflectable
   void prevAddress(event, [_]) {
+    print('prevAdrress');
     _setVisited();
 
     if(addresses.first.id != appState.address.id) {
       int pos = addresses.indexOf(appState.address);
       appState.address = addresses[pos-1];
+      notifyPath('appState.address', appState.address);
+      notifyPath('appState.addressView', appState.addressView);
       appstateService.save(appState);
     }
   }
@@ -166,11 +191,12 @@ class GCanvasApp extends PolymerElement {
 
   @reflectable
   void menu([_, __]) {
-    (shadowRoot.querySelector('#panel') as PaperDrawerPanel).jsElement.callMethod("togglePanel");
+      $['panel'].togglePanel();
   }
 
   @reflectable
   void submitResponse(e, [_]) {
+    print('gcanvas-app: response submitted: ${e.detail.resident}');
     responseCtrl.add(e.detail);
   }
 

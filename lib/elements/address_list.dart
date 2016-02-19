@@ -13,7 +13,7 @@ import 'dart:html' show Event, CustomEvent;
 @PolymerRegister('address-list')
 class AddressList extends PolymerElement {
   List<Address> _addresses = [];
-  @property List<Address> get addresses => _addresses;
+  @Property(notify: true, reflectToAttribute: true) List<Address> get addresses => _addresses;
   @reflectable void set addresses(val) {
     _addresses = val;
     notifyPath('addresses', addresses);
